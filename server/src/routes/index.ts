@@ -1,9 +1,8 @@
-import express, {Request, Response, NextFunction} from 'express';
+import express from 'express';
+import { indexController } from '../controllers';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.send('Express Server');
-});
+router.get('/', indexController);
 
 export default router;
