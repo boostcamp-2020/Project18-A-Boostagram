@@ -2,29 +2,14 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
-import mongoose from 'mongoose';
+import db from './models';
 import index from './routes/index';
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-const DB_PATH = process.env.DB_PATH || 'err';
 
-if (DB_PATH === 'err') {
-  throw new Error('DB_PATH not exists');
-}
-
-mongoose.connect(
-  DB_PATH,
-  {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  () => {
-    console.log('database connected...');
-  },
-);
+db();
 
 const app = express();
 app.use(logger('dev'));
