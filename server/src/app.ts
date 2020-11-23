@@ -1,25 +1,30 @@
+/* eslint-disable no-console */
 import dotenv from 'dotenv';
-dotenv.config();
-import express, {Request, Response, NextFunction} from 'express';
+import express from 'express';
 import logger from 'morgan';
-import index from './routes';
 import mongoose from 'mongoose';
+import index from './routes/index';
+
+dotenv.config();
 
 const port = process.env.PORT || 3000;
 const DB_PATH = process.env.DB_PATH || 'err';
 
 if (DB_PATH === 'err') {
   throw new Error('DB_PATH not exists');
-} 
+}
 
-mongoose.connect(DB_PATH, {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}, () => {
-  console.log('database connected...');
-})
-
+mongoose.connect(
+  DB_PATH,
+  {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  () => {
+    console.log('database connected...');
+  },
+);
 
 const app = express();
 app.use(logger('dev'));
