@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
-import initDB from './models/init';
+import initDB from './models/init.model';
 import index from './routes/index';
 
 dotenv.config();

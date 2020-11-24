@@ -1,6 +1,6 @@
-import User from './user';
-import Feed from './feed';
-import Dm from './dm';
+import User from './user.model';
+import Feed from './feed.model';
+import Dm from './dm.model';
 
 const db = {
   User,
