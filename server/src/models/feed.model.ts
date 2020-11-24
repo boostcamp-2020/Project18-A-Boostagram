@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 
 const author = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
+  name: String,
+  userName: String,
+  profileImg: String,
 });
 
 const comment = new mongoose.Schema(
@@ -24,7 +27,7 @@ const feedSchema = new mongoose.Schema(
     content: String,
     location: String,
     like: [author],
-    imgUrl: [String],
+    feedImg: [String],
     comments: [comment],
   },
   { timestamps: true },

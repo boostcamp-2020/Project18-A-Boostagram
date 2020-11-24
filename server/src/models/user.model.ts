@@ -8,12 +8,17 @@ const notiOptions = new mongoose.Schema({
 
 const notiContents = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
+  profileImg: String,
+  userName: String,
   notiType: String,
   date: String,
 });
 
 const followSchema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
+  name: String,
+  userName: String,
+  profileImg: String,
 });
 
 const userSchema = new mongoose.Schema({
