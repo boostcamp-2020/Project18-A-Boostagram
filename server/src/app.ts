@@ -1,8 +1,15 @@
-import express, {Request, Response, NextFunction} from 'express';
+/* eslint-disable no-console */
+import dotenv from 'dotenv';
+import express from 'express';
 import logger from 'morgan';
-import index from './routes';
+import db from './models';
+import index from './routes/index';
+
+dotenv.config();
 
 const port = process.env.PORT || 3000;
+
+db();
 
 const app = express();
 app.use(logger('dev'));

@@ -23,18 +23,5 @@ Project18 A조의 Instagram 클론 프로젝트
 
 ## 🔧 기술 스택
 
-### Server
-- Nodejs
-- Express
-- Typescript
-- MongoDB
-- NCloud
-- Jenkins
-
-### Client
-- React
-- Styled components
-- Nginx
-- Webpack & Babel
-- Web socket
+![image](https://user-images.githubusercontent.com/44664867/99925719-87117a00-2d82-11eb-97c5-8b96938af809.png)
 
