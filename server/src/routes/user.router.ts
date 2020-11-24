@@ -1,10 +1,10 @@
 import express from 'express';
-import User from '../models/user';
+import db from '../models';
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  User.create({ name: 'hi' }, (err, user) => {
+  db.Feed.create({ content: 'bye22222222' }, (err, user) => {
     console.log(err, user);
   });
 });
