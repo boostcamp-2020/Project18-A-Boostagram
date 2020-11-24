@@ -2,14 +2,14 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
-import db from './models';
+import initDB from './models/init.model';
 import index from './routes/index';
 
 dotenv.config();
 
 const port = process.env.PORT || 3000;
 
-db();
+initDB();
 
 const app = express();
 app.use(logger('dev'));
