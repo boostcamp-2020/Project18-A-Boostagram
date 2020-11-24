@@ -2,6 +2,8 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import './user';
+import './feed';
+import './dm';
 
 function connectMongoose(): void {
   dotenv.config();
