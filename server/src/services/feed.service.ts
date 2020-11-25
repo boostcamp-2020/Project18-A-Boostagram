@@ -1,4 +1,4 @@
-import feedModel from '../models/feed.model';
+import FeedModel from '../models/feed.model';
 
 interface callback {
   [key: string]: any;
@@ -13,9 +13,14 @@ interface createParams {
   author: string;
 }
 
-feedService.create = (params: createParams) => {
+feedService.create = async (params: createParams) => {
   // todo: return fail/success
-  feedModel.create(params);
+  const doc = new FeedModel(params);
+  const success = await doc.createFeed();
+  if (success) {
+    return true;
+  }
+  return false;
 };
 
 export default feedService;
