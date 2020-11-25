@@ -20,6 +20,7 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
+    'import/no-unresolved': 'off',
     'linebreak-style': ['error', OS.EOL === '\r\n' ? 'windows' : 'unix'],
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
