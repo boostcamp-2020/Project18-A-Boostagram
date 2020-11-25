@@ -1,5 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import Theme from '@style/Theme';
+import App from './components/App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <ThemeProvider theme={Theme}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ThemeProvider>,
+  document.getElementById('root'),
+);
