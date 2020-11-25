@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 
 const author = new mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   name: String,
   userName: String,
   profileImg: String,
