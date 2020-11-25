@@ -2,19 +2,21 @@ import { Request, Response } from 'express';
 import feedService from '../services/feed.service';
 
 interface callback {
-  [key: string]: any;
+  [key: string]: (req: Request, res: Response) => void;
 }
 const feedController: callback = {};
 
-feedController.create = (req: Request, res: Response) => {
+feedController.create = async (req: Request, res: Response) => {
   const { feedImg, author } = req.body;
   req.body.author = JSON.parse(author);
   if (!(feedImg && author)) {
-    res.status(400).end();
+    return res.status(400).end();
   }
-  feedService.create(req.body);
-
-  res.send('ok');
+  const success = await feedService.create(req.body);
+  if (success) {
+    return res.status(201).end();
+  }
+  return res.status(400).end();
 };
 
 export default feedController;
