@@ -1,10 +1,5 @@
 import FeedModel from '../models/feed.model';
 
-interface callback {
-  [key: string]: any;
-}
-const feedService: callback = {};
-
 interface createParams {
   feedImg: Array<string>;
   content: string;
@@ -12,6 +7,11 @@ interface createParams {
   tag: string;
   author: string;
 }
+type feedServiceType = (params: createParams) => Promise<boolean>;
+interface callback {
+  [key: string]: feedServiceType;
+}
+const feedService: callback = {};
 
 feedService.create = async (params: createParams) => {
   // todo: return fail/success
