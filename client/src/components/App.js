@@ -31,7 +31,7 @@ const App = () => {
             <Route exact path={pathURI.NEWFEED} component={NewFeedContainer} />
             <Route
               exact
-              path={pathURI.FEEDEXPLORE}
+              path={pathURI.EXPLORE}
               component={FeedExploreContainer}
             />
           </Switch>

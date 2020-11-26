@@ -1,7 +1,7 @@
 const pathURI = {
   HOME: '/',
   NEWFEED: '/newFeed',
-  FEEDEXPLORE: '/explore',
+  EXPLORE: '/explore',
 };
 
 export default pathURI;
