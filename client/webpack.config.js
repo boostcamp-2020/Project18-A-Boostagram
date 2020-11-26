@@ -44,6 +44,7 @@ module.exports = {
       '@common': path.resolve(__dirname, 'src/components/common/'),
       '@style': path.resolve(__dirname, 'src/components/style/'),
       '@newFeed': path.resolve(__dirname, 'src/components/newFeed/'),
+      '@feedExplore': path.resolve(__dirname, 'src/components/feedExplore/'),
       '@constants': path.resolve(__dirname, 'src/constants/'),
     },
   },
