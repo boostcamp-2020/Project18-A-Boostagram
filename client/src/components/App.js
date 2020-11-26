@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
 import NewFeedContainer from '@newFeed/container/NewFeedContainer';
+import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import pathURI from '@constants/path';
 
 const style = {};
@@ -28,6 +29,11 @@ const App = () => {
         <style.RouteWrapper>
           <Switch>
             <Route exact path={pathURI.NEWFEED} component={NewFeedContainer} />
+            <Route
+              exact
+              path={pathURI.EXPLORE}
+              component={FeedExploreContainer}
+            />
           </Switch>
         </style.RouteWrapper>
       </style.Contents>
