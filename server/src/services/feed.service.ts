@@ -22,4 +22,6 @@ feedService.create = async (params: createParams) => {
   return false;
 };
 
+feedService.explore = async () => true;
+
 export default feedService;

@@ -18,4 +18,10 @@ feedController.create = async (req: Request, res: Response) => {
   return res.status(400).end();
 };
 
+feedController.explore = async (req: Request, res: Response) => {
+  const success = await feedService.explore(req.body);
+  if (success) return res.status(201).end();
+  return res.status(400).end();
+};
+
 export default feedController;
