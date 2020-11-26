@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 
 const author = new mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   name: String,
   userName: String,
   profileImg: String,
@@ -21,7 +24,7 @@ const comment = new mongoose.Schema(
   { timestamps: true },
 );
 
-const feedSchema = new mongoose.Schema(
+const FeedSchema = new mongoose.Schema(
   {
     author,
     content: String,
@@ -33,4 +36,18 @@ const feedSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export default mongoose.model('Feed', feedSchema);
+FeedSchema.methods.createFeed = async function createFeed() {
+  try {
+    const result = await mongoose.model('Feed').create(this);
+    return result;
+  } catch (err) {
+    return false;
+  }
+};
+
+type boolFunc = () => boolean;
+interface FeedInterface extends mongoose.Document {
+  createFeed: boolFunc;
+}
+
+export = mongoose.model<FeedInterface>('Feed', FeedSchema);
