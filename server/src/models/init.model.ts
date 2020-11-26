@@ -80,6 +80,18 @@ function seedData(): void {
       feedImg:
         'https://ca.slack-edge.com/T019JFET9H7-U01AE19CWUQ-ccf648c8636a-512',
     },
+    {
+      author: {
+        userId: '5fbf7104e5213064cc2ffae9',
+        name: 'ByeongGook',
+        userName: 'rlaqudrnr810',
+        profileImg:
+          'https://ca.slack-edge.com/T019JFET9H7-U019GGE0086-9b1c9fa14e8b-512',
+      },
+      content: 'yageunsireo',
+      feedImg:
+        'https://ca.slack-edge.com/T019JFET9H7-U019GGE0086-9b1c9fa14e8b-512',
+    },
   ]);
 }
 
