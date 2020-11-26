@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import pathURI from '@constants/path';
 import icon from '@constants/icon';
 
 const style = {};
@@ -50,7 +51,7 @@ style.NavigationBar = styled.div`
 const Header = () => (
   <style.HeaderContainer>
     <style.Header>
-      <style.LogoArea href="/">
+      <style.LogoArea href={pathURI.HOME}>
         <style.Logo
           alt="Instagram"
           src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
@@ -58,22 +59,22 @@ const Header = () => (
       </style.LogoArea>
       <style.SearchBar type="text" placeholder="검색" />
       <style.NavigationBar>
-        <a href="/">
+        <a href={pathURI.HOME}>
           <icon.Home />
         </a>
-        <a href="/newFeed">
+        <a href={pathURI.NEWFEED}>
           <icon.NewFeed />
         </a>
-        <a href="/">
+        <a href={pathURI.HOME}>
           <icon.Direct />
         </a>
-        <a href="/explore">
+        <a href={pathURI.EXPLORE}>
           <icon.Explore />
         </a>
-        <a href="/">
+        <a href={pathURI.HOME}>
           <icon.Noti />
         </a>
-        <a href="/">
+        <a href={pathURI.HOME}>
           <icon.Profile />
         </a>
       </style.NavigationBar>
