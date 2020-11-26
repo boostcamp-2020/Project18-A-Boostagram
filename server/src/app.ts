@@ -2,6 +2,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
+import cors from 'cors';
 import initDB from './models/init.model';
 import index from './routes/index';
 
@@ -12,6 +13,7 @@ const port = process.env.PORT || 3000;
 initDB();
 
 const app = express();
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

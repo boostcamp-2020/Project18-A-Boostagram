@@ -8,7 +8,7 @@ module.exports = {
     main: './src/index.js',
   },
   output: {
-    path: path.resolve("./dist"),
+    path: path.resolve('./dist'),
     filename: 'bundle.js',
   },
   module: {
@@ -26,7 +26,7 @@ module.exports = {
       {
         test: /\.js$/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
         },
         exclude: /node_module/,
       },
@@ -39,14 +39,21 @@ module.exports = {
     new CleanWebpackPlugin(),
   ],
   resolve: {
-    alias: {},
+    extensions: ['*', '.js'],
+    alias: {
+      '@common': path.resolve(__dirname, 'src/components/common/'),
+      '@style': path.resolve(__dirname, 'src/components/style/'),
+      '@newFeed': path.resolve(__dirname, 'src/components/newFeed/'),
+      '@feedExplore': path.resolve(__dirname, 'src/components/feedExplore/'),
+      '@constants': path.resolve(__dirname, 'src/constants/'),
+    },
   },
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     publicPath: '/',
     host: 'localhost',
-    hot: true,
+    hot: true,
     overlay: true,
     port: 8080,
     stats: 'errors-only',
