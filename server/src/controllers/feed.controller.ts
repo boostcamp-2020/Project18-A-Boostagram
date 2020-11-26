@@ -8,8 +8,7 @@ const feedController: callback = {};
 
 feedController.create = async (req: Request, res: Response) => {
   const { feedImg, author } = req.body;
-  req.body.author = JSON.parse(author);
-  if (!(feedImg && author)) {
+  if (!(feedImg.length !== 0 && author)) {
     return res.status(400).end();
   }
   const success = await feedService.create(req.body);
