@@ -65,8 +65,9 @@ function seedData(): void {
           'https://ca.slack-edge.com/T019JFET9H7-U019PN65926-7d7d0974a7f9-512',
       },
       content: 'yageunjoa',
-      feedImg:
+      feedImg: [
         'https://avatars0.githubusercontent.com/u/24909656?s=460&u=d41305b6b314f0232605a0f9f293da5f40319199&v=4',
+      ],
     },
     {
       author: {
@@ -77,8 +78,9 @@ function seedData(): void {
           'https://ca.slack-edge.com/T019JFET9H7-U01AE19CWUQ-ccf648c8636a-512',
       },
       content: 'yageunsireo',
-      feedImg:
+      feedImg: [
         'https://ca.slack-edge.com/T019JFET9H7-U01AE19CWUQ-ccf648c8636a-512',
+      ],
     },
     {
       author: {
@@ -89,8 +91,9 @@ function seedData(): void {
           'https://ca.slack-edge.com/T019JFET9H7-U019GGE0086-9b1c9fa14e8b-512',
       },
       content: 'yageunsireo',
-      feedImg:
+      feedImg: [
         'https://ca.slack-edge.com/T019JFET9H7-U019GGE0086-9b1c9fa14e8b-512',
+      ],
     },
   ]);
 }
