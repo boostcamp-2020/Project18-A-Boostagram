@@ -14,7 +14,6 @@ interface callback {
 const feedService: callback = {};
 
 feedService.create = async (params: createParams) => {
-  // todo: return fail/success
   const doc = new FeedModel(params);
   const success = await doc.createFeed();
   if (success) {
