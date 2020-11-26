@@ -23,10 +23,7 @@ style.Header = styled.div`
 
 style.LogoArea = styled.a`
   flex: 2;
-`;
-
-style.Logo = styled.img`
-  margin-top: 7px;
+  padding-top: 7px;
 `;
 
 style.SearchBar = styled.input`
@@ -52,10 +49,7 @@ const Header = () => (
   <style.HeaderContainer>
     <style.Header>
       <style.LogoArea href={pathURI.HOME}>
-        <style.Logo
-          alt="Instagram"
-          src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
-        />
+        <icon.Logo />
       </style.LogoArea>
       <style.SearchBar type="text" placeholder="검색" />
       <style.NavigationBar>

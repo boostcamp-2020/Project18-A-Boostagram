@@ -2,6 +2,13 @@ import React from 'react';
 
 const icon = {};
 
+icon.Logo = () => (
+  <img
+    alt="Instagram"
+    src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+  />
+);
+
 icon.NewFeed = () => (
   <svg
     aria-label="NewFeed"
