@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import FeedList from '@feedExplore/presentational/FeedList';
 
 const style = {};
 
@@ -8,9 +9,11 @@ style.FeedExploreContainer = styled.div`
   border: 1px solid red;
 `;
 
+const dummy = [];
+
 const FeedExploreContainer = () => (
   <style.FeedExploreContainer>
-    <div>아무거나</div>
+    <FeedList datas={dummy} />
   </style.FeedExploreContainer>
 );
 
