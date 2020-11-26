@@ -24,8 +24,8 @@ style.Number = styled.div`
 `;
 
 style.ImgBox = styled.img`
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   display: block;
   opacity: ${(props) => (props.hover ? 0.3 : 1)};
 `;
