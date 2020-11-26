@@ -6,9 +6,17 @@ import GlobalStyle from '@style/GlobalStyle';
 import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import pathURI from '@constants/path';
 
-const RouteWrapper = styled.div`
-  margin-top: 100px;
-  padding: 20px 100px;
+const style = {};
+
+style.RouteWrapper = styled.div`
+  margin: 0 auto;
+  width: 935px;
+`;
+
+style.Contents = styled.div`
+  display: flex;
+  margin-top: 54px;
+  background-color: ${(props) => props.theme.color.background};
 `;
 
 const App = () => {
@@ -16,11 +24,13 @@ const App = () => {
     <>
       <GlobalStyle />
       <Header />
-      <RouteWrapper>
-        <Switch>
-          <Route exact path={pathURI.NEWFEED} component={NewFeedContainer} />
-        </Switch>
-      </RouteWrapper>
+      <style.Contents>
+        <style.RouteWrapper>
+          <Switch>
+            <Route exact path={pathURI.NEWFEED} component={NewFeedContainer} />
+          </Switch>
+        </style.RouteWrapper>
+      </style.Contents>
     </>
   );
 };

@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const style = {};
 
 style.NewFeedContainer = styled.div`
-  background-color: gray;
+  margin: 0 auto;
+  border: 1px solid red;
 `;
 
 const NewFeedContainer = () => (

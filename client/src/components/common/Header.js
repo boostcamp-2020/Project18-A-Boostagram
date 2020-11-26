@@ -6,7 +6,7 @@ const style = {};
 style.Header = styled.div`
   display: inline-flex;
   justify-content: space-between;
-  height: 100px;
+  height: 54px;
   border: 1px solid ${(props) => props.theme.color.border};
   position: absolute;
   top: 0;
