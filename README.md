@@ -25,3 +25,30 @@ Project18 A조의 Instagram 클론 프로젝트
 
 ![image](https://user-images.githubusercontent.com/44664867/99925719-87117a00-2d82-11eb-97c5-8b96938af809.png)
 
+## 🗂 디렉토리 구조
+```
+🗃 Project Folder  
+📁.github  
+📁client  
+├── 📁src    
+│   ├── index.html  
+│   ├── index.js  
+│   ├── 📁components
+│   │   ├── App.js  
+│   │   ├── 📁common  
+│   │   ├── 📁feedExplore  
+│   │   │   ├── 📁container  
+│   │   │   └── 📁presentational  
+│   │   ├── 📁newFeed  
+│   │   │   ├── 📁container  
+│   │   │   └── 📁presentational  
+│   │   └── 📁style  
+│   └── 📁constants  
+📁server  
+├── 📁src  
+│   ├── app  
+│   ├── 📁controllers  
+│   ├── 📁models  
+│   ├── 📁routes  
+│   └── 📁services  
+```
