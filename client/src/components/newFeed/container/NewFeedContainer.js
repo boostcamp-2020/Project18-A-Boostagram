@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import InputText from '@newFeed/presentational/InputText';
 import InputFile from '@newFeed/presentational/InputFile';
@@ -21,7 +21,8 @@ style.NewFeedContainer = styled.div`
   z-index: 2;
   background-color: white;
   position: absolute;
-  left: 90px;
+  left: 50%;
+  transform: translateX(-50%);
 
   & > * {
     border: 1px solid ${(props) => props.theme.color.border};
@@ -29,6 +30,7 @@ style.NewFeedContainer = styled.div`
   }
 `;
 style.LeftBox = styled.div`
+  position: relative;
   flex: 2;
 `;
 style.RightBox = styled.div`
@@ -50,11 +52,7 @@ const reducer = (state, action) => {
     case actionType.UPLOAD:
       return {
         ...state,
-        files: [
-          ...state.files,
-          // todo: replace action.value
-          ...action.filesArr,
-        ],
+        files: [...state.files, ...action.filesArr],
       };
     default:
       return state;
@@ -112,11 +110,14 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
       });
   };
 
+  const [hover, setHover] = useState(false);
+  const handleHover = () => setHover(!hover);
+
   return (
     <style.NewFeedContainer active={modalActive}>
       <style.LeftBox>
-        <DisplayImg feedImgs={state.files} />
-        <InputFile handleChange={handleChange} />
+        <DisplayImg feedImgs={state.files} hover={hover} />
+        <InputFile handleChange={handleChange} handleHover={handleHover} />
       </style.LeftBox>
       <style.RightBox>
         <InputText state={state} handleChange={handleChange} />
