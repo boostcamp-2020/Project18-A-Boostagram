@@ -21,13 +21,10 @@ style.DisplayImg = styled.img`
 `;
 
 const DisplayImg = (props) => {
-  const { feedImgs, hover } = props;
+  const { feedImgs, hover, imgIndex = 0 } = props;
   return (
     <style.DisplayImgContainer hover={hover}>
-      {feedImgs.map((feedImg, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <style.DisplayImg key={index} src={feedImg} />
-      ))}
+      {feedImgs.length !== 0 && <style.DisplayImg src={feedImgs[imgIndex]} />}
     </style.DisplayImgContainer>
   );
 };
@@ -39,6 +36,7 @@ DisplayImg.defaultProps = {
 DisplayImg.propTypes = {
   feedImgs: PropTypes.arrayOf(PropTypes.string),
   hover: PropTypes.bool.isRequired,
+  imgIndex: PropTypes.number.isRequired,
 };
 
 export default DisplayImg;

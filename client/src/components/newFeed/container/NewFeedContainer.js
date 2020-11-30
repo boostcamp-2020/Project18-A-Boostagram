@@ -4,6 +4,7 @@ import InputText from '@newFeed/presentational/InputText';
 import InputFile from '@newFeed/presentational/InputFile';
 import InputTag from '@newFeed/presentational/InputTag';
 import DisplayImg from '@newFeed/presentational/DisplayImg';
+import ImgNav from '@newFeed/presentational/ImgNav';
 import SubmitButton from '@newFeed/presentational/SubmitButton';
 import pathURL from '@constants/path';
 import PropTypes from 'prop-types';
@@ -13,6 +14,7 @@ const actionType = {};
 
 actionType.WRITE = 'write';
 actionType.UPLOAD = 'upload';
+actionType.SELECT_IMG = 'select';
 
 style.NewFeedContainer = styled.div`
   display: ${(props) => (props.active ? 'flex' : 'none')};
@@ -40,6 +42,7 @@ style.RightBox = styled.div`
 const initialState = {
   textValue: '',
   files: [],
+  selectedIndex: 0,
 };
 
 const reducer = (state, action) => {
@@ -64,7 +67,7 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const filesArr = [];
-    if (files) {
+    if (name === actionType.UPLOAD) {
       for (let i = 0; i < files.length; i += 1) {
         // todo: real img url
         // filesArr.push(files[i].name);
@@ -116,8 +119,13 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
   return (
     <style.NewFeedContainer active={modalActive}>
       <style.LeftBox>
-        <DisplayImg feedImgs={state.files} hover={hover} />
+        <DisplayImg
+          imgIndex={state.selectedIndex}
+          feedImgs={state.files}
+          hover={hover}
+        />
         <InputFile handleChange={handleChange} handleHover={handleHover} />
+        <ImgNav imgIndex={state.selectedIndex} imgs={state.files} />
       </style.LeftBox>
       <style.RightBox>
         <InputText state={state} handleChange={handleChange} />
