@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 const style = {};
 const actionType = {};
 
+actionType.RESET = 'reset';
 actionType.WRITE = 'write';
 actionType.UPLOAD = 'upload';
 actionType.SELECT_NEXT = 'selectNext';
@@ -68,6 +69,11 @@ const reducer = (state, action) => {
         ...state,
         selectedIndex: state.selectedIndex - 1,
       };
+    case actionType.RESET:
+      return {
+        ...state,
+        ...initialState,
+      };
     default:
       return state;
   }
@@ -120,7 +126,10 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
         return window.alert('이미지를 첨부해주세요.');
       })
       .then((result) => {
-        if (result === 'SUCCESS') handleModal();
+        if (result === 'SUCCESS') {
+          dispatch({ type: actionType.RESET });
+          handleModal();
+        }
       });
   };
 
