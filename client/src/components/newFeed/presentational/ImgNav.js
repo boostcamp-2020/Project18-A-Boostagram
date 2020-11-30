@@ -13,9 +13,9 @@ style.NavBar = styled.ul`
 style.NavItem = styled.li`
   background-color: ${(props) =>
     props.active ? 'white' : props.theme.color.background};
-  width: 8px;
-  height: 8px;
-  border-radius: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
   & + & {
     margin-left: 5px;
   }
