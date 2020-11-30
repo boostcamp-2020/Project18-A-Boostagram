@@ -15,6 +15,7 @@ const FeedList = (input) => {
   return (
     <style.FeedList>
       {datas.map((data, index) => {
+        // eslint-disable-next-line react/no-array-index-key
         return <FeedCard data={data} key={index} />;
       })}
     </style.FeedList>
