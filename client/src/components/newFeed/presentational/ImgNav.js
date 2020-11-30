@@ -7,8 +7,9 @@ style.NavBar = styled.ul`
   position: absolute;
   bottom: 5px;
   display: flex;
-  width: 100%;
+  width: 90%;
   list-style-type: none;
+  overflow: hidden;
 `;
 style.NavItem = styled.li`
   background-color: ${(props) =>
