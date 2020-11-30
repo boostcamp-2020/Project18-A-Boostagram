@@ -33,7 +33,7 @@ const InputFile = (props) => {
         type="file"
         multiple
         onChange={handleChange}
-        name="file"
+        name="upload"
         accept="image/*"
       />
     </style.InputFileContainer>

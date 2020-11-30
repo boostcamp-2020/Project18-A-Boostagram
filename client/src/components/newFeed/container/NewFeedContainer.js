@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import styled from 'styled-components';
 import InputText from '@newFeed/presentational/InputText';
 import InputFile from '@newFeed/presentational/InputFile';
-import InputLocation from '@newFeed/presentational/InputLocation';
 import InputTag from '@newFeed/presentational/InputTag';
 import DisplayImg from '@newFeed/presentational/DisplayImg';
 import SubmitButton from '@newFeed/presentational/SubmitButton';
@@ -29,21 +28,8 @@ style.NewFeedContainer = styled.div`
 `;
 
 const initialState = {
-  textOrigin: '',
-  textResult: '',
+  textValue: '',
   files: [],
-};
-
-const converter = (text) => {
-  const lines = JSON.stringify(text).slice(1, -1).split('\\n');
-  console.log(lines);
-  const markDown = lines.map((line) => {
-    if (line.substring(0, 2) === '# ') {
-      return `<h1>${line.substring(2)}<h1>`;
-    }
-    return line;
-  });
-  console.log(markDown);
 };
 
 const reducer = (state, action) => {
@@ -51,7 +37,7 @@ const reducer = (state, action) => {
     case actionType.WRITE:
       return {
         ...state,
-        textOrigin: action.value,
+        textValue: action.value,
       };
     case actionType.UPLOAD:
       return {
@@ -72,28 +58,20 @@ const NewFeedContainer = () => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const filesArr = [];
-    switch (name) {
-      case 'text':
-        dispatch({
-          type: actionType.WRITE,
-          value,
-        });
-        break;
-      case 'file':
-        for (let i = 0; i < files.length; i += 1) {
-          // todo: real img url
-          // filesArr.push(files[i].name);
-          filesArr.push(
-            'https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png',
-          );
-        }
-        dispatch({
-          type: actionType.UPLOAD,
-          filesArr,
-        });
-        break;
-      default:
+    if (files) {
+      for (let i = 0; i < files.length; i += 1) {
+        // todo: real img url
+        // filesArr.push(files[i].name);
+        filesArr.push(
+          'https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png',
+        );
+      }
     }
+    dispatch({
+      type: name,
+      value,
+      filesArr,
+    });
   };
 
   const handleSubmit = (e) => {
@@ -111,7 +89,7 @@ const NewFeedContainer = () => {
           userName: 'cha',
           profileImg: 'sample image',
         },
-        content: state.textOrigin,
+        content: state.textValue,
       }),
     }).then((res) => {
       if (res.status === 201) {
@@ -126,7 +104,6 @@ const NewFeedContainer = () => {
       <DisplayImg feedImgs={state.files} />
       <InputFile handleChange={handleChange} />
       <InputText state={state} handleChange={handleChange} />
-      <InputLocation />
       <InputTag />
       <SubmitButton handleSubmit={handleSubmit} />
     </style.NewFeedContainer>
