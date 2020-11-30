@@ -14,7 +14,8 @@ const actionType = {};
 
 actionType.WRITE = 'write';
 actionType.UPLOAD = 'upload';
-actionType.SELECT_IMG = 'select';
+actionType.SELECT_NEXT = 'selectNext';
+actionType.SELECT_BEFORE = 'selectBefore';
 
 style.NewFeedContainer = styled.div`
   display: ${(props) => (props.active ? 'flex' : 'none')};
@@ -56,6 +57,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         files: [...state.files, ...action.filesArr],
+      };
+    case actionType.SELECT_NEXT:
+      return {
+        ...state,
+        selectedIndex: state.selectedIndex + 1,
+      };
+    case actionType.SELECT_BEFORE:
+      return {
+        ...state,
+        selectedIndex: state.selectedIndex - 1,
       };
     default:
       return state;
@@ -113,6 +124,16 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
       });
   };
 
+  const handleImg = ({ target }) => {
+    const arrow = target.innerHTML;
+    if (arrow === '&gt;') {
+      dispatch({ type: actionType.SELECT_NEXT });
+    }
+    if (arrow === '&lt;') {
+      dispatch({ type: actionType.SELECT_BEFORE });
+    }
+  };
+
   const [hover, setHover] = useState(false);
   const handleHover = () => setHover(!hover);
 
@@ -123,6 +144,7 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
           imgIndex={state.selectedIndex}
           feedImgs={state.files}
           hover={hover}
+          handleImg={handleImg}
         />
         <InputFile handleChange={handleChange} handleHover={handleHover} />
         <ImgNav imgIndex={state.selectedIndex} imgs={state.files} />
