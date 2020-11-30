@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '@common/Header';
@@ -20,15 +20,29 @@ style.Contents = styled.div`
   background-color: ${(props) => props.theme.color.background};
 `;
 
+style.ModalBackground = styled.div`
+  background-color: gray;
+  height: 1000px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: ${(props) => (props.active ? 'block' : 'none')};
+  z-index: 1;
+  opacity: 50%;
+`;
+
 const App = () => {
+  const [modalActive, setModalActive] = useState(false);
+  const handleModal = () => setModalActive(!modalActive);
   return (
     <>
       <GlobalStyle />
-      <Header />
+      <style.ModalBackground active={modalActive} onClick={handleModal} />
+      <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
+      <Header handleModal={handleModal} />
       <style.Contents>
         <style.RouteWrapper>
           <Switch>
-            <Route exact path={pathURI.NEWFEED} component={NewFeedContainer} />
             <Route
               exact
               path={pathURI.EXPLORE}
