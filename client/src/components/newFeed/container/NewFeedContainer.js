@@ -71,7 +71,6 @@ const reducer = (state, action) => {
       };
     case actionType.RESET:
       return {
-        ...state,
         ...initialState,
       };
     default:
@@ -126,10 +125,7 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
         return window.alert('이미지를 첨부해주세요.');
       })
       .then((result) => {
-        if (result === 'SUCCESS') {
-          dispatch({ type: actionType.RESET });
-          handleModal();
-        }
+        if (result === 'SUCCESS') handleModal();
       });
   };
 
@@ -145,6 +141,10 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
 
   const [hover, setHover] = useState(false);
   const handleHover = () => setHover(!hover);
+
+  if (!modalActive && JSON.stringify(state) !== JSON.stringify(initialState)) {
+    dispatch({ type: actionType.RESET });
+  }
 
   return (
     <style.NewFeedContainer active={modalActive}>
