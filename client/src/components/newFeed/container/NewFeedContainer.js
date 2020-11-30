@@ -6,6 +6,7 @@ import InputTag from '@newFeed/presentational/InputTag';
 import DisplayImg from '@newFeed/presentational/DisplayImg';
 import SubmitButton from '@newFeed/presentational/SubmitButton';
 import pathURL from '@constants/path';
+import PropTypes from 'prop-types';
 
 const style = {};
 const actionType = {};
@@ -14,17 +15,24 @@ actionType.WRITE = 'write';
 actionType.UPLOAD = 'upload';
 
 style.NewFeedContainer = styled.div`
+  display: ${(props) => (props.active ? 'flex' : 'none')};
   background-color: ${(props) => props.theme.color.background};
-  width: 60%;
-  margin: 0 auto;
-  margin-top: 30px;
+  width: 80%;
+  z-index: 2;
+  background-color: white;
+  position: absolute;
+  left: 90px;
 
   & > * {
     border: 1px solid ${(props) => props.theme.color.border};
-    border-radius: 5px;
-    margin-bottom: 20px;
     overflow: hidden;
   }
+`;
+style.LeftBox = styled.div`
+  flex: 2;
+`;
+style.RightBox = styled.div`
+  flex: 1;
 `;
 
 const initialState = {
@@ -53,7 +61,7 @@ const reducer = (state, action) => {
   }
 };
 
-const NewFeedContainer = () => {
+const NewFeedContainer = ({ modalActive, handleModal }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -91,23 +99,37 @@ const NewFeedContainer = () => {
         },
         content: state.textValue,
       }),
-    }).then((res) => {
-      if (res.status === 201) {
-        return window.alert('success');
-      }
-      return window.alert('이미지를 첨부해주세요.');
-    });
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          window.alert('success');
+          return 'SUCCESS';
+        }
+        return window.alert('이미지를 첨부해주세요.');
+      })
+      .then((result) => {
+        if (result === 'SUCCESS') handleModal();
+      });
   };
 
   return (
-    <style.NewFeedContainer>
-      <DisplayImg feedImgs={state.files} />
-      <InputFile handleChange={handleChange} />
-      <InputText state={state} handleChange={handleChange} />
-      <InputTag />
-      <SubmitButton handleSubmit={handleSubmit} />
+    <style.NewFeedContainer active={modalActive}>
+      <style.LeftBox>
+        <DisplayImg feedImgs={state.files} />
+        <InputFile handleChange={handleChange} />
+      </style.LeftBox>
+      <style.RightBox>
+        <InputText state={state} handleChange={handleChange} />
+        <InputTag />
+        <SubmitButton handleSubmit={handleSubmit} />
+      </style.RightBox>
     </style.NewFeedContainer>
   );
+};
+
+NewFeedContainer.propTypes = {
+  modalActive: PropTypes.bool.isRequired,
+  handleModal: PropTypes.func.isRequired,
 };
 
 export default NewFeedContainer;
