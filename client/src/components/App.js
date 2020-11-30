@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
+import HomeContainer from '@home/container/HomeContainer';
 import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import pathURI from '@constants/path';
@@ -28,6 +29,7 @@ const App = () => {
       <style.Contents>
         <style.RouteWrapper>
           <Switch>
+            <Route exact path={pathURI.HOME} component={HomeContainer} />
             <Route exact path={pathURI.NEWFEED} component={NewFeedContainer} />
             <Route
               exact

@@ -43,6 +43,7 @@ module.exports = {
     alias: {
       '@common': path.resolve(__dirname, 'src/components/common/'),
       '@style': path.resolve(__dirname, 'src/components/style/'),
+      '@home': path.resolve(__dirname, 'src/components/home/'),
       '@newFeed': path.resolve(__dirname, 'src/components/newFeed/'),
       '@feedExplore': path.resolve(__dirname, 'src/components/feedExplore/'),
       '@constants': path.resolve(__dirname, 'src/constants/'),
