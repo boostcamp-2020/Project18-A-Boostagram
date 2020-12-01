@@ -87,7 +87,7 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
       for (let i = 0; i < files.length; i += 1) {
         data.append('file[]', files[i]);
       }
-      fetch(`${pathURL.IP}/test`, {
+      fetch(`${pathURL.IP}${pathURL.IMG_UPLOAD}`, {
         method: 'POST',
         body: data,
       })
@@ -121,7 +121,6 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
     })
       .then((res) => {
         if (res.status === 201) {
-          alert('success');
           return 'SUCCESS';
         }
         return alert('이미지를 첨부해주세요.');
