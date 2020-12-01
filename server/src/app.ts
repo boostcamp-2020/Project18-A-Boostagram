@@ -25,7 +25,7 @@ initDB();
 const app = express();
 app.use(cors());
 app.use(logger('dev'));
-app.use(upload.single('file'));
+app.use(upload.array('file[]'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

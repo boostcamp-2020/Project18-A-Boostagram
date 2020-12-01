@@ -82,21 +82,23 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    const filesArr = [];
     if (name === actionType.UPLOAD) {
+      const data = new FormData();
       for (let i = 0; i < files.length; i += 1) {
-        // todo: real img url
-        // filesArr.push(files[i].name);
-        filesArr.push(
-          'https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png',
-        );
+        data.append('file[]', files[i]);
       }
+      fetch(`${pathURL.IP}/test`, {
+        method: 'POST',
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          return [...res];
+        })
+        .then((filesArr) => dispatch({ type: name, filesArr }));
+    } else {
+      dispatch({ type: name, value });
     }
-    dispatch({
-      type: name,
-      value,
-      filesArr,
-    });
   };
 
   const handleSubmit = (e) => {
@@ -119,10 +121,10 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
     })
       .then((res) => {
         if (res.status === 201) {
-          window.alert('success');
+          alert('success');
           return 'SUCCESS';
         }
-        return window.alert('이미지를 첨부해주세요.');
+        return alert('이미지를 첨부해주세요.');
       })
       .then((result) => {
         if (result === 'SUCCESS') handleModal();
