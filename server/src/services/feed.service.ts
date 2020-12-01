@@ -1,27 +1,24 @@
-import FeedModel from '../models/feed.model';
+import FeedModel, { IFeed } from '../models/feed.model';
 
-interface createParams {
-  feedImg: Array<string>;
-  content: string;
-  location: string;
-  tag: string;
-  author: string;
+interface IcreateParam {
+  author?: Record<string, unknown>;
+  content?: string;
+  location?: string;
+  like?: [];
+  feedImg?: [];
+  comments?: [];
 }
-type feedServiceType = (params: createParams) => Promise<boolean>;
-interface callback {
-  [key: string]: feedServiceType;
-}
-const feedService: callback = {};
 
-feedService.create = async (params: createParams) => {
-  const doc = new FeedModel(params);
-  const success = await doc.createFeed();
-  if (success) {
-    return true;
-  }
-  return false;
+const create = async (params: IcreateParam): Promise<boolean> => {
+  const feed = new FeedModel(params);
+  const result = await feed.createFeed();
+  return result;
 };
 
-feedService.explore = async () => true;
+const explore = async (): Promise<IFeed[]> => {
+  const feed = new FeedModel();
+  const result = feed.exploreFeed();
+  return result;
+};
 
-export default feedService;
+export { create, explore };

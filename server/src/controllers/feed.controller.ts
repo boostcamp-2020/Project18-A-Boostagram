@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import feedService from '../services/feed.service';
+import { create, explore } from '../services/feed.service';
 
 interface callback {
   [key: string]: (req: Request, res: Response) => void;
@@ -7,20 +7,34 @@ interface callback {
 const feedController: callback = {};
 
 feedController.create = async (req: Request, res: Response) => {
-  const { feedImg, author } = req.body;
-  if (!(feedImg.length !== 0 && author)) {
-    return res.status(400).end();
-  }
-  const success = await feedService.create(req.body);
-  if (success) {
-    return res.status(201).end();
-  }
+  const params = {
+    author: undefined,
+    content: req.body.content,
+    location: req.body.location,
+    like: undefined,
+    feedImg: undefined,
+    comments: undefined,
+  };
+
+  if (req.body.author) params.author = JSON.parse(req.body.author);
+  else return res.status(400).end();
+
+  if (req.body.feedImg) params.feedImg = JSON.parse(req.body.feedImg);
+  else return res.status(400).end();
+
+  if (req.body.like) params.like = JSON.parse(req.body.like);
+
+  if (req.body.comments) params.comments = JSON.parse(req.body.comments);
+
+  const success = await create(params);
+  if (success) return res.status(201).end();
+
   return res.status(400).end();
 };
 
 feedController.explore = async (req: Request, res: Response) => {
-  const success = await feedService.explore(req.body);
-  if (success) return res.status(201).end();
+  const result = await explore();
+  if (result) return res.status(201).json(result).end();
   return res.status(400).end();
 };
 
