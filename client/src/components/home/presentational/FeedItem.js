@@ -69,11 +69,14 @@ style.Comments = styled.div`
 
 style.Time = styled.div`
   margin-left: 16px;
+  margin-bottom: 5px;
   font-size: 10px;
   color: #8e8e8e;
 `;
 
-style.InputComment = styled.div``;
+style.InputComment = styled.div`
+  display: flex;
+`;
 
 style.Like = styled.div`
   position: absolute;
@@ -105,6 +108,25 @@ style.MoreComent = styled.div`
   margin-top: 5px;
 `;
 
+style.TextArea = styled.textarea`
+  flex: 1;
+  margin: auto 0;
+  margin-left: 16px;
+  margin-right: 10px;
+  border: 0;
+  outline: none;
+`;
+
+style.CommentSubmit = styled.div`
+  cursor: pointer;
+  color: #0095f6;
+  font-size: 14px;
+  font-weight: 600;
+  margin: auto 0;
+  margin-left: auto;
+  margin-right: 15px;
+`;
+
 const getCommentLength = (comments) => {
   return comments.length;
 };
@@ -122,6 +144,7 @@ const FeedItem = (input) => {
   const [comments, setComments] = useState(data.comments);
   const moreCommentMessage = `댓글 ${getCommentLength(comments)}개 모두 보기`;
   const likeMessage = `좋아요 ${likeNum}개`;
+  const textMessage = '댓글 달기...';
   const LikeClickHandler = () => {
     if (like) {
       setLikeNum(likeNum - 1);
@@ -165,13 +188,16 @@ const FeedItem = (input) => {
             <Comment
               author={comment.author}
               content={comment.content}
-              key={comment.commenetId}
+              key={comment.commentId}
             />
           );
         })}
       </style.Comments>
       <style.Time>{excuteTime(data.createdAt)}</style.Time>
-      <style.InputComment>입력 창</style.InputComment>
+      <style.InputComment>
+        <style.TextArea placeholder={textMessage} />
+        <style.CommentSubmit>게시</style.CommentSubmit>
+      </style.InputComment>
     </style.FeedItem>
   );
 };
