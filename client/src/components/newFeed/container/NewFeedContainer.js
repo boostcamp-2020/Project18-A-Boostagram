@@ -2,10 +2,10 @@ import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import InputText from '@newFeed/presentational/InputText';
 import InputFile from '@newFeed/presentational/InputFile';
-import InputTag from '@newFeed/presentational/InputTag';
 import DisplayImg from '@newFeed/presentational/DisplayImg';
 import ImgNav from '@newFeed/presentational/ImgNav';
 import SubmitButton from '@newFeed/presentational/SubmitButton';
+import Profile from '@newFeed/presentational/Profile';
 import pathURL from '@constants/path';
 import PropTypes from 'prop-types';
 
@@ -161,8 +161,8 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
         <ImgNav imgIndex={state.selectedIndex} imgs={state.files} />
       </style.LeftBox>
       <style.RightBox>
+        <Profile />
         <InputText state={state} handleChange={handleChange} />
-        <InputTag />
         <SubmitButton handleSubmit={handleSubmit} />
       </style.RightBox>
     </style.NewFeedContainer>
