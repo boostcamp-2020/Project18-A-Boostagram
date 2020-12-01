@@ -1,3 +1,5 @@
 DB_PATH=
 accessKey=
 secretKey=
+ncloud=
+region=
