@@ -21,7 +21,7 @@ style.DisplayImg = styled.img`
 `;
 style.ArrowContainer = styled.div`
   width: 100%;
-  position: relative;
+  position: absolute;
   top: 42%;
   & > button {
     outline: none;
@@ -42,6 +42,7 @@ const DisplayImg = (props) => {
   const { feedImgs, hover, handleImg, imgIndex = 0 } = props;
   return (
     <style.DisplayImgContainer hover={hover}>
+      {feedImgs.length !== 0 && <style.DisplayImg src={feedImgs[imgIndex]} />}
       <style.ArrowContainer>
         {imgIndex !== 0 && (
           <button onClick={handleImg} type="button">
@@ -54,7 +55,6 @@ const DisplayImg = (props) => {
           </style.RightArrow>
         )}
       </style.ArrowContainer>
-      {feedImgs.length !== 0 && <style.DisplayImg src={feedImgs[imgIndex]} />}
     </style.DisplayImgContainer>
   );
 };
