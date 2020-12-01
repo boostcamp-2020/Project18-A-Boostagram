@@ -1,14 +1,17 @@
 import mongoose from 'mongoose';
 
-const author = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
+const author = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    name: String,
+    userName: String,
+    profileImg: String,
   },
-  name: String,
-  userName: String,
-  profileImg: String,
-});
+  { _id: false },
+);
 
 export interface Iauthor {
   userId: mongoose.Schema.Types.ObjectId;
