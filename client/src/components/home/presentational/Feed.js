@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import dummy from '@feedExplore/dummy';
+import FeedItem from '@home/presentational/FeedItem';
 
 const style = {};
 
@@ -8,7 +10,10 @@ style.Feed = styled.div``;
 const Feed = () => {
   return (
     <style.Feed>
-      <div>여기는 피드 자리</div>
+      {dummy.map((data) => {
+        // eslint-disable-next-line no-underscore-dangle
+        return <FeedItem key={data._ID} data={data} />;
+      })}
     </style.Feed>
   );
 };
