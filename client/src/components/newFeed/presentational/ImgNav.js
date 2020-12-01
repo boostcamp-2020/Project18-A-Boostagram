@@ -12,8 +12,7 @@ style.NavBar = styled.ul`
   overflow: hidden;
 `;
 style.NavItem = styled.li`
-  background-color: ${(props) =>
-    props.active ? 'white' : props.theme.color.background};
+  background-color: ${(props) => (props.active ? 'pink' : 'black')};
   width: 6px;
   height: 6px;
   border-radius: 6px;
