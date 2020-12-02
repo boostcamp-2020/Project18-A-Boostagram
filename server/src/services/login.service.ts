@@ -1,5 +1,8 @@
+import dotenv from 'dotenv';
 import request from 'request';
 import UserModel from '../models/user.model';
+
+dotenv.config();
 
 const { CLIENT_ID, CLIENT_SECRET } = process.env;
 const TOKEN_URL = 'https://github.com/login/oauth/access_token';
@@ -18,7 +21,9 @@ export const getToken = (code: any): any => {
   };
   return new Promise((resolve, reject) =>
     request.post(options, (err, res, body) => {
-      if (err) reject(err);
+      if (err || body.error === 'Not Found') {
+        reject(new Error('fail get token'));
+      }
       resolve(body.access_token);
     }),
   );
