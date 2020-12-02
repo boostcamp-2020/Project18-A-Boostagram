@@ -18,32 +18,24 @@ const HomeContainer = () => {
   const [loading, setLoading] = useState(false);
   // const user = useContext(userContext);
   const userId = '5fc73c8d690808276cab1a88';
-  console.log('1');
   const getData = () => {
     const url = pathURL.IP + pathURL.API_HOME_FEED + userId;
-    console.log(url);
     const option = {
       mode: 'cors',
       method: 'GET',
     };
-    console.log('2');
     async function fetchUrl() {
       const response = await fetch(url, option);
       const json = await response.json();
-      console.log('2.5');
       setData(json);
       setLoading(true);
     }
     useEffect(() => {
-      console.log('?');
       fetchUrl();
     }, []);
   };
-  console.log('3');
   getData();
-  console.log('4');
   if (loading) {
-    console.log(loading);
     return (
       <style.HomeContainer>
         <Contents data={data} />
@@ -51,7 +43,6 @@ const HomeContainer = () => {
       </style.HomeContainer>
     );
   }
-  console.log('!');
   return <>loading...</>;
 };
 
