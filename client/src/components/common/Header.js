@@ -80,7 +80,7 @@ const Header = ({ handleModal }) => (
         <style.NavigationItem to={pathURI.HOME}>
           <icon.Noti />
         </style.NavigationItem>
-        <style.NavigationItem to={pathURI.HOME}>
+        <style.NavigationItem to={pathURI.PROFILE}>
           <icon.Profile />
         </style.NavigationItem>
       </style.NavigationBar>

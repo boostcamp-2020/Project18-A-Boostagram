@@ -46,6 +46,7 @@ module.exports = {
       '@home': path.resolve(__dirname, 'src/components/home/'),
       '@newFeed': path.resolve(__dirname, 'src/components/newFeed/'),
       '@feedExplore': path.resolve(__dirname, 'src/components/feedExplore/'),
+      '@profile': path.resolve(__dirname, 'src/components/profile/'),
       '@constants': path.resolve(__dirname, 'src/constants/'),
     },
   },
