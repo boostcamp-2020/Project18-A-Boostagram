@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
+import tokenGenerator from '../passport/token.generator';
 import {
   getToken,
   getUserData,
@@ -28,17 +29,18 @@ loginController.gitCallback = async (req, res) => {
   const parsedUserData = JSON.parse(userData);
   const { login: userName, avatar_url: profileImg } = parsedUserData;
 
-  const user = await findUser(userName);
+  let user = await findUser(userName);
   if (user === null) {
     await createUser(userName, profileImg);
-  } else {
-    res.cookie('name', user.name, { maxAge: MAX_AGE });
+    user = await findUser(userName);
   }
-  // todo: user._id -> make jwt
 
+  const jwt = tokenGenerator({ id: user._id });
+
+  res.cookie('name', user.name, { maxAge: MAX_AGE });
   res.cookie('profileImg', profileImg, { maxAge: MAX_AGE, encode: String });
   res.cookie('userName', userName, { maxAge: MAX_AGE });
-  res.cookie('accessToken', accessToken, { maxAge: MAX_AGE });
+  res.cookie('jwt', jwt, { maxAge: MAX_AGE });
   res.redirect(FRONT_URL);
 };
 
