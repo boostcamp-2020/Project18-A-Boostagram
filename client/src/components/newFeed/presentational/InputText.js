@@ -9,6 +9,7 @@ style.InputTextContainer = styled.textarea`
   margin-bottom: -5px;
   outline: none;
   border: none;
+  padding: 8px;
 `;
 
 function InputText(props) {

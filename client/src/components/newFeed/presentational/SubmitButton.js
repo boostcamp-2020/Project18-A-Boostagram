@@ -8,6 +8,7 @@ style.SubmitContainer = styled.div`
 `;
 style.SubmitButton = styled.button`
   outline: none;
+  margin: 8px;
   border: none;
   color: white;
   background-color: ${(props) => props.theme.color.green};
