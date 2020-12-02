@@ -17,8 +17,8 @@ function InputText(props) {
     <>
       <style.InputTextContainer
         onChange={handleChange}
-        value={state.textOrigin}
-        name="text"
+        value={state.textValue}
+        name="write"
       />
     </>
   );
@@ -27,8 +27,7 @@ function InputText(props) {
 InputText.propTypes = {
   handleChange: PropTypes.func.isRequired,
   state: PropTypes.shape({
-    textOrigin: PropTypes.string,
-    textResult: PropTypes.string,
+    textValue: PropTypes.string,
   }).isRequired,
 };
 

@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import AddIcon from '@constants/add.svg';
 
 const style = {};
 style.InputFileContainer = styled.div`
-  height: 24px;
-  position: relative;
-`;
-style.InputFileUI = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 60px;
+  height: 60px;
   position: absolute;
-  background-color: skyblue;
-  font-size: 14px;
-  padding: 0px 14px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  &:hover {
+    background-image: url(${AddIcon});
+    background-repeat: no-repeat;
+  }
 `;
 style.InputFileComponent = styled.input`
   opacity: 0;
@@ -23,17 +24,17 @@ style.InputFileComponent = styled.input`
 `;
 
 const InputFile = (props) => {
-  const { handleChange } = props;
+  const { handleChange, handleHover } = props;
   return (
-    <style.InputFileContainer>
-      <style.InputFileUI>
-        Attach files by dragging &amp; dropping, selecting or pasting theme.
-      </style.InputFileUI>
+    <style.InputFileContainer
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+    >
       <style.InputFileComponent
         type="file"
         multiple
         onChange={handleChange}
-        name="file"
+        name="upload"
         accept="image/*"
       />
     </style.InputFileContainer>
@@ -42,6 +43,7 @@ const InputFile = (props) => {
 
 InputFile.propTypes = {
   handleChange: PropTypes.func.isRequired,
+  handleHover: PropTypes.func.isRequired,
 };
 
 export default InputFile;
