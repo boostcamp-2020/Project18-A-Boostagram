@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UserContext from '../context/user';
 
 const handleButton = () => {
   fetch('http://localhost:3000/login/github')
@@ -9,6 +10,8 @@ const handleButton = () => {
 };
 
 const AouthTest = () => {
+  const { login, setLogin } = useContext(UserContext);
+  console.log(login); // todo: history
   return (
     <div>
       <button type="button" onClick={handleButton}>
