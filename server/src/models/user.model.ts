@@ -33,4 +33,29 @@ const userSchema = new mongoose.Schema({
   notiContents,
 });
 
-export default mongoose.model('User', userSchema);
+userSchema.methods.createUser = async function createUser() {
+  const result = await mongoose
+    .model('User')
+    .create({ userName: this.userName, profileImg: this.profileImg });
+  return result;
+};
+
+userSchema.methods.findUserName = async function findUserName() {
+  const result = await mongoose
+    .model('User')
+    .findOne({ userName: this.userName });
+  return result;
+};
+
+export interface IUser extends mongoose.Document {
+  name?: string;
+  userName: string;
+  email?: string;
+  password?: string;
+  profileImg?: string;
+
+  createUser: () => any;
+  findUserName: () => any;
+}
+
+export default mongoose.model<IUser>('User', userSchema);
