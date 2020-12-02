@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
@@ -7,6 +7,7 @@ import HomeContainer from '@home/container/HomeContainer';
 import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import pathURI from '@constants/path';
+import AouthTest from './AouthTest';
 
 const style = {};
 
@@ -50,6 +51,10 @@ const App = () => {
               path={pathURI.EXPLORE}
               component={FeedExploreContainer}
             />
+            <Route exact path="/test" component={AouthTest} />
+            <Route path="*">
+              <Redirect to="/" />
+            </Route>
           </Switch>
         </style.RouteWrapper>
       </style.Contents>
