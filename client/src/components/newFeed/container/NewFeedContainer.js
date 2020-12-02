@@ -80,6 +80,10 @@ const reducer = (state, action) => {
 
 const NewFeedContainer = ({ modalActive, handleModal }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [hover, setHover] = useState(false);
+
+  const handleHover = () => setHover(!hover);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === actionType.UPLOAD) {
@@ -139,9 +143,6 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
       dispatch({ type: actionType.SELECT_BEFORE });
     }
   };
-
-  const [hover, setHover] = useState(false);
-  const handleHover = () => setHover(!hover);
 
   if (!modalActive && JSON.stringify(state) !== JSON.stringify(initialState)) {
     dispatch({ type: actionType.RESET });
