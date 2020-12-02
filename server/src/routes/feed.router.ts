@@ -7,4 +7,6 @@ router.post('/', feedController.create);
 
 router.get('/explore', feedController.explore);
 
+router.get('/following/:userid', feedController.following);
+
 export default router;
