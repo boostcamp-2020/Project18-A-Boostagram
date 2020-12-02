@@ -181,9 +181,8 @@ const FeedItem = (input) => {
       <style.Comments>
         {comments.map((comment, index) => {
           if (index >= 2) {
-            return;
+            return <></>;
           }
-          // eslint-disable-next-line consistent-return
           return (
             <Comment
               author={comment.author}

@@ -11,7 +11,6 @@ const Feed = () => {
   return (
     <style.Feed>
       {dummy.map((data) => {
-        // eslint-disable-next-line no-underscore-dangle
         return <FeedItem key={data._ID} data={data} />;
       })}
     </style.Feed>

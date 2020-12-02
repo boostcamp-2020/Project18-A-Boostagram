@@ -7,35 +7,21 @@ interface callback {
 const feedController: callback = {};
 
 feedController.create = async (req: Request, res: Response) => {
-  const params = {
-    author: undefined,
-    content: req.body.content,
-    location: req.body.location,
-    like: undefined,
-    feedImg: undefined,
-    comments: undefined,
-  };
+  const { author, feedImg } = req.body;
 
-  if (req.body.author) params.author = JSON.parse(req.body.author);
-  else return res.status(400).end();
+  if (!(author && feedImg.length !== 0)) {
+    return res.status(400).end();
+  }
+  const success = await create(req.body);
+  if (success) return res.status(201).json({ messege: 'success' });
 
-  if (req.body.feedImg) params.feedImg = JSON.parse(req.body.feedImg);
-  else return res.status(400).end();
-
-  if (req.body.like) params.like = JSON.parse(req.body.like);
-
-  if (req.body.comments) params.comments = JSON.parse(req.body.comments);
-
-  const success = await create(params);
-  if (success) return res.status(201).end();
-
-  return res.status(400).end();
+  return res.status(500).end();
 };
 
 feedController.explore = async (req: Request, res: Response) => {
   const result = await explore();
-  if (result) return res.status(201).json(result).end();
-  return res.status(400).end();
+  if (result) return res.status(200).json(result);
+  return res.status(500).end();
 };
 
 export default feedController;

@@ -11,8 +11,8 @@ router.post('/', (req, res) => {
     secretKey = '',
     ncloud = '',
     region = '',
+    bucketName = '',
   } = process.env;
-  const bucketName = 'boostagram';
   const endpoint = new AWS.Endpoint(ncloud);
   const localFilePath = path.join(__dirname, '../../uploads/');
 

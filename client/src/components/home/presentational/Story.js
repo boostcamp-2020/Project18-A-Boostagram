@@ -27,7 +27,6 @@ const Story = () => {
   return (
     <style.Story>
       {dummy.map((data) => {
-        // eslint-disable-next-line no-underscore-dangle
         return <StoryItems key={data._ID} data={data} />;
       })}
     </style.Story>
