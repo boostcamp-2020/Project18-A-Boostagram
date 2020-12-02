@@ -33,4 +33,37 @@ const userSchema = new mongoose.Schema({
   notiContents,
 });
 
-export default mongoose.model('User', userSchema);
+export interface IFollow {
+  userId?: mongoose.Schema.Types.ObjectId;
+  name?: string;
+  userName?: string;
+  profileImg?: string;
+}
+
+export interface InotiOptions {
+  like: string;
+  comment: string;
+  commentLike: string;
+}
+
+export interface InotiContents {
+  userId: mongoose.Schema.Types.ObjectId;
+  profileImg: string;
+  userName: string;
+  notiType: string;
+  date: string;
+}
+
+export interface IUser extends mongoose.Document {
+  name?: string;
+  userName?: string;
+  email?: string;
+  password?: string;
+  profileImg?: string;
+  follow?: Array<IFollow>;
+  follower?: Array<IFollow>;
+  notiOptions?: InotiOptions;
+  notiContents?: InotiContents;
+}
+
+export default mongoose.model<IUser>('User', userSchema);
