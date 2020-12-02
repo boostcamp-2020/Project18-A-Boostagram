@@ -1,14 +1,24 @@
 import mongoose from 'mongoose';
 
-const author = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
+const author = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    name: String,
+    userName: String,
+    profileImg: String,
   },
-  name: String,
-  userName: String,
-  profileImg: String,
-});
+  { _id: false },
+);
+
+export interface Iauthor {
+  userId: mongoose.Schema.Types.ObjectId;
+  name: string;
+  userName: string;
+  profileImg: string;
+}
 
 const comment = new mongoose.Schema(
   {
@@ -24,7 +34,15 @@ const comment = new mongoose.Schema(
   { timestamps: true },
 );
 
-const FeedSchema = new mongoose.Schema(
+export interface Icomment {
+  _id: mongoose.Schema.Types.ObjectId;
+  parentId: mongoose.Schema.Types.ObjectId;
+  author: Iauthor;
+  content: string;
+  like: Array<Iauthor>;
+}
+
+const Feed = new mongoose.Schema(
   {
     author,
     content: String,
@@ -36,18 +54,26 @@ const FeedSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-FeedSchema.methods.createFeed = async function createFeed() {
-  try {
-    const result = await mongoose.model('Feed').create(this);
-    return result;
-  } catch (err) {
-    return false;
-  }
+Feed.methods.createFeed = async function createFeed() {
+  const result = await mongoose.model('Feed').create(this);
+  return result;
 };
 
-type boolFunc = () => boolean;
-interface FeedInterface extends mongoose.Document {
-  createFeed: boolFunc;
+Feed.methods.exploreFeed = async function exploreFeed() {
+  const result = await mongoose.model('Feed').find();
+  return result;
+};
+
+export interface IFeed extends mongoose.Document {
+  author: Iauthor;
+  content?: string;
+  location?: string;
+  like?: Array<Iauthor>;
+  feedImg: Array<string>;
+  comments?: Array<Icomment>;
+
+  createFeed: () => boolean;
+  exploreFeed: () => Array<IFeed>;
 }
 
-export = mongoose.model<FeedInterface>('Feed', FeedSchema);
+export default mongoose.model<IFeed>('Feed', Feed);
