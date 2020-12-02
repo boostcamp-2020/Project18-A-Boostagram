@@ -47,6 +47,7 @@ module.exports = {
       '@newFeed': path.resolve(__dirname, 'src/components/newFeed/'),
       '@feedExplore': path.resolve(__dirname, 'src/components/feedExplore/'),
       '@constants': path.resolve(__dirname, 'src/constants/'),
+      '@context': path.resolve(__dirname, 'src/context/'),
     },
   },
   devtool: 'inline-source-map',

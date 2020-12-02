@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import UserContext from '@context/user';
 import styled from 'styled-components';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
@@ -9,6 +10,11 @@ import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import pathURI from '@constants/path';
 import AouthTest from './AouthTest';
 
+const initLogin = {
+  jwt: '',
+  userName: '',
+  profileImg: '',
+};
 const style = {};
 
 style.RouteWrapper = styled.div`
@@ -35,6 +41,8 @@ style.ModalBackground = styled.div`
 
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
+  const [login, setLogin] = useState(initLogin);
+  console.log(document.cookie);
   const handleModal = () => setModalActive(!modalActive);
   return (
     <>
@@ -44,18 +52,20 @@ const App = () => {
       <Header handleModal={handleModal} />
       <style.Contents>
         <style.RouteWrapper>
-          <Switch>
-            <Route exact path={pathURI.HOME} component={HomeContainer} />
-            <Route
-              exact
-              path={pathURI.EXPLORE}
-              component={FeedExploreContainer}
-            />
-            <Route exact path="/test" component={AouthTest} />
-            <Route path="*">
-              <Redirect to="/" />
-            </Route>
-          </Switch>
+          <UserContext.Provider value={(login, setLogin)}>
+            <Switch>
+              <Route exact path={pathURI.HOME} component={HomeContainer} />
+              <Route
+                exact
+                path={pathURI.EXPLORE}
+                component={FeedExploreContainer}
+              />
+              <Route exact path="/test" component={AouthTest} />
+              <Route path="*">
+                <Redirect to="/" />
+              </Route>
+            </Switch>
+          </UserContext.Provider>
         </style.RouteWrapper>
       </style.Contents>
     </>
