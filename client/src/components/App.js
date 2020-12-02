@@ -12,6 +12,7 @@ import AouthTest from './AouthTest';
 
 const initLogin = {
   jwt: '',
+  name: '',
   userName: '',
   profileImg: '',
 };
@@ -39,11 +40,36 @@ style.ModalBackground = styled.div`
   opacity: 50%;
 `;
 
+const extractCookie = (login, setLogin, cookies) => {
+  const obj = {};
+
+  cookies.forEach((cookie) => {
+    const [key, val] = cookie.split('=');
+    obj[key] = val;
+    if (key !== 'jwt') {
+      document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+    }
+  });
+  setLogin({
+    ...login,
+    ...obj,
+  });
+};
+
+const handleLogin = (login, setLogin) => {
+  const cookies = document.cookie.split('; ');
+  if (cookies.length > 1) {
+    extractCookie(login, setLogin, cookies);
+  }
+};
+
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
   const [login, setLogin] = useState(initLogin);
-  console.log(document.cookie);
   const handleModal = () => setModalActive(!modalActive);
+
+  handleLogin(login, setLogin);
+
   return (
     <>
       <GlobalStyle />
