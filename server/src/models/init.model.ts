@@ -37,9 +37,9 @@ function seedData(): void {
         'https://ca.slack-edge.com/T019JFET9H7-U019PN65926-7d7d0974a7f9-512',
     },
     {
-      name: 'HyoJoon',
-      userName: 'chahtk',
-      email: 'chahtk@gmail.com',
+      name: 'hyju',
+      userName: 'chahtk1',
+      email: 'hello@wolrd',
       password: '1q2w3e4r!',
       profileImg:
         'https://ca.slack-edge.com/T019JFET9H7-U01AE19CWUQ-ccf648c8636a-512',
