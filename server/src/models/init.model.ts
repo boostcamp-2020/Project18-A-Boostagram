@@ -124,7 +124,7 @@ function seedData(): void {
 function connectCollections(): void {
   connectMongoose();
   mongoose.connection.on('disconnected', connectMongoose);
-  seedData();
+  // seedData();
 }
 
 export default connectCollections;

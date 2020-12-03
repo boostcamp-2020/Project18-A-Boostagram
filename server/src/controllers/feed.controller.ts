@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { create, explore, following } from '../services/feed.service';
+import User from '../models/user.model';
 
 interface callback {
   [key: string]: (req: Request, res: Response) => void;
@@ -27,9 +28,7 @@ feedController.explore = async (req: Request, res: Response) => {
 
 feedController.following = async (req: Request, res: Response) => {
   const { userid } = req.params;
-  const user = await mongoose
-    .model('User')
-    .findOne({ email: 'rlaqudrnr810@gmail.com' });
+  const user = await User.findOne({ email: 'rlaqudrnr810@gmail.com' });
   // const user = await mongoose
   //   .model('User')
   //   .findOne({ _id: userid });
