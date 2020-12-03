@@ -32,13 +32,11 @@ style.UserProfileImg = styled.img`
 
 style.feedImg = styled.img`
   width: 100%;
-  height: 100%;
   position: relative;
 `;
 
 style.feedImgContainer = styled.div`
   width: 100%;
-  height: 613.56px;
 `;
 
 style.Icons = styled.div`
@@ -115,6 +113,7 @@ style.TextArea = styled.textarea`
   margin-right: 10px;
   border: 0;
   outline: none;
+  resize: none;
 `;
 
 style.CommentSubmit = styled.div`

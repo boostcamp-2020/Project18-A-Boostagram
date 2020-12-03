@@ -7,13 +7,15 @@ const style = {};
 style.Side = styled.div`
   display: flex;
   width: 293px;
-  margin-left: auto;
-  margin-top: 30px;
+  position: fixed;
+  right: 150px;
+  top: 100px;
 `;
 
 style.ProfileImg = styled.img`
   width: 56px;
   height: 56px;
+  border-radius: 70%;
   cursor: pointer;
 `;
 style.User = styled.div`
