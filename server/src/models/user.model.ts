@@ -33,6 +33,20 @@ const userSchema = new mongoose.Schema({
   notiContents,
 });
 
+userSchema.methods.createUser = async function createUser() {
+  const result = await mongoose
+    .model('User')
+    .create({ userName: this.userName, profileImg: this.profileImg });
+  return result;
+};
+
+userSchema.methods.findUserName = async function findUserName() {
+  const result = await mongoose
+    .model('User')
+    .findOne({ userName: this.userName });
+  return result;
+};
+
 export interface IFollow {
   userId?: mongoose.Schema.Types.ObjectId;
   name?: string;
@@ -56,7 +70,7 @@ export interface InotiContents {
 
 export interface IUser extends mongoose.Document {
   name?: string;
-  userName?: string;
+  userName: string;
   email?: string;
   password?: string;
   profileImg?: string;
@@ -64,6 +78,8 @@ export interface IUser extends mongoose.Document {
   follower?: Array<IFollow>;
   notiOptions?: InotiOptions;
   notiContents?: InotiContents;
+  createUser: () => any;
+  findUserName: () => any;
 }
 
 export default mongoose.model<IUser>('User', userSchema);
