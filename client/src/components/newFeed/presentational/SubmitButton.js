@@ -8,7 +8,7 @@ style.SubmitContainer = styled.div`
 `;
 style.SubmitButton = styled.button`
   outline: none;
-  margin: 8px;
+  margin: 30px 18px;
   border: none;
   color: white;
   background-color: ${(props) => props.theme.color.green};
@@ -16,6 +16,9 @@ style.SubmitButton = styled.button`
   height: 30px;
   border-radius: 5px;
   float: right;
+  &:hover {
+    background-color: ${(props) => props.theme.color.deepGreen};
+  }
 `;
 const SubmitButton = (props) => {
   const { handleSubmit } = props;
