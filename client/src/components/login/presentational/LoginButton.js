@@ -16,6 +16,9 @@ style.LoginButton = styled.button`
   padding-top: 4px;
   padding-left: 20px;
   margin: 80px auto;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 style.Text = styled.div`
   margin-top: 2px;
