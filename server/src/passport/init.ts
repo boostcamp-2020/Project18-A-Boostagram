@@ -10,12 +10,6 @@ const initPassport = (): any => {
     secretOrKey: process.env.JWT_SECRET,
   };
 
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-  passport.deserializeUser((user, done) => {
-    done(null, user);
-  });
   passport.use(
     new JWTStrategy(JWTOption, (payload, done) => {
       const { id } = payload;
