@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FeedList from '@feedExplore/presentational/FeedList';
 import pathURL from '@constants/path';
-// import dummy from '../dummy';
 
 const style = {};
 
