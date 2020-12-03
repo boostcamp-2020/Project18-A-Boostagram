@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import { create, explore, following } from '../services/feed.service';
 import User from '../models/user.model';
 
@@ -10,6 +9,10 @@ const feedController: callback = {};
 
 feedController.create = async (req: Request, res: Response) => {
   const { author, feedImg } = req.body;
+  const { user } = req;
+
+  const stringUser = JSON.stringify(user);
+  author.userId = JSON.parse(stringUser).id;
 
   if (!(author && feedImg.length !== 0)) {
     return res.status(400).end();
@@ -27,6 +30,7 @@ feedController.explore = async (req: Request, res: Response) => {
 };
 
 feedController.following = async (req: Request, res: Response) => {
+  // todo: userid 변수명 수정
   const { userid } = req.params;
   const user = await User.findOne({ _id: userid });
   if (!user) {

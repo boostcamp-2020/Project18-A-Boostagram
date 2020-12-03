@@ -9,7 +9,7 @@ import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
-import AouthTest from './AouthTest';
+import AuthoTest from './login/container/LoginContainer';
 
 const initLogin = {
   jwt: '',
@@ -64,6 +64,10 @@ const handleLogin = (login, setLogin) => {
   }
 };
 
+const compareObject = (objA, objB) => {
+  return JSON.stringify(objA) === JSON.stringify(objB);
+};
+
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
   const [login, setLogin] = useState(initLogin);
@@ -74,30 +78,35 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <style.ModalBackground active={modalActive} onClick={handleModal} />
-      <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
-      <Header handleModal={handleModal} />
-      <style.Contents>
-        <style.RouteWrapper>
-          <UserContext.Provider value={(login, setLogin)}>
-            <Switch>
-              <Route exact path={pathURI.HOME} component={HomeContainer} />
-              <Route
-                exact
-                path={pathURI.EXPLORE}
-                component={FeedExploreContainer}
-              />
-              <Route exact path="/test" component={AouthTest} />
-              <Route exact path={pathURI.PROFILE} component={ProfileContainer} />
-              <Route path="*">
-                <Redirect to="/" />
-              </Route>
-            </Switch>
-          </UserContext.Provider>
-        </style.RouteWrapper>
-      </style.Contents>
+      <UserContext.Provider value={{ login, setLogin }}>
+        <style.ModalBackground active={modalActive} onClick={handleModal} />
+        <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
+        <Header handleModal={handleModal} />
+        <style.Contents>
+          <style.RouteWrapper>
+            {compareObject(login, initLogin) ? (
+              <AuthoTest />
+            ) : (
+              <PrivateRouter />
+            )}
+          </style.RouteWrapper>
+        </style.Contents>
+      </UserContext.Provider>
     </>
   );
 };
+
+function PrivateRouter() {
+  return (
+    <Switch>
+      <Route exact path={pathURI.HOME} component={HomeContainer} />
+      <Route exact path={pathURI.EXPLORE} component={FeedExploreContainer} />
+      <Route exact path={pathURI.PROFILE} component={ProfileContainer} />
+      <Route path="*">
+        <Redirect to="/" />
+      </Route>
+    </Switch>
+  );
+}
 
 export default App;

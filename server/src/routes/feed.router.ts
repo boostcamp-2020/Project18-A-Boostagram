@@ -1,9 +1,10 @@
 import express from 'express';
 import feedController from '../controllers/feed.controller';
+import valdation from '../passport/valaidation';
 
 const router = express.Router();
 
-router.post('/', feedController.create);
+router.post('/', valdation, feedController.create);
 
 router.get('/explore', feedController.explore);
 

@@ -8,11 +8,11 @@ const style = {};
 style.Feed = styled.div``;
 
 const Feed = (input) => {
-  const { data: dummy } = input;
+  const { data: datas } = input;
   return (
     <style.Feed>
-      {dummy.map((data) => {
-        return <FeedItem key={data._ID} data={data} />;
+      {datas.map((data) => {
+        return <FeedItem key={data._id} data={data} />;
       })}
     </style.Feed>
   );
