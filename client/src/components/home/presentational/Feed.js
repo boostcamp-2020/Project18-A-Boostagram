@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import dummy from '@feedExplore/dummy';
+// import dummy from '@feedExplore/dummy';
 import FeedItem from '@home/presentational/FeedItem';
 
 const style = {};
 
 style.Feed = styled.div``;
 
-const Feed = () => {
+const Feed = (input) => {
+  const { data: dummy } = input;
   return (
     <style.Feed>
       {dummy.map((data) => {
