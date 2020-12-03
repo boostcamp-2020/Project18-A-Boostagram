@@ -1,12 +1,12 @@
-import FeedModel, { IFeed } from '../models/feed.model';
-import UserModel, { IUser } from '../models/user.model';
+import FeedModel from '../models/feed.model';
+import UserModel from '../models/user.model';
 
-const getProfile = async (userId: string): Promise<any> => {
-  const user = new UserModel({ userId });
-  const userInfo = await user.findUserById();
+const getProfile = async (userName: string): Promise<any> => {
+  const user = new UserModel({ userName });
+  const userInfo = await user.findUserName();
 
   const feed = new FeedModel();
-  const feeds = await feed.followingFeed([userId]);
+  const feeds = await feed.followingFeed([userInfo._id]);
 
   return { userInfo, feeds };
 };

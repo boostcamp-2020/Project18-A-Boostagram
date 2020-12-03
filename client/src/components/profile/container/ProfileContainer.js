@@ -10,11 +10,11 @@ const style = {};
 style.ProfileContainer = styled.div``;
 
 const ProfileContainer = () => {
-  const userId = '5fc84e31ed1cf4160ca80c18';
+  const userName = 'rlaqudrnr810';
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const getData = () => {
-    const url = pathURL.IP + pathURL.API_PROFILE + userId;
+    const url = pathURL.IP + pathURL.API_PROFILE + userName;
     const option = {
       mode: 'cors',
       method: 'GET',
@@ -33,7 +33,7 @@ const ProfileContainer = () => {
   if (loading) {
     return (
       <style.ProfileContainer>
-        <ProfileInfo userInfo={data.userInfo} />
+        <ProfileInfo data={data} />
         <FeedList datas={data.feeds} />
       </style.ProfileContainer>
     );
