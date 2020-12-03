@@ -10,6 +10,10 @@ const feedController: callback = {};
 
 feedController.create = async (req: Request, res: Response) => {
   const { author, feedImg } = req.body;
+  const { user } = req;
+
+  const stringUser = JSON.stringify(user);
+  author.userId = JSON.parse(stringUser).id;
 
   if (!(author && feedImg.length !== 0)) {
     return res.status(400).end();
