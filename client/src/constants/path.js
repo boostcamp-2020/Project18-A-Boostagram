@@ -6,6 +6,7 @@ const pathURI = {
   EXPLORE: '/explore',
   IMG_UPLOAD: '/image',
   PROFILE: '/profile',
+  API_HOME_FEED: '/feed/following/',
 };
 
 export default pathURI;

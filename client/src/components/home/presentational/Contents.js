@@ -11,11 +11,12 @@ style.Contents = styled.div`
   max-width: 614px;
 `;
 
-const Contents = () => {
+const Contents = (input) => {
+  const { data } = input;
   return (
     <style.Contents>
       <Story />
-      <Feed />
+      <Feed data={data} />
     </style.Contents>
   );
 };

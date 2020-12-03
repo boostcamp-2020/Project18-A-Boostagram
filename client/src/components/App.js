@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import UserContext from '@context/user';
 import styled from 'styled-components';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
@@ -8,7 +9,14 @@ import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
+import AouthTest from './AouthTest';
 
+const initLogin = {
+  jwt: '',
+  name: '',
+  userName: '',
+  profileImg: '',
+};
 const style = {};
 
 style.RouteWrapper = styled.div`
@@ -33,9 +41,36 @@ style.ModalBackground = styled.div`
   opacity: 50%;
 `;
 
+const extractCookie = (login, setLogin, cookies) => {
+  const obj = {};
+
+  cookies.forEach((cookie) => {
+    const [key, val] = cookie.split('=');
+    obj[key] = val;
+    if (key !== 'jwt') {
+      document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+    }
+  });
+  setLogin({
+    ...login,
+    ...obj,
+  });
+};
+
+const handleLogin = (login, setLogin) => {
+  const cookies = document.cookie.split('; ');
+  if (cookies.length > 1) {
+    extractCookie(login, setLogin, cookies);
+  }
+};
+
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
+  const [login, setLogin] = useState(initLogin);
   const handleModal = () => setModalActive(!modalActive);
+
+  handleLogin(login, setLogin);
+
   return (
     <>
       <GlobalStyle />
@@ -44,15 +79,21 @@ const App = () => {
       <Header handleModal={handleModal} />
       <style.Contents>
         <style.RouteWrapper>
-          <Switch>
-            <Route exact path={pathURI.HOME} component={HomeContainer} />
-            <Route
-              exact
-              path={pathURI.EXPLORE}
-              component={FeedExploreContainer}
-            />
-            <Route exact path={pathURI.PROFILE} component={ProfileContainer} />
-          </Switch>
+          <UserContext.Provider value={(login, setLogin)}>
+            <Switch>
+              <Route exact path={pathURI.HOME} component={HomeContainer} />
+              <Route
+                exact
+                path={pathURI.EXPLORE}
+                component={FeedExploreContainer}
+              />
+              <Route exact path="/test" component={AouthTest} />
+              <Route exact path={pathURI.PROFILE} component={ProfileContainer} />
+              <Route path="*">
+                <Redirect to="/" />
+              </Route>
+            </Switch>
+          </UserContext.Provider>
         </style.RouteWrapper>
       </style.Contents>
     </>

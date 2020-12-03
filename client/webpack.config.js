@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    main: './src/index.js',
+    app: ['babel-polyfill', './src/index.js'],
   },
   output: {
     path: path.resolve('./dist'),
@@ -48,6 +48,7 @@ module.exports = {
       '@feedExplore': path.resolve(__dirname, 'src/components/feedExplore/'),
       '@profile': path.resolve(__dirname, 'src/components/profile/'),
       '@constants': path.resolve(__dirname, 'src/constants/'),
+      '@context': path.resolve(__dirname, 'src/context/'),
     },
   },
   devtool: 'inline-source-map',

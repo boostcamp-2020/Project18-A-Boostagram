@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
@@ -6,6 +5,7 @@ import cors from 'cors';
 import multer from 'multer';
 import initDB from './models/init.model';
 import index from './routes/index';
+import initPassport from './passport/init';
 
 dotenv.config();
 
@@ -28,9 +28,11 @@ app.use(logger('dev'));
 app.use(upload.array('file[]'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(initPassport());
 
 app.use('/', index);
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log('listening on port 3000...');
 });
