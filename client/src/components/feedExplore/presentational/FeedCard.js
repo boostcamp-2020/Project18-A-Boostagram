@@ -8,6 +8,7 @@ style.FeedCard = styled.article`
   height: 292.99px;
   width: 292.99px;
   margin-top: 28.01px;
+  margin-right: 14px;
   position: relative;
   display: inline-block;
   cursor: pointer;

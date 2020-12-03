@@ -7,16 +7,15 @@ const style = {};
 style.FeedList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  overflow: auto;
 `;
 
 const FeedList = (input) => {
   const { datas } = input;
   return (
     <style.FeedList>
-      {datas.map((data, index) => {
-        // eslint-disable-next-line react/no-array-index-key
-        return <FeedCard data={data} key={index} />;
+      {datas.map((data) => {
+        return <FeedCard data={data} key={data._id} />;
       })}
     </style.FeedList>
   );
