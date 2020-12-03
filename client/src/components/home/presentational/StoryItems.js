@@ -13,7 +13,7 @@ style.StoryItems = styled.div`
 `;
 
 style.Item = styled.img`
-  width: 90%;
+  width: 100%;
   height: 90%;
   border-radius: 70%;
   overflow: hidden;

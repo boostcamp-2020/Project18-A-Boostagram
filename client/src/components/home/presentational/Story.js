@@ -24,10 +24,15 @@ style.Items = styled.div`
 
 const Story = (input) => {
   const { datas } = input;
+  const user = [];
   return (
     <style.Story>
       {datas.map((data) => {
-        return <StoryItems key={data._ID} data={data} />;
+        if (!user.includes(data.author.userId)) {
+          user.push(data.author.userId);
+          return <StoryItems key={data._ID} data={data} />;
+        }
+        return <></>;
       })}
     </style.Story>
   );
