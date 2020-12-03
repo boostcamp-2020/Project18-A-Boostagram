@@ -81,25 +81,30 @@ style.UserName = styled.div`
   margin-top: 20px;
 `;
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
+  const { userInfo, feeds } = props.data;
   return (
     <style.ProfileInfo>
-      <style.ProfileImg src="https://ca.slack-edge.com/T019JFET9H7-U019PN65926-7d7d0974a7f9-512" />
+      <style.ProfileImg src={userInfo.profileImg} />
       <style.ProfileDetail>
         <style.NameAndSettings>
-          <style.Name>ju_hy__</style.Name>
+          <style.Name>{userInfo.userName}</style.Name>
           <style.ChangeProfile>프로필 편집</style.ChangeProfile>
           <icon.Setting />
         </style.NameAndSettings>
         <style.FeedAndFollow>
           <style.FeedCountTitle>게시물</style.FeedCountTitle>
-          <style.FeedCountDetail>51</style.FeedCountDetail>
+          <style.FeedCountDetail>{feeds.length}</style.FeedCountDetail>
           <style.FollowerTitle>팔로워</style.FollowerTitle>
-          <style.FollowerDetail>34</style.FollowerDetail>
+          <style.FollowerDetail>
+            {userInfo.follower.length}
+          </style.FollowerDetail>
           <style.FollowingTitle>팔로우</style.FollowingTitle>
-          <style.FollowingDetail>28</style.FollowingDetail>
+          <style.FollowingDetail>
+            {userInfo.follow.length}
+          </style.FollowingDetail>
         </style.FeedAndFollow>
-        <style.UserName>JuHyeon-Lee</style.UserName>
+        <style.UserName>{userInfo.name}</style.UserName>
       </style.ProfileDetail>
     </style.ProfileInfo>
   );

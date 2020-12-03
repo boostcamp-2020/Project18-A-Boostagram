@@ -7,6 +7,7 @@ const pathURI = {
   IMG_UPLOAD: '/image',
   PROFILE: '/profile',
   API_HOME_FEED: '/feed/following/',
+  API_PROFILE: '/user/profile/',
   API_EXPLORE: '/feed/explore',
 };
 
