@@ -78,20 +78,20 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <style.ModalBackground active={modalActive} onClick={handleModal} />
-      <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
-      <Header handleModal={handleModal} />
-      <style.Contents>
-        <style.RouteWrapper>
-          <UserContext.Provider value={{ login, setLogin }}>
+      <UserContext.Provider value={{ login, setLogin }}>
+        <style.ModalBackground active={modalActive} onClick={handleModal} />
+        <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
+        <Header handleModal={handleModal} />
+        <style.Contents>
+          <style.RouteWrapper>
             {compareObject(login, initLogin) ? (
               <AuthoTest />
             ) : (
               <PrivateRouter />
             )}
-          </UserContext.Provider>
-        </style.RouteWrapper>
-      </style.Contents>
+          </style.RouteWrapper>
+        </style.Contents>
+      </UserContext.Provider>
     </>
   );
 };
