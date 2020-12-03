@@ -7,6 +7,7 @@ import GlobalStyle from '@style/GlobalStyle';
 import HomeContainer from '@home/container/HomeContainer';
 import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
+import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
 import AouthTest from './AouthTest';
 
@@ -87,6 +88,7 @@ const App = () => {
                 component={FeedExploreContainer}
               />
               <Route exact path="/test" component={AouthTest} />
+              <Route exact path={pathURI.PROFILE} component={ProfileContainer} />
               <Route path="*">
                 <Redirect to="/" />
               </Route>

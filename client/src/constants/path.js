@@ -5,6 +5,7 @@ const pathURI = {
   API_NEWFEED: '/feed',
   EXPLORE: '/explore',
   IMG_UPLOAD: '/image',
+  PROFILE: '/profile',
   API_HOME_FEED: '/feed/following/',
 };
 
