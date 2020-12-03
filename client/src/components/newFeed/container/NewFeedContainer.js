@@ -22,8 +22,8 @@ actionType.SELECT_BEFORE = 'selectBefore';
 style.NewFeedContainer = styled.div`
   display: ${(props) => (props.active ? 'flex' : 'none')};
   background-color: ${(props) => props.theme.color.background};
-  width: 66%;
-  height: 70%;
+  width: 900px;
+  height: 600px;
   z-index: 2;
   background-color: white;
   position: absolute;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const style = {};
 style.InputTextContainer = styled.div`
-  margin: 10px 0;
+  margin: 50px 0;
 `;
 style.InputTextHeader = styled.div`
   margin-left: 15px;

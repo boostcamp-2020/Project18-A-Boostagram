@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 const style = {};
 style.SubmitContainer = styled.div`
   border: none !important;
+  margin: 30px;
 `;
 style.SubmitButton = styled.button`
   outline: none;
-  margin: 30px 18px;
+  margin-right: 26px;
   border: none;
   color: white;
   background-color: ${(props) => props.theme.color.green};
