@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useContext } from 'react';
 import styled from 'styled-components';
 import InputText from '@newFeed/presentational/InputText';
 import InputFile from '@newFeed/presentational/InputFile';
@@ -8,6 +8,7 @@ import SubmitButton from '@newFeed/presentational/SubmitButton';
 import Profile from '@newFeed/presentational/Profile';
 import pathURL from '@constants/path';
 import PropTypes from 'prop-types';
+import UserContext from '@context/user';
 
 const style = {};
 const actionType = {};
@@ -81,6 +82,7 @@ const reducer = (state, action) => {
 const NewFeedContainer = ({ modalActive, handleModal }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [hover, setHover] = useState(false);
+  const { login } = useContext(UserContext);
 
   const handleHover = () => setHover(!hover);
 
@@ -109,16 +111,17 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
     e.preventDefault();
     fetch(pathURL.IP + pathURL.API_NEWFEED, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         feedImg: state.files,
         author: {
-          userId: '5fbbc6c9923dff1727202680',
-          name: 'testName',
-          userName: 'cha',
-          profileImg: 'sample image',
+          jwt: login.jwt,
+          name: login.name,
+          userName: login.userName,
+          profileImg: login.profileImg,
         },
         content: state.textValue,
       }),
