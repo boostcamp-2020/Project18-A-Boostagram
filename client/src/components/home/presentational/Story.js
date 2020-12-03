@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import StoryItems from '@home/presentational/StoryItems';
-import dummy from '@feedExplore/dummy';
 
 const style = {};
 
@@ -23,10 +22,11 @@ style.Items = styled.div`
   height: 66px;
 `;
 
-const Story = () => {
+const Story = (input) => {
+  const { datas } = input;
   return (
     <style.Story>
-      {dummy.map((data) => {
+      {datas.map((data) => {
         return <StoryItems key={data._ID} data={data} />;
       })}
     </style.Story>

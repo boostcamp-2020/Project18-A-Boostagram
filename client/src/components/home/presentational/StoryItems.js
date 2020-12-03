@@ -19,14 +19,14 @@ style.Item = styled.img`
 `;
 
 const StoryItems = (input) => {
-  const { feedImg } = input.data;
+  const { author } = input.data;
   const onClick = () => {
     // todo: 모달창
   };
   return (
     <>
       <style.StoryItems>
-        <style.Item src={feedImg[0]} onClick={onClick} />
+        <style.Item src={author.profileImg} onClick={onClick} />
       </style.StoryItems>
     </>
   );
