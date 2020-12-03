@@ -47,6 +47,11 @@ userSchema.methods.findUserName = async function findUserName() {
   return result;
 };
 
+userSchema.methods.findUserById = async function findUserById() {
+  const result = await mongoose.model('User').findOne({ userId: this.userId });
+  return result;
+};
+
 export interface IFollow {
   userId?: mongoose.Schema.Types.ObjectId;
   name?: string;
@@ -80,6 +85,7 @@ export interface IUser extends mongoose.Document {
   notiContents?: InotiContents;
   createUser: () => any;
   findUserName: () => any;
+  findUserById: () => any;
 }
 
 export default mongoose.model<IUser>('User', userSchema);
