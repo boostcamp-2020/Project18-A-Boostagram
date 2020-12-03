@@ -46,7 +46,7 @@ const extractCookie = (login, setLogin, cookies) => {
 
   cookies.forEach((cookie) => {
     const [key, val] = cookie.split('=');
-    obj[key] = val;
+    obj[key] = val === 'undefined' ? '' : val;
     if (key !== 'jwt') {
       document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
     }

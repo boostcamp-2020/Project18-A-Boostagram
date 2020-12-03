@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import ProfileInfo from '@profile/presentational/ProfileInfo';
 import FeedList from '@feedExplore/presentational/FeedList';
 import pathURL from '@constants/path';
+import UserContext from '@context/user';
 
 const style = {};
 
 style.ProfileContainer = styled.div``;
 
 const ProfileContainer = () => {
-  const userName = 'rlaqudrnr810';
+  const { login } = useContext(UserContext);
+  const { userName } = login;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const getData = () => {
@@ -33,7 +35,7 @@ const ProfileContainer = () => {
     return (
       <style.ProfileContainer>
         <ProfileInfo data={data} />
-        <FeedList datas={data.feeds} />
+        <FeedList datas={data.feeds.reverse()} />
       </style.ProfileContainer>
     );
   }

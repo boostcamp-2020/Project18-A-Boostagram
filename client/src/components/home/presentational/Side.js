@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import UserContext from '@context/user';
 
 const style = {};
 
@@ -35,15 +36,13 @@ style.Name = styled.div`
 `;
 
 const Side = () => {
+  const { login } = useContext(UserContext);
   return (
     <style.Side>
-      <style.ProfileImg
-        draggable="false"
-        src="https://scontent-vie1-1.cdninstagram.com/v/t51.2885-19/44884218_345707102882519_2446069589734326272_n.jpg?_nc_ht=scontent-vie1-1.cdninstagram.com&_nc_ohc=WOYVybNPKzgAX8Ikq-N&oh=a768a8967429e6e82f1bb870567b1088&oe=5FED340F&ig_cache_key=YW5vbnltb3VzX3Byb2ZpbGVfcGlj.2"
-      />
+      <style.ProfileImg draggable="false" src={login.profileImg} />
       <style.User>
-        <style.UserName>k_bk94</style.UserName>
-        <style.Name>김병국</style.Name>
+        <style.UserName>{login.userName}</style.UserName>
+        <style.Name>{login.name}</style.Name>
       </style.User>
     </style.Side>
   );

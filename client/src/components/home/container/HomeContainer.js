@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Side from '@home/presentational/Side';
 import Contents from '@home/presentational/Contents';
 import pathURL from '@constants/path';
+import UserContext from '@context/user';
 
 const style = {};
 
@@ -16,11 +17,11 @@ style.HomeContainer = styled.div`
 const HomeContainer = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const user = useContext(userContext);
+  const { login } = useContext(UserContext);
   // todo: userId -> context userId
-  const userId = '5fc84e31ed1cf4160ca80c18';
+  // const userId = '5fc84e31ed1cf4160ca80c18';
   const getData = () => {
-    const url = pathURL.IP + pathURL.API_HOME_FEED + userId;
+    const url = pathURL.IP + pathURL.API_HOME_FEED + login.userName;
     const option = {
       mode: 'cors',
       method: 'GET',
