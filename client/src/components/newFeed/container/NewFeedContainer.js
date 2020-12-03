@@ -114,11 +114,11 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${login.jwt}`,
       },
       body: JSON.stringify({
         feedImg: state.files,
         author: {
-          jwt: login.jwt,
           name: login.name,
           userName: login.userName,
           profileImg: login.profileImg,
