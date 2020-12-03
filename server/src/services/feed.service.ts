@@ -1,4 +1,5 @@
 import FeedModel, { IFeed } from '../models/feed.model';
+import { IUser } from '../models/user.model';
 
 const create = async (params: IFeed): Promise<boolean> => {
   const feed = new FeedModel(params);
@@ -12,4 +13,17 @@ const explore = async (): Promise<IFeed[]> => {
   return result;
 };
 
-export { create, explore };
+const following = async (params: IUser) => {
+  const { follow: follows } = params;
+  const userFollow: string[] = [];
+  follows?.map((follow) => {
+    if (follow.userId) {
+      userFollow.push(follow.userId.toString());
+    }
+  });
+  const feed = new FeedModel();
+  const result = feed.followingFeed(userFollow);
+  return result;
+};
+
+export { create, explore, following };

@@ -64,6 +64,15 @@ Feed.methods.exploreFeed = async function exploreFeed() {
   return result;
 };
 
+Feed.methods.followingFeed = async function followingFeed(
+  params: Array<string>,
+) {
+  const result = await mongoose
+    .model('Feed')
+    .find({ 'author.userId': { $in: params } });
+  return result;
+};
+
 export interface IFeed extends mongoose.Document {
   author: Iauthor;
   content?: string;
@@ -74,6 +83,7 @@ export interface IFeed extends mongoose.Document {
 
   createFeed: () => boolean;
   exploreFeed: () => Array<IFeed>;
+  followingFeed: (params: Array<string>) => Array<IFeed>;
 }
 
 export default mongoose.model<IFeed>('Feed', Feed);
