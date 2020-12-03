@@ -1,16 +1,23 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import UserContext from '@context/user';
+import { Link } from 'react-router-dom';
+import pathURI from '@constants/path';
 
 const style = {};
 
 style.Side = styled.div`
   display: flex;
-  width: 293px;
+  width: 263;
+  @media only screen and (max-width: 1000px) {
+    display: none;
+  }
   position: fixed;
-  right: 150px;
-  top: 100px;
+  left: 65%;
+  top: 115px;
 `;
+
+style.SideContainer = styled.div``;
 
 style.ProfileImg = styled.img`
   width: 56px;
@@ -37,13 +44,21 @@ style.Name = styled.div`
   margin-left: 12px;
 `;
 
+style.ProfileLink = styled(Link)`
+  text-decoration: none;
+`;
+
 const Side = () => {
   const { login } = useContext(UserContext);
   return (
     <style.Side>
-      <style.ProfileImg draggable="false" src={login.profileImg} />
+      <style.ProfileLink to={pathURI.PROFILE}>
+        <style.ProfileImg draggable="false" src={login.profileImg} />
+      </style.ProfileLink>
       <style.User>
-        <style.UserName>{login.userName}</style.UserName>
+        <style.ProfileLink to={pathURI.PROFILE}>
+          <style.UserName>{login.userName}</style.UserName>
+        </style.ProfileLink>
         <style.Name>{login.name}</style.Name>
       </style.User>
     </style.Side>
