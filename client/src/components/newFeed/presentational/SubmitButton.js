@@ -19,6 +19,7 @@ style.SubmitButton = styled.button`
   float: right;
   &:hover {
     background-color: ${(props) => props.theme.color.deepGreen};
+    cursor: pointer;
   }
 `;
 const SubmitButton = (props) => {
