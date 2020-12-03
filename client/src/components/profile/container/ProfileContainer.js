@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import ProfileInfo from '@profile/presentational/ProfileInfo';
 import FeedList from '@feedExplore/presentational/FeedList';
 import pathURL from '@constants/path';
-// import dummy from '@feedExplore/dummy';
 
 const style = {};
 
