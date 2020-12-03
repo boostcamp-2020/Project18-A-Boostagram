@@ -37,6 +37,7 @@ style.feedImg = styled.img`
 
 style.feedImgContainer = styled.div`
   width: 100%;
+  position: relative;
 `;
 
 style.Icons = styled.div`
@@ -126,6 +127,43 @@ style.CommentSubmit = styled.div`
   margin-right: 15px;
 `;
 
+style.Buttons = styled.div`
+  display: flex;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+`;
+style.PreButton = styled.button`
+  z-index: 1;
+  display: ${(props) => (props.index === 0 ? 'none' : 'block')};
+  opacity: 0.7;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 70%;
+  background-color: #ffffff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+`;
+style.NextButton = styled.button`
+  display: ${(props) => (props.length - 1 === props.index ? 'none' : 'block')};
+  opacity: 0.7;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 70%;
+  background-color: #ffffff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-left: auto;
+  z-index: 1;
+  outline: none;
+`;
+
 const getCommentLength = (comments) => {
   return comments.length;
 };
@@ -166,6 +204,8 @@ const FeedItem = (input) => {
   const moreCommentMessage = `댓글 ${getCommentLength(comments)}개 모두 보기`;
   const likeMessage = `좋아요 ${likeNum}개`;
   const textMessage = '댓글 달기...';
+  const PreClickHandler = () => setImgIndex(imgIndex - 1);
+  const NextClickHandler = () => setImgIndex(imgIndex + 1);
   const LikeClickHandler = () => {
     if (like) {
       setLikeNum(likeNum - 1);
@@ -183,6 +223,22 @@ const FeedItem = (input) => {
         <UserName>{data.author.userName}</UserName>
       </style.UserInfo>
       <style.feedImgContainer>
+        <style.Buttons>
+          <style.PreButton
+            length={data.feedImg.length}
+            index={imgIndex}
+            onClick={PreClickHandler}
+          >
+            {'<'}
+          </style.PreButton>
+          <style.NextButton
+            length={data.feedImg.length}
+            index={imgIndex}
+            onClick={NextClickHandler}
+          >
+            {'>'}
+          </style.NextButton>
+        </style.Buttons>
         <style.feedImg src={data.feedImg[imgIndex]} />
       </style.feedImgContainer>
       <style.Icons>
