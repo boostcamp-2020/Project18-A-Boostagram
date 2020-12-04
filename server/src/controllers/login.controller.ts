@@ -10,11 +10,18 @@ import {
 const {
   NODE_ENV,
   DEPLOY_FRONT_URL = '',
+  DEPLOY_REDIRECT_URL = '',
   CLIENT_ID,
   REDIRECT_URL,
   FRONT_URL = '',
 } = process.env;
-const GIT_URL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}`;
+
+let redirectUri = REDIRECT_URL;
+if (NODE_ENV === 'production') {
+  redirectUri = DEPLOY_REDIRECT_URL;
+}
+
+const GIT_URL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirectUri}`;
 const MAX_AGE = 60000;
 
 interface callback {
