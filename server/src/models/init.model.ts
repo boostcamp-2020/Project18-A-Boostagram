@@ -37,9 +37,9 @@ function seedData(): void {
         'https://ca.slack-edge.com/T019JFET9H7-U019PN65926-7d7d0974a7f9-512',
     },
     {
-      name: 'HyoJoon',
-      userName: 'chahtk',
-      email: 'chahtk@gmail.com',
+      name: 'hyju',
+      userName: 'chahtk1',
+      email: 'hello@wolrd',
       password: '1q2w3e4r!',
       profileImg:
         'https://ca.slack-edge.com/T019JFET9H7-U01AE19CWUQ-ccf648c8636a-512',
@@ -51,6 +51,26 @@ function seedData(): void {
       password: '1q2w3e4r!@',
       profileImg:
         'https://ca.slack-edge.com/T019JFET9H7-U019GGE0086-9b1c9fa14e8b-512',
+      follow: [
+        {
+          userId: '5fbf7104e5213064cc2ffae7',
+          name: '123',
+          userName: '123123',
+          profileImg: '123123123',
+        },
+        {
+          userId: '5fbf7104e5213064cc2ffae8',
+          name: '123',
+          userName: '123123',
+          profileImg: '123123123',
+        },
+        {
+          userId: '5fbf7104e5213064cc2ffae9',
+          name: '123',
+          userName: '123123',
+          profileImg: '123123123',
+        },
+      ],
     },
   ]);
 
@@ -65,6 +85,7 @@ function seedData(): void {
           'https://ca.slack-edge.com/T019JFET9H7-U019PN65926-7d7d0974a7f9-512',
       },
       content: 'yageunjoa',
+      location: '',
       feedImg: [
         'https://avatars0.githubusercontent.com/u/24909656?s=460&u=d41305b6b314f0232605a0f9f293da5f40319199&v=4',
       ],
@@ -78,6 +99,7 @@ function seedData(): void {
           'https://ca.slack-edge.com/T019JFET9H7-U01AE19CWUQ-ccf648c8636a-512',
       },
       content: 'yageunsireo',
+      location: '',
       feedImg: [
         'https://ca.slack-edge.com/T019JFET9H7-U01AE19CWUQ-ccf648c8636a-512',
       ],
@@ -91,6 +113,7 @@ function seedData(): void {
           'https://ca.slack-edge.com/T019JFET9H7-U019GGE0086-9b1c9fa14e8b-512',
       },
       content: 'yageunsireo',
+      location: '',
       feedImg: [
         'https://ca.slack-edge.com/T019JFET9H7-U019GGE0086-9b1c9fa14e8b-512',
       ],
@@ -101,7 +124,7 @@ function seedData(): void {
 function connectCollections(): void {
   connectMongoose();
   mongoose.connection.on('disconnected', connectMongoose);
-  seedData();
+  // seedData();
 }
 
 export default connectCollections;

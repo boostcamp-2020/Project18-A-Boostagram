@@ -34,6 +34,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "cross-env": "^7.0.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",

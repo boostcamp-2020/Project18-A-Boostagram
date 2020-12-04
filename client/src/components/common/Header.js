@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import pathURI from '@constants/path';
 import icon from '@constants/icon';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import UserContext from '@context/user';
 
 const style = {};
 
@@ -9,7 +12,9 @@ style.HeaderContainer = styled.div`
   width: 100%;
   height: 54px;
   border: 1px solid ${(props) => props.theme.color.border};
-  position: absolute;
+  position: fixed;
+  background-color: #ffffff;
+  z-index: 1;
   top: 0;
 `;
 
@@ -40,40 +45,59 @@ style.NavigationBar = styled.div`
   flex: 2;
   display: flex;
   justify-content: flex-end;
-  a:not(:first-child) {
+  *:not(:first-child) {
     margin-left: 22px;
   }
 `;
+style.NavigationItem = styled(Link)``;
+style.newFeedButton = styled.button`
+  outline: none;
+  border: none;
+  background: white;
+  padding: 0;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
-const Header = () => (
-  <style.HeaderContainer>
-    <style.Header>
-      <style.LogoArea href={pathURI.HOME}>
-        <icon.Logo />
-      </style.LogoArea>
-      <style.SearchBar type="text" placeholder="검색" />
-      <style.NavigationBar>
-        <a href={pathURI.HOME}>
-          <icon.Home />
-        </a>
-        <a href={pathURI.NEWFEED}>
-          <icon.NewFeed />
-        </a>
-        <a href={pathURI.HOME}>
-          <icon.Direct />
-        </a>
-        <a href={pathURI.EXPLORE}>
-          <icon.Explore />
-        </a>
-        <a href={pathURI.HOME}>
-          <icon.Noti />
-        </a>
-        <a href={pathURI.HOME}>
-          <icon.Profile />
-        </a>
-      </style.NavigationBar>
-    </style.Header>
-  </style.HeaderContainer>
-);
+const Header = ({ handleModal }) => {
+  const { login } = useContext(UserContext);
+  return (
+    <style.HeaderContainer>
+      <style.Header>
+        <style.LogoArea href={pathURI.HOME}>
+          <icon.Logo />
+        </style.LogoArea>
+        <style.SearchBar type="text" placeholder="검색" />
+        <style.NavigationBar>
+          <style.NavigationItem to={pathURI.HOME}>
+            <icon.Home />
+          </style.NavigationItem>
+          {login?.jwt !== '' && (
+            <style.newFeedButton onClick={handleModal}>
+              <icon.NewFeed />
+            </style.newFeedButton>
+          )}
+          <style.NavigationItem to={pathURI.HOME}>
+            <icon.Direct />
+          </style.NavigationItem>
+          <style.NavigationItem to={pathURI.EXPLORE}>
+            <icon.Explore />
+          </style.NavigationItem>
+          <style.NavigationItem to={pathURI.HOME}>
+            <icon.Noti />
+          </style.NavigationItem>
+          <style.NavigationItem to={pathURI.PROFILE}>
+            <icon.Profile />
+          </style.NavigationItem>
+        </style.NavigationBar>
+      </style.Header>
+    </style.HeaderContainer>
+  );
+};
+
+Header.propTypes = {
+  handleModal: PropTypes.func.isRequired,
+};
 
 export default Header;

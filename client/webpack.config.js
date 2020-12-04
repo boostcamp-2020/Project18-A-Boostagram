@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    main: './src/index.js',
+    app: ['babel-polyfill', './src/index.js'],
   },
   output: {
     path: path.resolve('./dist'),
@@ -35,6 +35,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      favicon: './src/public/favicon.ico',
     }),
     new CleanWebpackPlugin(),
   ],
@@ -43,9 +44,13 @@ module.exports = {
     alias: {
       '@common': path.resolve(__dirname, 'src/components/common/'),
       '@style': path.resolve(__dirname, 'src/components/style/'),
+      '@home': path.resolve(__dirname, 'src/components/home/'),
       '@newFeed': path.resolve(__dirname, 'src/components/newFeed/'),
       '@feedExplore': path.resolve(__dirname, 'src/components/feedExplore/'),
+      '@profile': path.resolve(__dirname, 'src/components/profile/'),
       '@constants': path.resolve(__dirname, 'src/constants/'),
+      '@context': path.resolve(__dirname, 'src/context/'),
+      '@login': path.resolve(__dirname, 'src/components/login/'),
     },
   },
   devtool: 'inline-source-map',

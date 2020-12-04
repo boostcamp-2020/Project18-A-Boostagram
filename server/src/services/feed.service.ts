@@ -1,25 +1,29 @@
-import FeedModel from '../models/feed.model';
+import FeedModel, { IFeed } from '../models/feed.model';
+import { IUser } from '../models/user.model';
 
-interface createParams {
-  feedImg: Array<string>;
-  content: string;
-  location: string;
-  tag: string;
-  author: string;
-}
-type feedServiceType = (params: createParams) => Promise<boolean>;
-interface callback {
-  [key: string]: feedServiceType;
-}
-const feedService: callback = {};
-
-feedService.create = async (params: createParams) => {
-  const doc = new FeedModel(params);
-  const success = await doc.createFeed();
-  if (success) {
-    return true;
-  }
-  return false;
+const create = async (params: IFeed): Promise<boolean> => {
+  const feed = new FeedModel(params);
+  const result = await feed.createFeed();
+  return result;
 };
 
-export default feedService;
+const explore = async (): Promise<IFeed[]> => {
+  const feed = new FeedModel();
+  const result = feed.exploreFeed();
+  return result;
+};
+
+const following = async (params: IUser) => {
+  const { follow: follows } = params;
+  const userFollow: string[] = [];
+  follows?.map((follow) => {
+    if (follow.userId) {
+      userFollow.push(follow.userId.toString());
+    }
+  });
+  const feed = new FeedModel();
+  const result = feed.followingFeed(userFollow);
+  return result;
+};
+
+export { create, explore, following };

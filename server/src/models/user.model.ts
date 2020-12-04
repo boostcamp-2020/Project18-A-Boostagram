@@ -33,4 +33,53 @@ const userSchema = new mongoose.Schema({
   notiContents,
 });
 
-export default mongoose.model('User', userSchema);
+userSchema.methods.createUser = async function createUser() {
+  const result = await mongoose
+    .model('User')
+    .create({ userName: this.userName, profileImg: this.profileImg });
+  return result;
+};
+
+userSchema.methods.findUserName = async function findUserName() {
+  const result = await mongoose
+    .model('User')
+    .findOne({ userName: this.userName });
+  return result;
+};
+
+export interface IFollow {
+  userId?: mongoose.Schema.Types.ObjectId;
+  name?: string;
+  userName?: string;
+  profileImg?: string;
+}
+
+export interface InotiOptions {
+  like: string;
+  comment: string;
+  commentLike: string;
+}
+
+export interface InotiContents {
+  userId: mongoose.Schema.Types.ObjectId;
+  profileImg: string;
+  userName: string;
+  notiType: string;
+  date: string;
+}
+
+export interface IUser extends mongoose.Document {
+  name?: string;
+  userName: string;
+  email?: string;
+  password?: string;
+  profileImg?: string;
+  follow?: Array<IFollow>;
+  follower?: Array<IFollow>;
+  notiOptions?: InotiOptions;
+  notiContents?: InotiContents;
+  createUser: () => any;
+  findUserName: () => any;
+}
+
+export default mongoose.model<IUser>('User', userSchema);

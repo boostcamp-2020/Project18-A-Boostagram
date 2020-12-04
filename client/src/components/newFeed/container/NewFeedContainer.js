@@ -1,49 +1,52 @@
-import React, { useReducer } from 'react';
+import React, { useState, useReducer, useContext } from 'react';
 import styled from 'styled-components';
 import InputText from '@newFeed/presentational/InputText';
 import InputFile from '@newFeed/presentational/InputFile';
-import InputLocation from '@newFeed/presentational/InputLocation';
-import InputTag from '@newFeed/presentational/InputTag';
 import DisplayImg from '@newFeed/presentational/DisplayImg';
+import ImgNav from '@newFeed/presentational/ImgNav';
 import SubmitButton from '@newFeed/presentational/SubmitButton';
+import Profile from '@newFeed/presentational/Profile';
 import pathURL from '@constants/path';
+import PropTypes from 'prop-types';
+import UserContext from '@context/user';
 
 const style = {};
 const actionType = {};
 
+actionType.RESET = 'reset';
 actionType.WRITE = 'write';
 actionType.UPLOAD = 'upload';
+actionType.SELECT_NEXT = 'selectNext';
+actionType.SELECT_BEFORE = 'selectBefore';
 
 style.NewFeedContainer = styled.div`
+  display: ${(props) => (props.active ? 'flex' : 'none')};
   background-color: ${(props) => props.theme.color.background};
-  width: 60%;
-  margin: 0 auto;
-  margin-top: 30px;
+  width: 900px;
+  height: 600px;
+  z-index: 3;
+  background-color: white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 35px;
 
   & > * {
-    border: 1px solid ${(props) => props.theme.color.border};
-    border-radius: 5px;
-    margin-bottom: 20px;
     overflow: hidden;
   }
 `;
+style.LeftBox = styled.div`
+  position: relative;
+  flex: 2;
+`;
+style.RightBox = styled.div`
+  flex: 1;
+`;
 
 const initialState = {
-  textOrigin: '',
-  textResult: '',
+  textValue: '',
   files: [],
-};
-
-const converter = (text) => {
-  const lines = JSON.stringify(text).slice(1, -1).split('\\n');
-  console.log(lines);
-  const markDown = lines.map((line) => {
-    if (line.substring(0, 2) === '# ') {
-      return `<h1>${line.substring(2)}<h1>`;
-    }
-    return line;
-  });
-  console.log(markDown);
+  selectedIndex: 0,
 };
 
 const reducer = (state, action) => {
@@ -51,48 +54,57 @@ const reducer = (state, action) => {
     case actionType.WRITE:
       return {
         ...state,
-        textOrigin: action.value,
+        textValue: action.value,
       };
     case actionType.UPLOAD:
       return {
         ...state,
-        files: [
-          ...state.files,
-          // todo: replace action.value
-          ...action.filesArr,
-        ],
+        files: [...state.files, ...action.filesArr],
+      };
+    case actionType.SELECT_NEXT:
+      return {
+        ...state,
+        selectedIndex: state.selectedIndex + 1,
+      };
+    case actionType.SELECT_BEFORE:
+      return {
+        ...state,
+        selectedIndex: state.selectedIndex - 1,
+      };
+    case actionType.RESET:
+      return {
+        ...initialState,
       };
     default:
       return state;
   }
 };
 
-const NewFeedContainer = () => {
+const NewFeedContainer = ({ modalActive, handleModal }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [hover, setHover] = useState(false);
+  const { login } = useContext(UserContext);
+
+  const handleHover = () => setHover(!hover);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    const filesArr = [];
-    switch (name) {
-      case 'text':
-        dispatch({
-          type: actionType.WRITE,
-          value,
-        });
-        break;
-      case 'file':
-        for (let i = 0; i < files.length; i += 1) {
-          // todo: real img url
-          // filesArr.push(files[i].name);
-          filesArr.push(
-            'https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png',
-          );
-        }
-        dispatch({
-          type: actionType.UPLOAD,
-          filesArr,
-        });
-        break;
-      default:
+    if (name === actionType.UPLOAD) {
+      const data = new FormData();
+      for (let i = 0; i < files.length; i += 1) {
+        data.append('file[]', files[i]);
+      }
+      fetch(`${pathURL.IP}${pathURL.IMG_UPLOAD}`, {
+        method: 'POST',
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          return [...res];
+        })
+        .then((filesArr) => dispatch({ type: name, filesArr }));
+    } else {
+      dispatch({ type: name, value });
     }
   };
 
@@ -100,37 +112,70 @@ const NewFeedContainer = () => {
     e.preventDefault();
     fetch(pathURL.IP + pathURL.API_NEWFEED, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${login.jwt}`,
       },
       body: JSON.stringify({
         feedImg: state.files,
         author: {
-          userId: '5fbbc6c9923dff1727202680',
-          name: 'testName',
-          userName: 'cha',
-          profileImg: 'sample image',
+          name: login.name,
+          userName: login.userName,
+          profileImg: login.profileImg,
         },
-        content: state.textOrigin,
+        content: state.textValue,
       }),
-    }).then((res) => {
-      if (res.status === 201) {
-        return window.alert('success');
-      }
-      return window.alert('이미지를 첨부해주세요.');
-    });
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          return 'SUCCESS';
+        }
+        return alert('이미지를 첨부해주세요.');
+      })
+      .then((result) => {
+        if (result === 'SUCCESS') handleModal();
+      });
   };
 
+  const handleImg = ({ target }) => {
+    const arrow = target.innerHTML;
+    if (arrow === '&gt;') {
+      dispatch({ type: actionType.SELECT_NEXT });
+    }
+    if (arrow === '&lt;') {
+      dispatch({ type: actionType.SELECT_BEFORE });
+    }
+  };
+
+  if (!modalActive && JSON.stringify(state) !== JSON.stringify(initialState)) {
+    dispatch({ type: actionType.RESET });
+  }
+
   return (
-    <style.NewFeedContainer>
-      <DisplayImg feedImgs={state.files} />
-      <InputFile handleChange={handleChange} />
-      <InputText state={state} handleChange={handleChange} />
-      <InputLocation />
-      <InputTag />
-      <SubmitButton handleSubmit={handleSubmit} />
+    <style.NewFeedContainer active={modalActive}>
+      <style.LeftBox>
+        <DisplayImg
+          imgIndex={state.selectedIndex}
+          feedImgs={state.files}
+          hover={hover}
+          handleImg={handleImg}
+        />
+        <InputFile handleChange={handleChange} handleHover={handleHover} />
+        <ImgNav imgIndex={state.selectedIndex} imgs={state.files} />
+      </style.LeftBox>
+      <style.RightBox>
+        <Profile />
+        <InputText state={state} handleChange={handleChange} />
+        <SubmitButton handleSubmit={handleSubmit} />
+      </style.RightBox>
     </style.NewFeedContainer>
   );
+};
+
+NewFeedContainer.propTypes = {
+  modalActive: PropTypes.bool.isRequired,
+  handleModal: PropTypes.func.isRequired,
 };
 
 export default NewFeedContainer;
