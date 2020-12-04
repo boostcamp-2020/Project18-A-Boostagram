@@ -141,6 +141,9 @@ icon.Detail = () => (
     <circle clipRule="evenodd" cx="8" cy="24" fillRule="evenodd" r="4.5" />
     <circle clipRule="evenodd" cx="24" cy="24" fillRule="evenodd" r="4.5" />
     <circle clipRule="evenodd" cx="40" cy="24" fillRule="evenodd" r="4.5" />
+  </svg>
+);
+
 icon.GitLogo = () => (
   <svg
     aria-label="GitLogo"

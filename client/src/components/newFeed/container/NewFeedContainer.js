@@ -24,7 +24,7 @@ style.NewFeedContainer = styled.div`
   background-color: ${(props) => props.theme.color.background};
   width: 900px;
   height: 600px;
-  z-index: 2;
+  z-index: 3;
   background-color: white;
   position: absolute;
   left: 50%;

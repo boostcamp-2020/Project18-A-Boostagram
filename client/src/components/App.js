@@ -40,7 +40,7 @@ style.ModalBackground = styled.div`
   position: fixed;
   top: 0;
   display: ${(props) => (props.active ? 'block' : 'none')};
-  z-index: 1;
+  z-index: 2;
   opacity: 50%;
 `;
 
@@ -83,7 +83,8 @@ const handleRefresh = (login, setLogin) => {
 
   for (let i = 0; i < localStorage.length; i += 1) {
     const key = localStorage.key(i);
-    obj[key] = localStorage.getItem(key);
+    const val = localStorage.getItem(key);
+    obj[key] = val === 'undefined' ? '' : val;
   }
 
   return setLogin({

@@ -4,8 +4,7 @@ import styled from 'styled-components';
 const style = {};
 
 style.StoryItems = styled.div`
-  min-width: 66px;
-  max-width: 66px;
+  width: 66px;
   height: auto;
   margin-left: 10px;
   padding: 0px 4px;
@@ -13,8 +12,8 @@ style.StoryItems = styled.div`
 `;
 
 style.Item = styled.img`
-  width: 100%;
-  height: 90%;
+  width: 66px;
+  height: 66px;
   border-radius: 70%;
   overflow: hidden;
 `;
