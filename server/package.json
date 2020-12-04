@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/app.js",
-    "dev": "nodemon src/app.ts",
-    "build": "tsc -p ."
+    "dev": "cross-env NODE_ENV=develop nodemon src/app.ts",
+    "build": "cross-env NODE_ENV=production tsc -p ."
   },
   "keywords": [],
   "author": "",
