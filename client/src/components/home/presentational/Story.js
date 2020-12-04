@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
 import React from 'react';
 import styled from 'styled-components';
 import StoryItems from '@home/presentational/StoryItems';
@@ -30,9 +32,8 @@ const Story = (input) => {
       {datas.map((data) => {
         if (!user.includes(data.author.userId)) {
           user.push(data.author.userId);
-          return <StoryItems key={data._ID} data={data} />;
+          return <StoryItems key={data.author.userId} data={data} />;
         }
-        return <></>;
       })}
     </style.Story>
   );
