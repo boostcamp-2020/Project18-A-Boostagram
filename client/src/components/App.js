@@ -35,7 +35,7 @@ style.Contents = styled.div`
 
 style.ModalBackground = styled.div`
   background-color: gray;
-  height: 1000px;
+  height: 100%;
   width: 100%;
   position: fixed;
   top: 0;
