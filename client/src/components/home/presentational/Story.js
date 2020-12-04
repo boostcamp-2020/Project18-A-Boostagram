@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import StoryItems from '@home/presentational/StoryItems';
-import dummy from '@feedExplore/dummy';
 
 const style = {};
 
@@ -23,11 +22,17 @@ style.Items = styled.div`
   height: 66px;
 `;
 
-const Story = () => {
+const Story = (input) => {
+  const { datas } = input;
+  const user = [];
   return (
     <style.Story>
-      {dummy.map((data) => {
-        return <StoryItems key={data._ID} data={data} />;
+      {datas.map((data) => {
+        if (!user.includes(data.author.userId)) {
+          user.push(data.author.userId);
+          return <StoryItems key={data._ID} data={data} />;
+        }
+        return <></>;
       })}
     </style.Story>
   );

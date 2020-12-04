@@ -18,8 +18,7 @@ const HomeContainer = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { login } = useContext(UserContext);
-  // todo: userId -> context userId
-  // const userId = '5fc84e31ed1cf4160ca80c18';
+
   const getData = () => {
     const url = pathURL.IP + pathURL.API_HOME_FEED + login.userName;
     const option = {

@@ -30,9 +30,8 @@ feedController.explore = async (req: Request, res: Response) => {
 };
 
 feedController.following = async (req: Request, res: Response) => {
-  // todo: userid 변수명 수정
-  const { userid } = req.params;
-  const user = await User.findOne({ userName: userid });
+  const { userName } = req.params;
+  const user = await User.findOne({ userName });
   if (!user) {
     return res.status(400).end();
   }

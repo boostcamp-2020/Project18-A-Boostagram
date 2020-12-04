@@ -15,7 +15,7 @@ const Contents = (input) => {
   const { data } = input;
   return (
     <style.Contents>
-      <Story />
+      <Story datas={data} />
       <Feed data={data} />
     </style.Contents>
   );
