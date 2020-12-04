@@ -22,15 +22,16 @@ actionType.SELECT_BEFORE = 'selectBefore';
 style.NewFeedContainer = styled.div`
   display: ${(props) => (props.active ? 'flex' : 'none')};
   background-color: ${(props) => props.theme.color.background};
-  width: 80%;
+  width: 900px;
+  height: 600px;
   z-index: 2;
   background-color: white;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  margin-top: 35px;
 
   & > * {
-    border: 1px solid ${(props) => props.theme.color.border};
     overflow: hidden;
   }
 `;

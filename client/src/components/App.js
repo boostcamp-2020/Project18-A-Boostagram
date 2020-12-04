@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
+import ModalContext from '@context/modal';
 import styled from 'styled-components';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
@@ -122,7 +123,9 @@ const App = () => {
                 </Route>
               </>
             ) : (
-              <PrivateRouter />
+              <ModalContext.Provider value={{ modalActive }}>
+                <PrivateRouter />
+              </ModalContext.Provider>
             )}
           </style.RouteWrapper>
         </style.Contents>

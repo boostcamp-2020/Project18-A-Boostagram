@@ -32,13 +32,12 @@ style.UserProfileImg = styled.img`
 
 style.feedImg = styled.img`
   width: 100%;
-  height: 100%;
   position: relative;
 `;
 
 style.feedImgContainer = styled.div`
   width: 100%;
-  height: 613.56px;
+  position: relative;
 `;
 
 style.Icons = styled.div`
@@ -115,6 +114,7 @@ style.TextArea = styled.textarea`
   margin-right: 10px;
   border: 0;
   outline: none;
+  resize: none;
 `;
 
 style.CommentSubmit = styled.div`
@@ -127,13 +127,72 @@ style.CommentSubmit = styled.div`
   margin-right: 15px;
 `;
 
+style.Buttons = styled.div`
+  display: flex;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+`;
+style.PreButton = styled.button`
+  z-index: 1;
+  display: ${(props) => (props.index === 0 ? 'none' : 'block')};
+  opacity: 0.7;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 70%;
+  background-color: #ffffff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+`;
+style.NextButton = styled.button`
+  display: ${(props) => (props.length - 1 === props.index ? 'none' : 'block')};
+  opacity: 0.7;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 70%;
+  background-color: #ffffff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-left: auto;
+  z-index: 1;
+  outline: none;
+`;
+
 const getCommentLength = (comments) => {
   return comments.length;
 };
 
-const excuteTime = (time) => {
-  // todo: 경과 시간 구하기
-  return '7시간 전';
+const excuteTime = (now) => {
+  const sec = 1000;
+  const min = sec * 60;
+  const hour = min * 60;
+  const day = hour * 24;
+  const week = day * 7;
+
+  const time = new Date() - new Date(now);
+
+  if (time < min) {
+    return `${Math.round(time / sec)}초 전`;
+  }
+
+  if (time < hour) {
+    return `${Math.round(time / min)}분 전`;
+  }
+
+  if (time < day) {
+    return `${Math.round(time / hour)}시간 전`;
+  }
+
+  if (time < week) {
+    return `${Math.round(time / day)}일 전`;
+  }
+  return `${Math.round(time / week)}주 전`;
 };
 
 const FeedItem = (input) => {
@@ -145,6 +204,8 @@ const FeedItem = (input) => {
   const moreCommentMessage = `댓글 ${getCommentLength(comments)}개 모두 보기`;
   const likeMessage = `좋아요 ${likeNum}개`;
   const textMessage = '댓글 달기...';
+  const PreClickHandler = () => setImgIndex(imgIndex - 1);
+  const NextClickHandler = () => setImgIndex(imgIndex + 1);
   const LikeClickHandler = () => {
     if (like) {
       setLikeNum(likeNum - 1);
@@ -162,6 +223,22 @@ const FeedItem = (input) => {
         <UserName>{data.author.userName}</UserName>
       </style.UserInfo>
       <style.feedImgContainer>
+        <style.Buttons>
+          <style.PreButton
+            length={data.feedImg.length}
+            index={imgIndex}
+            onClick={PreClickHandler}
+          >
+            {'<'}
+          </style.PreButton>
+          <style.NextButton
+            length={data.feedImg.length}
+            index={imgIndex}
+            onClick={NextClickHandler}
+          >
+            {'>'}
+          </style.NextButton>
+        </style.Buttons>
         <style.feedImg src={data.feedImg[imgIndex]} />
       </style.feedImgContainer>
       <style.Icons>

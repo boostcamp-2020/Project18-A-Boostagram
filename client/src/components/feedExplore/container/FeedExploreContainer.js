@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import FeedList from '@feedExplore/presentational/FeedList';
 import pathURL from '@constants/path';
+import ModalContext from '@context/modal';
 
 const style = {};
 
@@ -11,25 +12,22 @@ style.FeedExploreContainer = styled.div`
 
 const FeedExploreContainer = () => {
   const [data, setData] = useState([]);
+  const { modalActive } = useContext(ModalContext);
   const [loading, setLoading] = useState(false);
-  const getData = () => {
-    const url = pathURL.IP + pathURL.API_EXPLORE;
-    const option = {
-      mode: 'cors',
-      method: 'GET',
-    };
-    async function fetchUrl() {
-      const response = await fetch(url, option);
-      const json = await response.json();
-      setData(json.reverse());
-      setLoading(true);
-    }
-    useEffect(() => {
-      fetchUrl();
-    }, []);
+  const url = pathURL.IP + pathURL.API_EXPLORE;
+  const option = {
+    mode: 'cors',
+    method: 'GET',
   };
-
-  getData();
+  async function fetchUrl() {
+    const response = await fetch(url, option);
+    const json = await response.json();
+    setData(json.reverse());
+  }
+  useEffect(() => {
+    if (!modalActive) fetchUrl();
+    if (!loading) setLoading(true);
+  }, [modalActive]);
 
   if (loading) {
     return (
