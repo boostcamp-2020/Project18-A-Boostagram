@@ -1,5 +1,6 @@
 const pathURI = {
   HOME: '/',
+  LOGIN: '/login',
   NEWFEED: '/newFeed',
   IP: 'http://localhost:3000',
   API_NEWFEED: '/feed',
