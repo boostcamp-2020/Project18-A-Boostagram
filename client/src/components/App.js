@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
+import ModalContext from '@context/modal';
 import styled from 'styled-components';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
@@ -9,7 +10,7 @@ import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
-import AuthoTest from './login/container/LoginContainer';
+import LoginContainer from './login/container/LoginContainer';
 
 const initLogin = {
   jwt: '',
@@ -85,9 +86,11 @@ const App = () => {
         <style.Contents>
           <style.RouteWrapper>
             {compareObject(login, initLogin) ? (
-              <AuthoTest />
+              <LoginContainer />
             ) : (
-              <PrivateRouter />
+              <ModalContext.Provider value={{ modalActive }}>
+                <PrivateRouter />
+              </ModalContext.Provider>
             )}
           </style.RouteWrapper>
         </style.Contents>
