@@ -12,7 +12,9 @@ style.HeaderContainer = styled.div`
   width: 100%;
   height: 54px;
   border: 1px solid ${(props) => props.theme.color.border};
-  position: absolute;
+  position: fixed;
+  background-color: #ffffff;
+  z-index: 1;
   top: 0;
 `;
 
