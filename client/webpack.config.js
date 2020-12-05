@@ -51,6 +51,7 @@ module.exports = {
       '@constants': path.resolve(__dirname, 'src/constants/'),
       '@context': path.resolve(__dirname, 'src/context/'),
       '@login': path.resolve(__dirname, 'src/components/login/'),
+      '@lib': path.resolve(__dirname, 'src/lib/'),
     },
   },
   devtool: 'inline-source-map',
