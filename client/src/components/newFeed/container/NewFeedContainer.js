@@ -134,7 +134,7 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
         if (res.status === 201) {
           return 'SUCCESS';
         }
-        return alert('이미지를 첨부해주세요.');
+        return 'FAILED';
       })
       .then((result) => {
         if (result === 'SUCCESS') handleModal();
