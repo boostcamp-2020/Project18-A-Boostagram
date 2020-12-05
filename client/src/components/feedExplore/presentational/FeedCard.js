@@ -29,6 +29,7 @@ style.ImgBox = styled.img`
   height: 100%;
   display: block;
   opacity: ${(props) => (props.hover ? 0.3 : 1)};
+  object-fit: cover;
 `;
 
 style.Icon = styled.div`
