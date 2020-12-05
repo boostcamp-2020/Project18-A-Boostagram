@@ -9,7 +9,7 @@ style.InputTextContainer = styled.div`
 `;
 style.InputText = styled.textarea`
   height: 94%;
-  width: 91%;
+  width: 89%;
   border: none;
   outline: none;
   padding: 8px 16px;
