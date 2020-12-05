@@ -26,7 +26,7 @@ style.NewFeedContainer = styled.div`
   height: 600px;
   z-index: 3;
   background-color: white;
-  position: absolute;
+  position: fixed;
   left: 50%;
   transform: translateX(-50%);
   margin-top: 35px;
