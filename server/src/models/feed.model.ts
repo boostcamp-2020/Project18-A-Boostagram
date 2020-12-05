@@ -35,11 +35,12 @@ const comment = new mongoose.Schema(
 );
 
 export interface Icomment {
-  _id: mongoose.Schema.Types.ObjectId;
+  _id?: mongoose.Schema.Types.ObjectId;
   parentId: mongoose.Schema.Types.ObjectId;
   author: Iauthor;
   content: string;
-  like: Array<Iauthor>;
+  like?: Array<Iauthor>;
+  feedId?: mongoose.Schema.Types.ObjectId;
 }
 
 const Feed = new mongoose.Schema(
@@ -73,6 +74,22 @@ Feed.methods.followingFeed = async function followingFeed(
   return result;
 };
 
+Feed.methods.createComment = async function createComment(params: Icomment) {
+  const result = await mongoose.model('Feed').updateOne(
+    { _id: params.feedId },
+    {
+      $push: {
+        comments: {
+          parentId: params.parentId,
+          author: params.author,
+          content: params.content,
+        },
+      },
+    },
+  );
+  return result;
+};
+
 export interface IFeed extends mongoose.Document {
   author: Iauthor;
   content?: string;
@@ -84,6 +101,7 @@ export interface IFeed extends mongoose.Document {
   createFeed: () => boolean;
   exploreFeed: () => Array<IFeed>;
   followingFeed: (params: Array<string>) => Array<IFeed>;
+  createComment: (params: Icomment) => boolean;
 }
 
 export default mongoose.model<IFeed>('Feed', Feed);
