@@ -7,8 +7,24 @@ import {
   findUser,
 } from '../services/login.service';
 
-const { CLIENT_ID, REDIRECT_URL, FRONT_URL = '' } = process.env;
-const GIT_URL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}`;
+const {
+  NODE_ENV,
+  CLIENT_ID,
+  REDIRECT_URL,
+  FRONT_URL = '',
+  DEPLOY_FRONT_URL = '',
+  DEPLOY_REDIRECT_URL = '',
+  DEPLOY_CLIENT_ID = '',
+} = process.env;
+
+let redirectUri = REDIRECT_URL;
+let clientId = CLIENT_ID;
+if (NODE_ENV === 'production') {
+  redirectUri = DEPLOY_REDIRECT_URL;
+  clientId = DEPLOY_CLIENT_ID;
+}
+
+const GIT_URL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`;
 const MAX_AGE = 60000;
 
 interface callback {
@@ -41,7 +57,10 @@ loginController.gitCallback = async (req, res) => {
   } catch (err) {
     console.error(err);
   }
-  res.redirect(FRONT_URL);
+  if (NODE_ENV === 'develop') {
+    return res.redirect(FRONT_URL);
+  }
+  return res.redirect(DEPLOY_FRONT_URL);
 };
 
 export default loginController;

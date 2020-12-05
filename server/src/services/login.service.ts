@@ -4,18 +4,30 @@ import UserModel from '../models/user.model';
 
 dotenv.config();
 
-const { CLIENT_ID, CLIENT_SECRET } = process.env;
+const {
+  NODE_ENV,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  DEPLOY_CLIENT_ID,
+  DEPLOY_CLIENT_SECRET,
+} = process.env;
 const TOKEN_URL = 'https://github.com/login/oauth/access_token';
 const USER_URL = 'https://api.github.com/user';
 
+let clientId = CLIENT_ID;
+let clientSecret = CLIENT_SECRET;
+if (NODE_ENV === 'production') {
+  clientId = DEPLOY_CLIENT_ID;
+  clientSecret = DEPLOY_CLIENT_SECRET;
+}
 export const getToken = (code: any): any => {
   const options = {
     uri: TOKEN_URL,
     method: 'POST',
     body: {
       code,
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_id: clientId,
+      client_secret: clientSecret,
     },
     json: true,
   };
