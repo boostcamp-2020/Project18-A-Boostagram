@@ -23,6 +23,7 @@ const ProfileContainer = () => {
     async function fetchUrl() {
       const response = await fetch(url, option);
       const json = await response.json();
+      json.feeds.reverse();
       setData(json);
       setLoading(true);
     }
@@ -35,7 +36,7 @@ const ProfileContainer = () => {
     return (
       <style.ProfileContainer>
         <ProfileInfo data={data} />
-        <FeedList datas={data.feeds.reverse()} />
+        <FeedList datas={data.feeds} />
       </style.ProfileContainer>
     );
   }
