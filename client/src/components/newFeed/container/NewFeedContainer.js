@@ -161,7 +161,11 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
           hover={hover}
           handleImg={handleImg}
         />
-        <InputFile handleChange={handleChange} handleHover={handleHover} />
+        <InputFile
+          handleChange={handleChange}
+          handleHover={handleHover}
+          feedImgs={state.files}
+        />
         <ImgNav imgIndex={state.selectedIndex} imgs={state.files} />
       </style.LeftBox>
       <style.RightBox>
