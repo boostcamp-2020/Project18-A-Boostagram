@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import icon from '@constants/icon';
 import UserName from '@home/presentational/UserName';
 import Comment from '@home/presentational/Comment';
+import UserContext from '@context/user';
+import pathURI from '@constants/path';
 
 const style = {};
 
@@ -117,7 +119,10 @@ style.TextArea = styled.textarea`
   resize: none;
 `;
 
-style.CommentSubmit = styled.div`
+style.CommentSubmit = styled.button`
+  opacity: 1;
+  background: none;
+  border: none;
   cursor: pointer;
   color: #0095f6;
   font-size: 14px;
@@ -125,6 +130,10 @@ style.CommentSubmit = styled.div`
   margin: auto 0;
   margin-left: auto;
   margin-right: 15px;
+  :disabled {
+    cursor: default;
+    opacity: 0.3;
+  }
 `;
 
 style.Buttons = styled.div`
@@ -201,9 +210,11 @@ const FeedItem = (input) => {
   const [likeNum, setLikeNum] = useState(data.like.length);
   const [like, setLike] = useState(false);
   const [comments, setComments] = useState(data.comments);
+  const [feedComment, setComment] = useState('');
   const moreCommentMessage = `댓글 ${getCommentLength(comments)}개 모두 보기`;
   const likeMessage = `좋아요 ${likeNum}개`;
   const textMessage = '댓글 달기...';
+  const { login } = useContext(UserContext);
   const PreClickHandler = () => setImgIndex(imgIndex - 1);
   const NextClickHandler = () => setImgIndex(imgIndex + 1);
   const LikeClickHandler = () => {
@@ -215,7 +226,34 @@ const FeedItem = (input) => {
     setLike(!like);
     // todo: 좋아요 update 현황 fetch
   };
-
+  const setFeedComment = (e) => {
+    setComment(e.target.value);
+  };
+  const CommentSubmitHandler = (e) => {
+    e.preventDefault();
+    const newComment = {
+      author: {
+        name: login.name,
+        userName: login.userName,
+        profileImg: login.profileImg,
+      },
+      content: feedComment,
+      feedId: data._id,
+    };
+    fetch(pathURI.IP + pathURI.API_COMMENT, {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${login.jwt}`,
+      },
+      body: JSON.stringify(newComment),
+    }).then(() => {
+      comments.push(newComment);
+      setComments(comments);
+      setComment('');
+    });
+  };
   return (
     <style.FeedItem>
       <style.UserInfo>
@@ -257,22 +295,33 @@ const FeedItem = (input) => {
       </style.MoreComent>
       <style.Comments>
         {comments.map((comment, index) => {
-          if (index >= 2) {
+          if (index < comments.length - 2) {
             return <></>;
           }
+          const key = index + Math.random().toString(36);
           return (
             <Comment
               author={comment.author}
               content={comment.content}
-              key={comment.commentId}
+              key={key}
             />
           );
         })}
       </style.Comments>
       <style.Time>{excuteTime(data.createdAt)}</style.Time>
       <style.InputComment>
-        <style.TextArea placeholder={textMessage} />
-        <style.CommentSubmit>게시</style.CommentSubmit>
+        <style.TextArea
+          placeholder={textMessage}
+          onChange={setFeedComment}
+          value={feedComment}
+        />
+        <style.CommentSubmit
+          type="submit"
+          onClick={CommentSubmitHandler}
+          disabled={feedComment === ''}
+        >
+          게시
+        </style.CommentSubmit>
       </style.InputComment>
     </style.FeedItem>
   );
