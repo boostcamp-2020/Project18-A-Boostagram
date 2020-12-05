@@ -10,8 +10,9 @@ const style = {};
 style.ProfileContainer = styled.div``;
 
 const ProfileContainer = (props) => {
+  const { login } = useContext(UserContext);
   let userName = props.location.search.split('=')[1];
-  if (!userName) userName = useContext(UserContext).login.userName;
+  if (!userName) userName = login.userName;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const getData = () => {
@@ -24,6 +25,7 @@ const ProfileContainer = (props) => {
       const response = await fetch(url, option);
       const json = await response.json();
       json.feeds.reverse();
+      json.login = login;
       setData(json);
       setLoading(true);
     }
