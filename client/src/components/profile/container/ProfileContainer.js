@@ -9,9 +9,9 @@ const style = {};
 
 style.ProfileContainer = styled.div``;
 
-const ProfileContainer = () => {
-  const { login } = useContext(UserContext);
-  const { userName } = login;
+const ProfileContainer = (props) => {
+  let userName = props.location.search.split('=')[1];
+  if (!userName) userName = useContext(UserContext).login.userName;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const getData = () => {
