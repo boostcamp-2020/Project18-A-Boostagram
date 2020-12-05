@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { create, explore, following } from '../services/feed.service';
 import User from '../models/user.model';
+import getUserId from '../lib/getUserId';
 
 interface callback {
   [key: string]: (req: Request, res: Response) => void;
@@ -11,8 +12,7 @@ feedController.create = async (req: Request, res: Response) => {
   const { author, feedImg } = req.body;
   const { user } = req;
 
-  const stringUser = JSON.stringify(user);
-  author.userId = JSON.parse(stringUser).id;
+  author.userId = getUserId(user);
 
   if (!(author && feedImg.length !== 0)) {
     return res.status(400).end();
