@@ -96,7 +96,6 @@ Feed.methods.addLike = async function addLike(
   user: Iauthor,
   feedId: mongoose.Schema.Types.ObjectId,
 ) {
-  console.log('add');
   const result = await mongoose.model('Feed').updateOne(
     { _id: feedId },
     {
@@ -116,7 +115,6 @@ Feed.methods.deleteLike = async function deleteLike(
   user: Iauthor,
   feedId: mongoose.Schema.Types.ObjectId,
 ) {
-  console.log('delete');
   const result = await mongoose.model('Feed').updateOne(
     { _id: feedId },
     {
