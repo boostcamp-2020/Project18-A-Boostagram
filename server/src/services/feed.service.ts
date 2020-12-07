@@ -1,4 +1,4 @@
-import FeedModel, { IFeed } from '../models/feed.model';
+import FeedModel, { IFeed, Iauthor } from '../models/feed.model';
 import { IUser } from '../models/user.model';
 
 const create = async (params: IFeed): Promise<boolean> => {
@@ -13,7 +13,7 @@ const explore = async (): Promise<IFeed[]> => {
   return result;
 };
 
-const following = async (params: IUser) => {
+const following = async (params: IUser): Promise<IFeed[]> => {
   const { follow: follows } = params;
   const userFollow: string[] = [];
   follows?.map((follow) => {
@@ -26,4 +26,17 @@ const following = async (params: IUser) => {
   return result;
 };
 
-export { create, explore, following };
+const like = async (
+  author: Iauthor,
+  feedId: string,
+  status: number,
+): Promise<boolean> => {
+  const feed = new FeedModel();
+  const result =
+    status === 1
+      ? await feed.addLike(author, feedId)
+      : await feed.deleteLike(author, feedId);
+  return result;
+};
+
+export { create, explore, following, like };

@@ -5,9 +5,8 @@ import validation from '../passport/validation';
 const router = express.Router();
 
 router.post('/', validation, feedController.create);
-
+router.post('/like', validation, feedController.like);
 router.get('/explore', feedController.explore);
-
 router.get('/following/:userName', feedController.following);
 
 export default router;

@@ -22,7 +22,7 @@ const FeedExploreContainer = () => {
   async function fetchUrl() {
     const response = await fetch(url, option);
     const json = await response.json();
-    setData(json.reverse());
+    setData(json);
   }
   useEffect(() => {
     if (!modalActive) fetchUrl();

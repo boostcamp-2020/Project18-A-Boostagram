@@ -1,38 +1,47 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 
 const style = {};
 style.SubmitContainer = styled.div`
-  border: none !important;
-  margin: 30px;
+  margin: 16px 12px;
 `;
 style.SubmitButton = styled.button`
-  outline: none;
-  margin-right: 26px;
+  ${({ disabled }) =>
+    disabled
+      ? css`
+          opacity: 30%;
+        `
+      : css`
+          &:hover {
+            cursor: pointer;
+          }
+        `};
   border: none;
-  color: white;
-  background-color: ${(props) => props.theme.color.green};
-  width: 100px;
+  outline: none;
+  color: ${({ theme }) => theme.color.blue};
+  background-color: inherit;
   height: 30px;
-  border-radius: 5px;
+  font-size: 15px;
   float: right;
-  &:hover {
-    background-color: ${(props) => props.theme.color.deepGreen};
-    cursor: pointer;
-  }
 `;
 const SubmitButton = (props) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, feedImgs } = props;
   return (
     <style.SubmitContainer>
-      <style.SubmitButton onClick={handleSubmit}>Submit</style.SubmitButton>
+      <style.SubmitButton
+        onClick={handleSubmit}
+        disabled={feedImgs.length === 0}
+      >
+        게시
+      </style.SubmitButton>
     </style.SubmitContainer>
   );
 };
 
 SubmitButton.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  feedImgs: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default SubmitButton;

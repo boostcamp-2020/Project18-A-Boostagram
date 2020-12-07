@@ -28,7 +28,7 @@ const HomeContainer = () => {
     async function fetchUrl() {
       const response = await fetch(url, option);
       const json = await response.json();
-      setData(json.reverse());
+      setData(json);
       setLoading(true);
     }
     useEffect(() => {
