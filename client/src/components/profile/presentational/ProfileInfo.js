@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import theme from '@style/Theme';
 import icon from '@constants/icon';
+import pathURI from '@constants/path';
 
 const style = {};
 
@@ -88,6 +89,7 @@ style.FollowBtn = styled.div`
   color: white;
   font-weight: bold;
   padding: 4px 20px;
+  cursor: pointer;
 `;
 
 style.UnfollowBtn = styled.div`
@@ -96,10 +98,11 @@ style.UnfollowBtn = styled.div`
   border-radius: 3px;
   font-weight: bold;
   padding: 4px 20px;
+  cursor: pointer;
 `;
 
-const ProfileInfo = (props) => {
-  const { userInfo, feeds, login } = props.data;
+const ProfileInfo = (input) => {
+  const { userInfo, feeds, login } = input.data;
 
   const checkFollowing = () => {
     let result = false;
@@ -110,11 +113,36 @@ const ProfileInfo = (props) => {
     });
     return result;
   };
-
-  const FollowOrUnfollow = checkFollowing() ? (
-    <style.UnfollowBtn>언팔로우</style.UnfollowBtn>
+  const [followStatus, setFollowState] = useState(checkFollowing());
+  const [followNum, setFollowNumState] = useState(userInfo.follow.length);
+  const [followerNum, setFollowerNumState] = useState(userInfo.follower.length);
+  const clickHandler = () => {
+    const { name, userName, profileImg } = login;
+    const followData = {
+      author: {
+        name,
+        userName,
+        profileImg,
+      },
+      status: followStatus ? 0 : 1,
+    };
+    fetch(pathURI.IP + pathURI.API_FOLLOW + userInfo.userName, {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${login.jwt}`,
+      },
+      body: JSON.stringify(followData),
+    }).then(() => {
+      setFollowerNumState(followStatus ? followerNum - 1 : followerNum + 1);
+      setFollowState(!followStatus);
+    });
+  };
+  const FollowOrUnfollow = followStatus ? (
+    <style.UnfollowBtn onClick={clickHandler}>언팔로우</style.UnfollowBtn>
   ) : (
-    <style.FollowBtn>팔로우</style.FollowBtn>
+    <style.FollowBtn onClick={clickHandler}>팔로우</style.FollowBtn>
   );
 
   return (
@@ -136,13 +164,9 @@ const ProfileInfo = (props) => {
           <style.FeedCountTitle>게시물</style.FeedCountTitle>
           <style.FeedCountDetail>{feeds.length}</style.FeedCountDetail>
           <style.FollowerTitle>팔로워</style.FollowerTitle>
-          <style.FollowerDetail>
-            {userInfo.follower.length}
-          </style.FollowerDetail>
+          <style.FollowerDetail>{followerNum}</style.FollowerDetail>
           <style.FollowingTitle>팔로우</style.FollowingTitle>
-          <style.FollowingDetail>
-            {userInfo.follow.length}
-          </style.FollowingDetail>
+          <style.FollowingDetail>{followNum}</style.FollowingDetail>
         </style.FeedAndFollow>
         <style.UserName>{userInfo.name}</style.UserName>
       </style.ProfileDetail>
