@@ -203,28 +203,46 @@ const excuteTime = (now) => {
   }
   return `${Math.round(time / week)}주 전`;
 };
-
+const getLikeStatus = (like, userName) => {
+  const result = like.find((element) => element.userName === userName);
+  return result !== undefined;
+};
 const FeedItem = (input) => {
   const { data } = input;
   const [imgIndex, setImgIndex] = useState(0);
   const [likeNum, setLikeNum] = useState(data.like.length);
-  const [like, setLike] = useState(false);
   const [comments, setComments] = useState(data.comments);
   const [feedComment, setComment] = useState('');
   const moreCommentMessage = `댓글 ${getCommentLength(comments)}개 모두 보기`;
   const likeMessage = `좋아요 ${likeNum}개`;
   const textMessage = '댓글 달기...';
   const { login } = useContext(UserContext);
+  const [like, setLike] = useState(getLikeStatus(data.like, login.userName));
+  console.log(data.like);
   const PreClickHandler = () => setImgIndex(imgIndex - 1);
   const NextClickHandler = () => setImgIndex(imgIndex + 1);
   const LikeClickHandler = () => {
-    if (like) {
-      setLikeNum(likeNum - 1);
-    } else {
-      setLikeNum(likeNum + 1);
-    }
-    setLike(!like);
-    // todo: 좋아요 update 현황 fetch
+    const likeInfo = {
+      author: {
+        name: login.name,
+        userName: login.userName,
+        profileImg: login.profileImg,
+      },
+      feedId: data._id,
+      status: like ? 0 : 1,
+    };
+    fetch(pathURI.IP + pathURI.API_LIKE, {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${login.jwt}`,
+      },
+      body: JSON.stringify(likeInfo),
+    }).then(() => {
+      setLikeNum(like ? likeNum - 1 : likeNum + 1);
+      setLike(!like);
+    });
   };
   const setFeedComment = (e) => {
     setComment(e.target.value);
