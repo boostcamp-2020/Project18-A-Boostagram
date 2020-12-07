@@ -47,6 +47,15 @@ userSchema.methods.findUserName = async function findUserName() {
   return result;
 };
 
+userSchema.methods.findUserSuggest = async function findUserSuggest() {
+  const { userName } = this;
+  const regex = new RegExp(userName);
+  const result = await mongoose
+    .model('User')
+    .find({ userName: { $regex: regex } }, { _id: false, userName: true });
+  return result;
+};
+
 export interface IFollow {
   userId?: mongoose.Schema.Types.ObjectId;
   name?: string;
@@ -68,6 +77,14 @@ export interface InotiContents {
   date: string;
 }
 
+export interface UserNames {
+  userNames: [
+    {
+      userName: string;
+    },
+  ];
+}
+
 export interface IUser extends mongoose.Document {
   name?: string;
   userName: string;
@@ -80,6 +97,7 @@ export interface IUser extends mongoose.Document {
   notiContents?: InotiContents;
   createUser: () => any;
   findUserName: () => any;
+  findUserSuggest: () => any;
 }
 
 export default mongoose.model<IUser>('User', userSchema);
