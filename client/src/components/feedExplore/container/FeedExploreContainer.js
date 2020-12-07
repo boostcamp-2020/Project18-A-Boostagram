@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import FeedList from '@feedExplore/presentational/FeedList';
 import pathURL from '@constants/path';
 import ModalContext from '@context/modal';
-import Sort from '@lib/FeedSort';
 
 const style = {};
 
@@ -23,7 +22,7 @@ const FeedExploreContainer = () => {
   async function fetchUrl() {
     const response = await fetch(url, option);
     const json = await response.json();
-    setData(Sort(json));
+    setData(json);
   }
   useEffect(() => {
     if (!modalActive) fetchUrl();
