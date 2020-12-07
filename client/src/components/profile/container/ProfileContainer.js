@@ -28,7 +28,6 @@ const ProfileContainer = () => {
     async function fetchUrl() {
       const response = await fetch(url, option);
       const json = await response.json();
-      json.feeds.reverse();
       json.login = login;
       setData(json);
       setLoading(true);
