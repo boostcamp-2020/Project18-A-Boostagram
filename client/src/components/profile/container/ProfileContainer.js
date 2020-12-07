@@ -9,9 +9,11 @@ const style = {};
 
 style.ProfileContainer = styled.div``;
 
-const ProfileContainer = (props) => {
+const ProfileContainer = () => {
   const { login } = useContext(UserContext);
-  let userName = props.location.search.split('=')[1];
+  let userName = window.location.search.split('=')[1];
+  const [preUserName, setPreUserName] = useState(userName);
+  if (userName !== preUserName) setPreUserName(userName);
   if (!userName) userName = login.userName;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +33,7 @@ const ProfileContainer = (props) => {
     }
     useEffect(() => {
       fetchUrl();
-    }, []);
+    }, [preUserName]);
   };
   getData();
   if (loading) {
