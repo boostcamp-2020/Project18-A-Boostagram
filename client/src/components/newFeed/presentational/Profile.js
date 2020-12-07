@@ -5,17 +5,14 @@ import icon from '@constants/icon';
 
 const style = {};
 style.Profile = styled.div`
-  height: 72px;
   display: block;
   width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme.color.border};
 `;
 style.Container = styled.div`
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 5%;
-  width: 90%;
+  display: flex;
+  margin: 15px;
 `;
 style.Img = styled.img`
   width: 42px;
@@ -23,7 +20,7 @@ style.Img = styled.img`
   border-radius: 42px;
 `;
 style.Text = styled.span`
-  position: absolute;
+  position: relative;
   top: 4px;
   margin-left: 14px;
   & > div:first-child {
