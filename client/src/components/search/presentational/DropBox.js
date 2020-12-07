@@ -13,10 +13,17 @@ style.DropBox = styled.div`
   left: -36px;
 `;
 style.UserList = styled.ul`
+  padding: 0;
+  margin: 0;
   position: relative;
 `;
 style.UserItem = styled.li`
+  display: block;
+  padding: 15px;
   border-bottom: 1px solid ${({ theme }) => theme.color.border};
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 const DropBox = ({ suggestUsers }) => {
   return (
