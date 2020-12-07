@@ -295,10 +295,10 @@ const FeedItem = (input) => {
       </style.MoreComent>
       <style.Comments>
         {comments.map((comment, index) => {
+          const key = comment._id + Math.random().toString(36);
           if (index < comments.length - 2) {
-            return <></>;
+            return <div key={key} />;
           }
-          const key = index + Math.random().toString(36);
           return (
             <Comment
               author={comment.author}
