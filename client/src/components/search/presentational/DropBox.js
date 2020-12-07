@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -25,10 +26,13 @@ style.UserItem = styled.li`
   &:last-child {
     border-bottom: none;
   }
+  &:hover {
+    cursor: pointer;
+  }
 `;
 style.ProfileImg = styled.img`
   position: relative;
-  top: 2px;
+  top: 1px;
   width: 32px;
   height: 32px;
   border-radius: 32px;
@@ -46,14 +50,15 @@ style.Name = styled.section`
   opacity: 50%;
 `;
 const DropBox = ({ suggestUsers }) => {
+  const history = useHistory();
   return (
     <style.DropBox active={suggestUsers.length}>
       <style.UserList>
         {suggestUsers.map((user) => {
           const { profileImg, userName, name } = user;
-          const key = userName;
+          const redirectPath = `/profile?username=${userName}`;
           return (
-            <style.UserItem key={key}>
+            <style.UserItem onMouseDown={() => history.replace(redirectPath)}>
               <style.ProfileImg src={profileImg} />
               <style.Texts>
                 <style.UserName>{userName}</style.UserName>
