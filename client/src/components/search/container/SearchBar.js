@@ -20,7 +20,6 @@ const SearchBar = () => {
   const handleBlur = () => {
     setValue('');
     setFocus(!focus);
-    setSuggestUsers([]);
   };
   const handleValue = ({ target }) => setValue(target.value);
 
