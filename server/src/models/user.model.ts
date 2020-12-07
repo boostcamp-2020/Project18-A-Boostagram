@@ -52,7 +52,10 @@ userSchema.methods.findUserSuggest = async function findUserSuggest() {
   const regex = new RegExp(userName);
   const result = await mongoose
     .model('User')
-    .find({ userName: { $regex: regex } }, { _id: false, userName: true });
+    .find(
+      { userName: { $regex: regex } },
+      { __v: false, follow: false, follower: false },
+    );
   return result;
 };
 
@@ -77,10 +80,13 @@ export interface InotiContents {
   date: string;
 }
 
-export interface UserNames {
+export interface ISearch {
   userNames: [
     {
+      userId: mongoose.Schema.Types.ObjectId;
       userName: string;
+      name?: string;
+      profileImg: string;
     },
   ];
 }
@@ -97,7 +103,7 @@ export interface IUser extends mongoose.Document {
   notiContents?: InotiContents;
   createUser: () => any;
   findUserName: () => any;
-  findUserSuggest: () => any;
+  findUserSuggest: () => ISearch;
 }
 
 export default mongoose.model<IUser>('User', userSchema);
