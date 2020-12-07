@@ -14,12 +14,15 @@ const notiContents = new mongoose.Schema({
   date: String,
 });
 
-const followSchema = new mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
-  name: String,
-  userName: String,
-  profileImg: String,
-});
+const followSchema = new mongoose.Schema(
+  {
+    userId: mongoose.Schema.Types.ObjectId,
+    name: String,
+    userName: String,
+    profileImg: String,
+  },
+  { _id: false },
+);
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -48,9 +51,9 @@ userSchema.methods.findUserName = async function findUserName() {
 };
 
 export interface IFollow {
-  userId?: mongoose.Schema.Types.ObjectId;
+  userId: mongoose.Schema.Types.ObjectId;
   name?: string;
-  userName?: string;
+  userName: string;
   profileImg?: string;
 }
 
@@ -106,28 +109,29 @@ userSchema.methods.deleteFollow = async function deletefollow(
   user: IFollow,
   target: IFollow,
 ) {
-  const result =
-    (await mongoose.model('User').updateOne(
-      { _id: user.userId },
-      {
-        $pull: {
-          follow: {
-            userId: target.userId,
-          },
+  console.log(target);
+  console.log(user);
+  const result = await mongoose.model('User').updateOne(
+    { _id: user.userId },
+    {
+      $pull: {
+        follow: {
+          userId: target.userId,
         },
       },
-    )) &&
-    (await mongoose.model('User').updateOne(
-      { _id: target.userId },
-      {
-        $pull: {
-          follower: {
-            userId: user.userId,
-          },
+    },
+  );
+  const result1 = await mongoose.model('User').updateOne(
+    { _id: target.userId },
+    {
+      $pull: {
+        follower: {
+          userId: user.userId,
         },
       },
-    ));
-  return result;
+    },
+  );
+  return result && result1;
 };
 
 export interface IUser extends mongoose.Document {
