@@ -68,6 +68,68 @@ export interface InotiContents {
   date: string;
 }
 
+userSchema.methods.createFollow = async function createfollow(
+  user: IFollow,
+  target: IFollow,
+) {
+  const result =
+    (await mongoose.model('User').updateOne(
+      { _id: user.userId },
+      {
+        $push: {
+          follow: {
+            userId: target.userId,
+            name: target.name,
+            userName: target.userName,
+            profileImg: target.profileImg,
+          },
+        },
+      },
+    )) &&
+    (await mongoose.model('User').updateOne(
+      { _id: target.userId },
+      {
+        $push: {
+          follower: {
+            userId: user.userId,
+            name: user.name,
+            userName: user.userName,
+            profileImg: user.profileImg,
+          },
+        },
+      },
+    ));
+  return result;
+};
+
+userSchema.methods.deleteFollow = async function deletefollow(
+  user: IFollow,
+  target: IFollow,
+) {
+  const result =
+    (await mongoose.model('User').updateOne(
+      { _id: user.userId },
+      {
+        $pull: {
+          follow: {
+            userId: target.userId,
+          },
+        },
+      },
+    )) &&
+    (await mongoose.model('User').updateOne(
+      { _id: target.userId },
+      {
+        $pull: {
+          follower: {
+            userId: user.userId,
+          },
+        },
+      },
+    ));
+  return result;
+};
+
 export interface IUser extends mongoose.Document {
   name?: string;
   userName: string;
@@ -80,6 +142,8 @@ export interface IUser extends mongoose.Document {
   notiContents?: InotiContents;
   createUser: () => any;
   findUserName: () => any;
+  createFollow: (user: IFollow, target: IFollow) => boolean;
+  deleteFollow: (user: IFollow, target: IFollow) => boolean;
 }
 
 export default mongoose.model<IUser>('User', userSchema);
