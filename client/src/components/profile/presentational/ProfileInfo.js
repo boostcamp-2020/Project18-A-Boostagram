@@ -81,16 +81,56 @@ style.UserName = styled.div`
   margin-top: 20px;
 `;
 
+style.FollowBtn = styled.div`
+  background-color: #0095f6;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  padding: 4px 20px;
+`;
+
+style.UnfollowBtn = styled.div`
+  background-color: transparent;
+  border: 1px solid ${theme.color.border};
+  border-radius: 3px;
+  font-weight: bold;
+  padding: 4px 20px;
+`;
+
 const ProfileInfo = (props) => {
-  const { userInfo, feeds } = props.data;
+  const { userInfo, feeds, login } = props.data;
+
+  const checkFollowing = () => {
+    let result = false;
+    userInfo.follower.forEach((el) => {
+      if (el.userName === login.userName) {
+        result = true;
+      }
+    });
+    return result;
+  };
+
+  const FollowOrUnfollow = checkFollowing() ? (
+    <style.UnfollowBtn>언팔로우</style.UnfollowBtn>
+  ) : (
+    <style.FollowBtn>팔로우</style.FollowBtn>
+  );
+
   return (
     <style.ProfileInfo>
       <style.ProfileImg src={userInfo.profileImg} />
       <style.ProfileDetail>
         <style.NameAndSettings>
           <style.Name>{userInfo.userName}</style.Name>
-          <style.ChangeProfile>프로필 편집</style.ChangeProfile>
-          <icon.Setting />
+          {login.userName === userInfo.userName ? (
+            <>
+              <style.ChangeProfile>프로필 편집</style.ChangeProfile>
+              <icon.Setting />
+            </>
+          ) : (
+            FollowOrUnfollow
+          )}
         </style.NameAndSettings>
         <style.FeedAndFollow>
           <style.FeedCountTitle>게시물</style.FeedCountTitle>
