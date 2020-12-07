@@ -10,6 +10,7 @@ const common = {
   API_PROFILE: '/user/profile/',
   API_EXPLORE: '/feed/explore/',
   API_COMMENT: '/comment/',
+  API_LIKE: '/feed/like/',
 };
 
 let IP = 'http://localhost:3000';
