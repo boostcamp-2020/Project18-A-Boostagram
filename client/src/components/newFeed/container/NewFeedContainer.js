@@ -26,7 +26,7 @@ style.NewFeedContainer = styled.div`
   height: 600px;
   z-index: 3;
   background-color: white;
-  position: absolute;
+  position: fixed;
   left: 50%;
   transform: translateX(-50%);
   margin-top: 35px;
@@ -42,7 +42,10 @@ style.LeftBox = styled.div`
 style.RightBox = styled.div`
   flex: 1;
 `;
-
+style.EmptyBox = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.color.border};
+  height: 90px;
+`;
 const initialState = {
   textValue: '',
   files: [],
@@ -131,7 +134,7 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
         if (res.status === 201) {
           return 'SUCCESS';
         }
-        return alert('이미지를 첨부해주세요.');
+        return 'FAILED';
       })
       .then((result) => {
         if (result === 'SUCCESS') handleModal();
@@ -161,13 +164,18 @@ const NewFeedContainer = ({ modalActive, handleModal }) => {
           hover={hover}
           handleImg={handleImg}
         />
-        <InputFile handleChange={handleChange} handleHover={handleHover} />
+        <InputFile
+          handleChange={handleChange}
+          handleHover={handleHover}
+          feedImgs={state.files}
+        />
         <ImgNav imgIndex={state.selectedIndex} imgs={state.files} />
       </style.LeftBox>
       <style.RightBox>
         <Profile />
         <InputText state={state} handleChange={handleChange} />
-        <SubmitButton handleSubmit={handleSubmit} />
+        <style.EmptyBox />
+        <SubmitButton handleSubmit={handleSubmit} feedImgs={state.files} />
       </style.RightBox>
     </style.NewFeedContainer>
   );

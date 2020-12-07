@@ -3,7 +3,6 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import multer from 'multer';
-import cookieParser from 'cookie-parser';
 import initDB from './models/init.model';
 import index from './routes/index';
 import initPassport from './passport/init';
@@ -24,9 +23,10 @@ const upload = multer({ storage });
 initDB();
 
 const app = express();
+// todo: origin 설정 로컬+깃만 하면 좋을듯
 app.use(
   cors({
-    origin: 'http://localhost:8080',
+    origin: true,
     credentials: true,
   }),
 );
@@ -34,7 +34,6 @@ app.use(logger('dev'));
 app.use(upload.array('file[]'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(initPassport());
 
 app.use('/', index);

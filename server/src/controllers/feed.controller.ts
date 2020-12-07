@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { create, explore, following } from '../services/feed.service';
+import { create, explore, following, like } from '../services/feed.service';
 import User from '../models/user.model';
 import getUserId from '../lib/getUserId';
 
@@ -37,6 +37,21 @@ feedController.following = async (req: Request, res: Response) => {
   }
   const result = await following(user);
   if (result) return res.status(200).json(result);
+  return res.status(500).end();
+};
+
+feedController.like = async (req: Request, res: Response) => {
+  const { author, feedId, status } = req.body;
+  const { user } = req;
+
+  author.userId = getUserId(user);
+
+  if (!(author && feedId && (status === 0 || status === 1))) {
+    return res.status(400).end();
+  }
+  const success = await like(author, feedId, status);
+  if (success) return res.status(201).json({ messege: 'success' });
+
   return res.status(500).end();
 };
 

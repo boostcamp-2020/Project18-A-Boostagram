@@ -1,23 +1,15 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-
-const imgMoveAnimation = keyframes`
-  from {
-    margin-left: 100%;
-  }
-  to {
-    margin-left: 0%;
-  }
-`;
 
 const style = {};
 style.DisplayImgContainer = styled.div`
   width: 100%;
   height: 100%;
-  ${(props) =>
-    props.hover
-      ? `
+  background-color: black;
+  ${({ hover }) =>
+    hover
+      ? css`
           opacity: 30%;
           background-color: gray;
         `
@@ -27,8 +19,6 @@ style.DisplayImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
-  position: absolute;
-  margin-left: ${({ margin }) => margin};
 `;
 style.ArrowContainer = styled.div`
   width: 100%;
@@ -49,25 +39,11 @@ style.RightArrow = styled.button`
   position: absolute;
   right: 0;
 `;
-style.imgContainer = styled.div`
-  // todo: animation
-  /* animation: ${imgMoveAnimation} 0.5s; */
-`;
 const DisplayImg = (props) => {
   const { feedImgs, hover, handleImg, imgIndex = 0 } = props;
   return (
     <style.DisplayImgContainer hover={hover}>
-      {feedImgs.length !== 0 && (
-        <style.imgContainer>
-          {imgIndex - 1 >= 0 && (
-            <style.DisplayImg src={feedImgs[imgIndex - 1]} margin="-100%" />
-          )}
-          <style.DisplayImg src={feedImgs[imgIndex]} />
-          {imgIndex + 1 < feedImgs.length && (
-            <style.DisplayImg src={feedImgs[imgIndex + 1]} margin="100%" />
-          )}
-        </style.imgContainer>
-      )}
+      {feedImgs.length !== 0 && <style.DisplayImg src={feedImgs[imgIndex]} />}
       <style.ArrowContainer>
         {imgIndex !== 0 && (
           <button onClick={handleImg} type="button">

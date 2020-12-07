@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginButton from '@login/presentational/LoginButton';
 import LoginHeader from '@login/presentational/LoginHeader';
+import pathURL from '@constants/path';
 import styled from 'styled-components';
 
 const style = {};
@@ -20,7 +21,7 @@ style.LoginForm = styled.div`
   text-align: center;
 `;
 const handleButton = () => {
-  fetch('http://localhost:3000/login/github')
+  fetch(`${pathURL.IP}/login/github`)
     .then((res) => res.json())
     .then((url) => {
       document.location.href = url;

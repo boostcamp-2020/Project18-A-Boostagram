@@ -1,8 +1,7 @@
-const pathURI = {
+const common = {
   HOME: '/',
   LOGIN: '/login',
   NEWFEED: '/newFeed',
-  IP: 'http://localhost:3000',
   API_NEWFEED: '/feed',
   EXPLORE: '/explore',
   IMG_UPLOAD: '/image',
@@ -11,6 +10,16 @@ const pathURI = {
   API_PROFILE: '/user/profile/',
   API_EXPLORE: '/feed/explore/',
   API_COMMENT: '/comment/',
+};
+
+let IP = 'http://localhost:3000';
+if (process.env.NODE_ENV === 'production') {
+  IP = 'http://118.67.128.232:3000';
+}
+
+const pathURI = {
+  ...common,
+  IP,
 };
 
 export default pathURI;

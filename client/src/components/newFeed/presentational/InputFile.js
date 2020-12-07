@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import AddIcon from '@constants/add.svg';
 
@@ -11,10 +11,20 @@ style.InputFileContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  &:hover {
-    background-image: url(${AddIcon});
-    background-repeat: no-repeat;
-  }
+  ${({ imgNums }) => {
+    if (imgNums === 0) {
+      return css`
+        background-image: url(${AddIcon});
+        background-repeat: no-repeat;
+      `;
+    }
+    return css`
+      &:hover {
+        background-image: url(${AddIcon});
+        background-repeat: no-repeat;
+      }
+    `;
+  }};
 `;
 style.InputFileComponent = styled.input`
   opacity: 0;
@@ -24,11 +34,12 @@ style.InputFileComponent = styled.input`
 `;
 
 const InputFile = (props) => {
-  const { handleChange, handleHover } = props;
+  const { handleChange, handleHover, feedImgs } = props;
   return (
     <style.InputFileContainer
       onMouseEnter={handleHover}
       onMouseLeave={handleHover}
+      imgNums={feedImgs.length}
     >
       <style.InputFileComponent
         type="file"
@@ -44,6 +55,7 @@ const InputFile = (props) => {
 InputFile.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleHover: PropTypes.func.isRequired,
+  feedImgs: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default InputFile;
