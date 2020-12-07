@@ -61,10 +61,15 @@ const FeedCard = (input) => {
   const likeNum = like.length;
   const commentNum = comments.length;
 
-  const { handleDetailModal } = useContext(ModalContext);
+  const { handleDetailModal, selectFeed } = useContext(ModalContext);
 
   const hoverHandler = () => {
     setHover(!hover);
+  };
+
+  const select = () => {
+    selectFeed(input.data);
+    handleDetailModal();
   };
 
   return (
@@ -72,7 +77,7 @@ const FeedCard = (input) => {
       <style.FeedCard
         onMouseEnter={hoverHandler}
         onMouseLeave={hoverHandler}
-        onClick={handleDetailModal}
+        onClick={select}
       >
         <style.ImgBox src={feedImg[0]} hover={hover} />
         <style.Icon hover={hover}>

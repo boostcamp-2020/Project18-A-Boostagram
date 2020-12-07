@@ -99,6 +99,7 @@ const App = () => {
   const [login, setLogin] = useState(initLogin);
   const handleModal = () => setModalActive(!modalActive);
 
+  const [selectedFeed, selectFeed] = useState({});
   const [detailActive, setDetailActive] = useState(false);
   const handleDetailModal = () => setDetailActive(!detailActive);
 
@@ -121,10 +122,6 @@ const App = () => {
           onClick={handleDetailModal}
         />
         <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
-        <FeedDetailContainer
-          modalActive={detailActive}
-          handleModal={handleDetailModal}
-        />
         <Header handleModal={handleModal} />
         <style.Contents>
           <style.RouteWrapper>
@@ -136,7 +133,15 @@ const App = () => {
                 </Route>
               </>
             ) : (
-              <ModalContext.Provider value={{ modalActive, handleDetailModal }}>
+              <ModalContext.Provider
+                value={{
+                  modalActive,
+                  handleDetailModal,
+                  selectedFeed,
+                  selectFeed,
+                }}
+              >
+                <FeedDetailContainer modalActive={detailActive} />
                 <PrivateRouter />
               </ModalContext.Provider>
             )}

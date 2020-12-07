@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import ModalContext from '@context/modal';
 
 const style = {};
 
@@ -16,7 +17,9 @@ style.FeedDetailContainer = styled.div`
   margin-top: 35px;
 `;
 
-const FeedDetailContainer = ({ modalActive, handleModal }) => {
+const FeedDetailContainer = ({ modalActive }) => {
+  const { handleDetailModal, selectedFeed } = useContext(ModalContext);
+
   return <style.FeedDetailContainer active={modalActive} />;
 };
 
