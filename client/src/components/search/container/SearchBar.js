@@ -4,6 +4,7 @@ import PATH from '@constants/path';
 import SearchInput from '@search/presentational/SearchInput';
 import SearchIcon from '@search/presentational/SearchIcon';
 import ClearIcon from '@search/presentational/ClearIcon';
+import DropBox from '@search/presentational/DropBox';
 
 const style = {};
 style.SearchContainer = styled.div`
@@ -45,6 +46,7 @@ const SearchBar = () => {
         handleValue={handleValue}
       />
       <ClearIcon focus={focus} src={ClearIcon} />
+      <DropBox suggestUsers={suggestUsers} />
     </style.SearchContainer>
   );
 };
