@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const style = {};
 style.DropBox = styled.div`
-  display: ${({ value }) => (value !== '' ? 'block' : 'none')};
+  display: ${({ active }) => (active !== 0 ? 'block' : 'none')};
   position: absolute;
   width: 241px;
   background-color: white;
@@ -45,9 +45,9 @@ style.Name = styled.section`
   font-weight: 450;
   opacity: 50%;
 `;
-const DropBox = ({ suggestUsers, value }) => {
+const DropBox = ({ suggestUsers }) => {
   return (
-    <style.DropBox value={value}>
+    <style.DropBox active={suggestUsers.length}>
       <style.UserList>
         {suggestUsers.map((user) => {
           const { profileImg, userName, name } = user;
@@ -70,7 +70,6 @@ const DropBox = ({ suggestUsers, value }) => {
 DropBox.propTypes = {
   suggestUsers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string))
     .isRequired,
-  value: PropTypes.string.isRequired,
 };
 
 export default DropBox;

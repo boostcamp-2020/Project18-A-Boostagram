@@ -20,6 +20,7 @@ const SearchBar = () => {
   const handleBlur = () => {
     setValue('');
     setFocus(!focus);
+    setSuggestUsers([]);
   };
   const handleValue = ({ target }) => setValue(target.value);
 
@@ -32,6 +33,8 @@ const SearchBar = () => {
             JSON.stringify(users) === JSON.stringify(suggestUsers);
           if (!equalPrevious) setSuggestUsers(users);
         });
+    } else {
+      setSuggestUsers([]);
     }
   }, [value]);
 
@@ -46,7 +49,7 @@ const SearchBar = () => {
         handleValue={handleValue}
       />
       <ClearIcon focus={focus} src={ClearIcon} />
-      <DropBox value={value} suggestUsers={suggestUsers} />
+      <DropBox suggestUsers={suggestUsers} />
     </style.SearchContainer>
   );
 };
