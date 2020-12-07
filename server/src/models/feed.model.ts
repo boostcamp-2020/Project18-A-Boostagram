@@ -61,7 +61,7 @@ Feed.methods.createFeed = async function createFeed() {
 };
 
 Feed.methods.exploreFeed = async function exploreFeed() {
-  const result = await mongoose.model('Feed').find();
+  const result = await mongoose.model('Feed').find().sort('-createdAt');
   return result;
 };
 
@@ -70,7 +70,8 @@ Feed.methods.followingFeed = async function followingFeed(
 ) {
   const result = await mongoose
     .model('Feed')
-    .find({ 'author.userId': { $in: params } });
+    .find({ 'author.userId': { $in: params } })
+    .sort('-createdAt');
   return result;
 };
 
