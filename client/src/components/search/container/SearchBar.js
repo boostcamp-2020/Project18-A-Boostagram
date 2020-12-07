@@ -46,7 +46,7 @@ const SearchBar = () => {
         handleValue={handleValue}
       />
       <ClearIcon focus={focus} src={ClearIcon} />
-      <DropBox suggestUsers={suggestUsers} />
+      <DropBox value={value} suggestUsers={suggestUsers} />
     </style.SearchContainer>
   );
 };
