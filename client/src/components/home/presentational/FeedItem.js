@@ -218,7 +218,6 @@ const FeedItem = (input) => {
   const textMessage = '댓글 달기...';
   const { login } = useContext(UserContext);
   const [like, setLike] = useState(getLikeStatus(data.like, login.userName));
-  console.log(data.like);
   const PreClickHandler = () => setImgIndex(imgIndex - 1);
   const NextClickHandler = () => setImgIndex(imgIndex + 1);
   const LikeClickHandler = () => {
