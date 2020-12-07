@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import icon from '@constants/icon';
+import ModalContext from '@context/modal';
 
 const style = {};
 
@@ -60,19 +61,18 @@ const FeedCard = (input) => {
   const likeNum = like.length;
   const commentNum = comments.length;
 
+  const { handleDetailModal } = useContext(ModalContext);
+
   const hoverHandler = () => {
     setHover(!hover);
   };
 
-  const clickHandler = () => {
-    // todo: 상세 화면 출력
-  };
   return (
     <>
       <style.FeedCard
         onMouseEnter={hoverHandler}
         onMouseLeave={hoverHandler}
-        onClick={clickHandler}
+        onClick={handleDetailModal}
       >
         <style.ImgBox src={feedImg[0]} hover={hover} />
         <style.Icon hover={hover}>

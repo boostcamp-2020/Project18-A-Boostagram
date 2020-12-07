@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
 import ModalContext from '@context/modal';
@@ -11,6 +11,7 @@ import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
 import LoginContainer from './login/container/LoginContainer';
+import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
 
 const initLogin = {
   jwt: '',
@@ -98,6 +99,9 @@ const App = () => {
   const [login, setLogin] = useState(initLogin);
   const handleModal = () => setModalActive(!modalActive);
 
+  const [detailActive, setDetailActive] = useState(false);
+  const handleDetailModal = () => setDetailActive(!detailActive);
+
   if (compareObject(login, initLogin)) {
     // check localStorage.
     const logined = handleRefresh(login, setLogin);
@@ -112,7 +116,15 @@ const App = () => {
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
         <style.ModalBackground active={modalActive} onClick={handleModal} />
+        <style.ModalBackground
+          active={detailActive}
+          onClick={handleDetailModal}
+        />
         <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
+        <FeedDetailContainer
+          modalActive={detailActive}
+          handleModal={handleDetailModal}
+        />
         <Header handleModal={handleModal} />
         <style.Contents>
           <style.RouteWrapper>
@@ -124,7 +136,7 @@ const App = () => {
                 </Route>
               </>
             ) : (
-              <ModalContext.Provider value={{ modalActive }}>
+              <ModalContext.Provider value={{ modalActive, handleDetailModal }}>
                 <PrivateRouter />
               </ModalContext.Provider>
             )}
