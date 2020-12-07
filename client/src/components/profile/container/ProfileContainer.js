@@ -4,6 +4,7 @@ import ProfileInfo from '@profile/presentational/ProfileInfo';
 import FeedList from '@feedExplore/presentational/FeedList';
 import pathURL from '@constants/path';
 import UserContext from '@context/user';
+import ModalContext from '@context/modal';
 
 const style = {};
 
@@ -17,6 +18,7 @@ const ProfileContainer = () => {
   if (!userName) userName = login.userName;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { modalActive } = useContext(ModalContext);
   const getData = () => {
     const url = pathURL.IP + pathURL.API_PROFILE + userName;
     const option = {
@@ -33,7 +35,7 @@ const ProfileContainer = () => {
     }
     useEffect(() => {
       fetchUrl();
-    }, [preUserName]);
+    }, [preUserName, modalActive]);
   };
   getData();
   if (loading) {
