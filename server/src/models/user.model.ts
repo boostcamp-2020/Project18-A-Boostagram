@@ -109,29 +109,28 @@ userSchema.methods.deleteFollow = async function deletefollow(
   user: IFollow,
   target: IFollow,
 ) {
-  console.log(target);
-  console.log(user);
-  const result = await mongoose.model('User').updateOne(
-    { _id: user.userId },
-    {
-      $pull: {
-        follow: {
-          userId: target.userId,
+  const result =
+    (await mongoose.model('User').updateOne(
+      { _id: user.userId },
+      {
+        $pull: {
+          follow: {
+            userId: target.userId,
+          },
         },
       },
-    },
-  );
-  const result1 = await mongoose.model('User').updateOne(
-    { _id: target.userId },
-    {
-      $pull: {
-        follower: {
-          userId: user.userId,
+    )) &&
+    (await mongoose.model('User').updateOne(
+      { _id: target.userId },
+      {
+        $pull: {
+          follower: {
+            userId: user.userId,
+          },
         },
       },
-    },
-  );
-  return result && result1;
+    ));
+  return result;
 };
 
 export interface IUser extends mongoose.Document {
