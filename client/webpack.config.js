@@ -52,6 +52,8 @@ module.exports = {
       '@context': path.resolve(__dirname, 'src/context/'),
       '@login': path.resolve(__dirname, 'src/components/login/'),
       '@public': path.resolve(__dirname, 'src/public/'),
+      '@hooks': path.resolve(__dirname, 'src/hooks/'),
+      '@api': path.resolve(__dirname, 'src/api/'),
       '@search': path.resolve(__dirname, 'src/components/search/'),
     },
   },
