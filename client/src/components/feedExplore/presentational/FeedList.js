@@ -16,17 +16,18 @@ const FeedList = (input) => {
     <style.FeedList>
       {datas.map((data, index) => {
         const isLastItem = datas.length === index + 1;
+        const key = `${index}-${data._id}`;
         if (isLastItem) {
           return (
             <FeedCard
               data={data}
-              key={data._id}
+              key={key}
               isLastItem
               setGetMore={setGetMore}
             />
           );
         }
-        return <FeedCard data={data} key={data._id} />;
+        return <FeedCard data={data} key={key} />;
       })}
     </style.FeedList>
   );
