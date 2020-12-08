@@ -276,8 +276,9 @@ const FeedItem = (input) => {
 
   IntersectionHook(isLastItem, target, data._id, setGetMore);
 
-  return (
-    <style.FeedItem ref={setTarget}>
+  const jsx = (
+    <>
+      {' '}
       <style.UserInfo>
         <style.UserProfileImg src={data.author.profileImg} />
         <UserName>{data.author.userName}</UserName>
@@ -345,7 +346,17 @@ const FeedItem = (input) => {
           게시
         </style.CommentSubmit>
       </style.InputComment>
-    </style.FeedItem>
+    </>
+  );
+
+  return (
+    <>
+      {isLastItem ? (
+        <style.FeedItem ref={setTarget}>{jsx}</style.FeedItem>
+      ) : (
+        <style.FeedItem>{jsx}</style.FeedItem>
+      )}
+    </>
   );
 };
 
