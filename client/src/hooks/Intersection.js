@@ -1,21 +1,23 @@
 import { useEffect } from 'react';
-import GetMore from '@api/GetMore';
 
-const Intersection = (target, feedId) => {
+const Intersection = (isLastItem, target, feedId, setGetMore) => {
   return useEffect(() => {
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(
-        ([entriy]) => {
-          if (entriy.isIntersecting) {
-            GetMore(feedId);
-          }
-        },
-        { threshold: 0.5 },
-      );
-      observer.observe(target);
+    if (isLastItem) {
+      let observer;
+      if (target) {
+        observer = new IntersectionObserver(
+          ([entriy]) => {
+            if (entriy.isIntersecting) {
+              setGetMore(feedId);
+            }
+          },
+          { threshold: 0.5 },
+        );
+        observer.observe(target);
+      }
+      return () => observer && observer.disconnect();
     }
-    return () => observer && observer.disconnect();
+    return undefined;
   }, [target]);
 };
 
