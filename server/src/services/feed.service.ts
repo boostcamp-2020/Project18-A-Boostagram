@@ -13,16 +13,21 @@ const explore = async (): Promise<IFeed[]> => {
   return result;
 };
 
-const following = async (params: IUser): Promise<IFeed[]> => {
+const following = async (
+  params: IUser,
+  lastFeedId?: string,
+): Promise<IFeed[]> => {
   const { follow: follows } = params;
+
   const userFollow: string[] = [];
   follows?.map((follow) => {
     if (follow.userId) {
       userFollow.push(follow.userId.toString());
     }
+    return follow;
   });
   const feed = new FeedModel();
-  const result = feed.followingFeed(userFollow);
+  const result = await feed.followingFeed(userFollow, lastFeedId);
   return result;
 };
 
