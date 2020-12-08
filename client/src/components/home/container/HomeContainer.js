@@ -17,10 +17,13 @@ style.HomeContainer = styled.div`
 const HomeContainer = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [getMore, setGetMore] = useState('noId');
   const { login } = useContext(UserContext);
 
   const getData = () => {
-    const url = pathURL.IP + pathURL.API_HOME_FEED + login.userName;
+    const url = `${
+      pathURL.IP + pathURL.API_HOME_FEED + login.userName
+    }?lastFeedId=${getMore}`;
     const option = {
       mode: 'cors',
       method: 'GET',
@@ -28,18 +31,19 @@ const HomeContainer = () => {
     async function fetchUrl() {
       const response = await fetch(url, option);
       const json = await response.json();
-      setData(json);
-      setLoading(true);
+      setData([...data, ...json]);
+      if (!loading) setLoading(true);
     }
     useEffect(() => {
       fetchUrl();
-    }, []);
+    }, [getMore]);
   };
   getData();
+
   if (loading) {
     return (
       <style.HomeContainer>
-        <Contents data={data} />
+        <Contents data={data} getMore={getMore} setGetMore={setGetMore} />
         <Side />
       </style.HomeContainer>
     );
