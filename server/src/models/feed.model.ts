@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 
 mongoose.set('useFindAndModify', false);
 
+const firstLoad = 9;
+const afterLoad = 6;
+
 const author = new mongoose.Schema(
   {
     userId: {
@@ -69,14 +72,14 @@ Feed.methods.exploreFeed = async function exploreFeed(lastFeedId?: string) {
       .find()
       .where('_id')
       .lt(lastFeedId)
-      .limit(6)
+      .limit(afterLoad)
       .sort('-createdAt');
     return result;
   }
   const result = await mongoose
     .model('Feed')
     .find()
-    .limit(9)
+    .limit(firstLoad)
     .sort('-createdAt');
   return result;
 };
@@ -91,14 +94,14 @@ Feed.methods.followingFeed = async function followingFeed(
       .find({ 'author.userId': { $in: params } })
       .where('_id')
       .lt(lastFeedId)
-      .limit(3)
+      .limit(afterLoad)
       .sort('-createdAt');
     return result;
   }
   const result = await mongoose
     .model('Feed')
     .find({ 'author.userId': { $in: params } })
-    .limit(5)
+    .limit(firstLoad)
     .sort('-createdAt');
   return result;
 };
