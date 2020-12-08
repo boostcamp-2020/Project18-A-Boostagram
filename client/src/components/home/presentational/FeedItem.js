@@ -5,6 +5,7 @@ import UserName from '@home/presentational/UserName';
 import Comment from '@home/presentational/Comment';
 import UserContext from '@context/user';
 import pathURI from '@constants/path';
+import IntersectionHook from '@hooks/Intersection';
 
 const style = {};
 
@@ -208,7 +209,8 @@ const getLikeStatus = (like, userName) => {
   return result !== undefined;
 };
 const FeedItem = (input) => {
-  const { data } = input;
+  const { data, isLastItem } = input;
+  const [target, setTarget] = useState(null);
   const [imgIndex, setImgIndex] = useState(0);
   const [likeNum, setLikeNum] = useState(data.like.length);
   const [comments, setComments] = useState(data.comments);
@@ -271,8 +273,12 @@ const FeedItem = (input) => {
       setComment('');
     });
   };
+
+  if (isLastItem) {
+    IntersectionHook(target, data._id);
+  }
   return (
-    <style.FeedItem>
+    <style.FeedItem ref={setTarget}>
       <style.UserInfo>
         <style.UserProfileImg src={data.author.profileImg} />
         <UserName>{data.author.userName}</UserName>
