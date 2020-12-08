@@ -209,7 +209,7 @@ const getLikeStatus = (like, userName) => {
   return result !== undefined;
 };
 const FeedItem = (input) => {
-  const { data, isLastItem } = input;
+  const { data, isLastItem, setGetMore } = input;
   const [target, setTarget] = useState(null);
   const [imgIndex, setImgIndex] = useState(0);
   const [likeNum, setLikeNum] = useState(data.like.length);
@@ -274,9 +274,8 @@ const FeedItem = (input) => {
     });
   };
 
-  if (isLastItem) {
-    IntersectionHook(target, data._id);
-  }
+  IntersectionHook(isLastItem, target, data._id, setGetMore);
+
   return (
     <style.FeedItem ref={setTarget}>
       <style.UserInfo>
