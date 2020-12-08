@@ -54,6 +54,7 @@ module.exports = {
       '@public': path.resolve(__dirname, 'src/public/'),
       '@hooks': path.resolve(__dirname, 'src/hooks/'),
       '@api': path.resolve(__dirname, 'src/api/'),
+      '@utils': path.resolve(__dirname, 'src/utils/'),
       '@search': path.resolve(__dirname, 'src/components/search/'),
     },
   },
