@@ -50,6 +50,18 @@ userSchema.methods.findUserName = async function findUserName() {
   return result;
 };
 
+userSchema.methods.findUserSuggest = async function findUserSuggest() {
+  const { userName } = this;
+  const regex = new RegExp(userName);
+  const result = await mongoose
+    .model('User')
+    .find(
+      { userName: { $regex: regex } },
+      { __v: false, follow: false, follower: false },
+    );
+  return result;
+};
+
 export interface IFollow {
   userId: mongoose.Schema.Types.ObjectId;
   name?: string;
@@ -69,6 +81,17 @@ export interface InotiContents {
   userName: string;
   notiType: string;
   date: string;
+}
+
+export interface ISearch {
+  userNames: [
+    {
+      userId: mongoose.Schema.Types.ObjectId;
+      userName: string;
+      name?: string;
+      profileImg: string;
+    },
+  ];
 }
 
 userSchema.methods.createFollow = async function createfollow(
@@ -145,6 +168,7 @@ export interface IUser extends mongoose.Document {
   notiContents?: InotiContents;
   createUser: () => any;
   findUserName: () => any;
+  findUserSuggest: () => ISearch;
   createFollow: (user: IFollow, target: IFollow) => boolean;
   deleteFollow: (user: IFollow, target: IFollow) => boolean;
 }
