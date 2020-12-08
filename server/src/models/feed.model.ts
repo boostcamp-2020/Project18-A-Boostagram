@@ -69,10 +69,22 @@ Feed.methods.exploreFeed = async function exploreFeed() {
 
 Feed.methods.followingFeed = async function followingFeed(
   params: Array<string>,
+  lastFeedId?: string,
 ) {
+  if (lastFeedId !== 'noId') {
+    const result = await mongoose
+      .model('Feed')
+      .find({ 'author.userId': { $in: params } })
+      .where('_id')
+      .lt(lastFeedId)
+      .limit(3)
+      .sort('-createdAt');
+    return result;
+  }
   const result = await mongoose
     .model('Feed')
     .find({ 'author.userId': { $in: params } })
+    .limit(5)
     .sort('-createdAt');
   return result;
 };
@@ -137,7 +149,7 @@ export interface IFeed extends mongoose.Document {
 
   createFeed: () => boolean;
   exploreFeed: () => Array<IFeed>;
-  followingFeed: (params: Array<string>) => Array<IFeed>;
+  followingFeed: (params: Array<string>, lastFeedId?: string) => Array<IFeed>;
   createComment: (params: Icomment) => boolean;
   addLike: (user: Iauthor, feedId: string) => boolean;
   deleteLike: (user: Iauthor, feedId: string) => boolean;
