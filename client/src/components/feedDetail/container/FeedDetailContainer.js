@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ModalContext from '@context/modal';
 
@@ -17,10 +17,26 @@ style.FeedDetailContainer = styled.div`
   margin-top: 35px;
 `;
 
-const FeedDetailContainer = ({ modalActive }) => {
-  const { handleDetailModal, selectedFeed } = useContext(ModalContext);
+style.FeedImage = styled.img`
+  width: 600px;
+  height: 600px;
+`;
 
-  return <style.FeedDetailContainer active={modalActive} />;
+const FeedDetailContainer = ({ modalActive }) => {
+  const { selectedFeed } = useContext(ModalContext);
+  const { _id, author, feedImg, content, like, comments } = selectedFeed;
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (Object.keys(selectedFeed).length > 0) setLoading(true);
+  }, [selectedFeed]);
+
+  return (
+    <style.FeedDetailContainer active={modalActive}>
+      {loading ? <style.FeedImage src={feedImg[0]} /> : <>loading...</>}
+    </style.FeedDetailContainer>
+  );
 };
 
 export default FeedDetailContainer;
