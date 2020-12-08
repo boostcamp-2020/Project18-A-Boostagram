@@ -58,7 +58,10 @@ const DropBox = ({ suggestUsers }) => {
           const { profileImg, userName, name } = user;
           const redirectPath = `/profile?username=${userName}`;
           return (
-            <style.UserItem onMouseDown={() => history.replace(redirectPath)}>
+            <style.UserItem
+              key={user._id}
+              onMouseDown={() => history.replace(redirectPath)}
+            >
               <style.ProfileImg src={profileImg} />
               <style.Texts>
                 <style.UserName>{userName}</style.UserName>
