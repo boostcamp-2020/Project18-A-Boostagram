@@ -1,22 +1,30 @@
 import FeedModel, { IFeed, Iauthor } from '../models/feed.model';
 import { IUser } from '../models/user.model';
 
-const create = async (params: IFeed): Promise<boolean> => {
+const create = async (params: IFeed): Promise<boolean | undefined> => {
   const feed = new FeedModel(params);
-  const result = await feed.createFeed();
-  return result;
+  try {
+    const result = await feed.createFeed();
+    return result;
+  } catch (err) {
+    return undefined;
+  }
 };
 
-const explore = async (lastFeedId: string): Promise<IFeed[]> => {
+const explore = async (lastFeedId: string): Promise<IFeed[] | undefined> => {
   const feed = new FeedModel();
-  const result = feed.exploreFeed(lastFeedId);
-  return result;
+  try {
+    const result = await feed.exploreFeed(lastFeedId);
+    return result;
+  } catch (err) {
+    return undefined;
+  }
 };
 
 const following = async (
   params: IUser,
   lastFeedId?: string,
-): Promise<IFeed[]> => {
+): Promise<IFeed[] | undefined> => {
   const { follow: follows } = params;
 
   const userFollow: string[] = [];
@@ -27,21 +35,29 @@ const following = async (
     return follow;
   });
   const feed = new FeedModel();
-  const result = await feed.followingFeed(userFollow, lastFeedId);
-  return result;
+  try {
+    const result = await feed.followingFeed(userFollow, lastFeedId);
+    return result;
+  } catch (err) {
+    return undefined;
+  }
 };
 
 const like = async (
   author: Iauthor,
   feedId: string,
   status: number,
-): Promise<boolean> => {
+): Promise<boolean | undefined> => {
   const feed = new FeedModel();
-  const result =
-    status === 1
-      ? await feed.addLike(author, feedId)
-      : await feed.deleteLike(author, feedId);
-  return result;
+  try {
+    const result =
+      status === 1
+        ? await feed.addLike(author, feedId)
+        : await feed.deleteLike(author, feedId);
+    return result;
+  } catch (err) {
+    return undefined;
+  }
 };
 
 export { create, explore, following, like };
