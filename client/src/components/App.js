@@ -30,7 +30,6 @@ style.RouteWrapper = styled.div`
 style.Contents = styled.div`
   display: flex;
   margin-top: 54px;
-  background-color: ${(props) => props.theme.color.background};
 `;
 
 style.ModalBackground = styled.div`
