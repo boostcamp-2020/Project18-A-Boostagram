@@ -7,9 +7,9 @@ const create = async (params: IFeed): Promise<boolean> => {
   return result;
 };
 
-const explore = async (): Promise<IFeed[]> => {
+const explore = async (lastFeedId: string): Promise<IFeed[]> => {
   const feed = new FeedModel();
-  const result = feed.exploreFeed();
+  const result = feed.exploreFeed(lastFeedId);
   return result;
 };
 

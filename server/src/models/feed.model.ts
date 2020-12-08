@@ -62,8 +62,22 @@ Feed.methods.createFeed = async function createFeed() {
   return result;
 };
 
-Feed.methods.exploreFeed = async function exploreFeed() {
-  const result = await mongoose.model('Feed').find().sort('-createdAt');
+Feed.methods.exploreFeed = async function exploreFeed(lastFeedId?: string) {
+  if (lastFeedId !== 'noId') {
+    const result = await mongoose
+      .model('Feed')
+      .find()
+      .where('_id')
+      .lt(lastFeedId)
+      .limit(6)
+      .sort('-createdAt');
+    return result;
+  }
+  const result = await mongoose
+    .model('Feed')
+    .find()
+    .limit(9)
+    .sort('-createdAt');
   return result;
 };
 
@@ -148,7 +162,7 @@ export interface IFeed extends mongoose.Document {
   comments?: Array<Icomment>;
 
   createFeed: () => boolean;
-  exploreFeed: () => Array<IFeed>;
+  exploreFeed: (lastFeedId?: string) => Array<IFeed>;
   followingFeed: (params: Array<string>, lastFeedId?: string) => Array<IFeed>;
   createComment: (params: Icomment) => boolean;
   addLike: (user: Iauthor, feedId: string) => boolean;
