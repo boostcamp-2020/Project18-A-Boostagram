@@ -17,7 +17,13 @@ const ExploreFeed = (
   async function fetchUrl() {
     const response = await fetch(url, option);
     const json = await response.json();
-    setData([...data, ...json]);
+    if (json.length !== 0) {
+      if (data.length === json.length && data[0] !== json[0]) {
+        setData([json[0], ...data]);
+      } else {
+        setData([...data, ...json]);
+      }
+    }
   }
   useEffect(() => {
     if (!modalActive) fetchUrl();
