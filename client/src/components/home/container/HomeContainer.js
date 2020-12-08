@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Side from '@home/presentational/Side';
 import Contents from '@home/presentational/Contents';
-import pathURL from '@constants/path';
 import UserContext from '@context/user';
+import HomeFeedAPI from '@api/HomeFeedAPI';
 
 const style = {};
 
@@ -20,30 +20,12 @@ const HomeContainer = () => {
   const [getMore, setGetMore] = useState('noId');
   const { login } = useContext(UserContext);
 
-  const getData = () => {
-    const url = `${
-      pathURL.IP + pathURL.API_HOME_FEED + login.userName
-    }?lastFeedId=${getMore}`;
-    const option = {
-      mode: 'cors',
-      method: 'GET',
-    };
-    async function fetchUrl() {
-      const response = await fetch(url, option);
-      const json = await response.json();
-      setData([...data, ...json]);
-      if (!loading) setLoading(true);
-    }
-    useEffect(() => {
-      fetchUrl();
-    }, [getMore]);
-  };
-  getData();
+  HomeFeedAPI(data, setData, loading, setLoading, login, getMore);
 
   if (loading) {
     return (
       <style.HomeContainer>
-        <Contents data={data} getMore={getMore} setGetMore={setGetMore} />
+        <Contents data={data} setGetMore={setGetMore} />
         <Side />
       </style.HomeContainer>
     );
