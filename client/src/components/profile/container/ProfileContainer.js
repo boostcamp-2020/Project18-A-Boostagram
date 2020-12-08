@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import ProfileInfo from '@profile/presentational/ProfileInfo';
 import FeedList from '@feedExplore/presentational/FeedList';
-import pathURL from '@constants/path';
 import UserContext from '@context/user';
 import ModalContext from '@context/modal';
+import ProfileFeedAPI from '@api/ProfileFeedAPI';
 
 const style = {};
 
@@ -23,49 +23,18 @@ const ProfileContainer = () => {
   const [getMore, setGetMore] = useState('noId');
   const isMounted = useRef(false);
 
-  const getData = () => {
-    const option = {
-      mode: 'cors',
-      method: 'GET',
-    };
-
-    async function fetchUrl1() {
-      const url = `${
-        pathURL.IP + pathURL.API_PROFILE + userName
-      }?lastFeedId=${getMore}`;
-      const response = await fetch(url, option);
-      const json = await response.json();
-      setData(json);
-      setFeeds([...feeds, ...json.feeds]);
-    }
-
-    async function fetchUrl2() {
-      const url = `${
-        pathURL.IP + pathURL.API_PROFILE + userName
-      }?lastFeedId=noId`;
-      const response = await fetch(url, option);
-      const json = await response.json();
-      if (json.feeds.length > 0 && json.feeds[0]._id !== feeds[0]._id) {
-        setData(json);
-        setFeeds([json.feeds[0], ...feeds]);
-      }
-    }
-
-    useEffect(() => {
-      fetchUrl1();
-      if (!loading) setLoading(true);
-    }, [getMore]);
-
-    useEffect(() => {
-      if (isMounted.current) {
-        fetchUrl2();
-        if (!loading) setLoading(true);
-      } else {
-        isMounted.current = true;
-      }
-    }, [preUserName, modalActive]);
-  };
-  getData();
+  ProfileFeedAPI(
+    setData,
+    loading,
+    setLoading,
+    getMore,
+    userName,
+    preUserName,
+    feeds,
+    setFeeds,
+    isMounted,
+    modalActive,
+  );
 
   if (loading && data.feeds) {
     return (
