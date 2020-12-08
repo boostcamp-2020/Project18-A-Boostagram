@@ -102,7 +102,7 @@ style.UnfollowBtn = styled.div`
 `;
 
 const ProfileInfo = (input) => {
-  const { userInfo, feeds, login } = input.data;
+  const { userInfo, feeds, login } = input;
 
   const checkFollowing = () => {
     let result = false;
