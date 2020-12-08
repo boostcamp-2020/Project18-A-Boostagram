@@ -66,9 +66,9 @@ const FeedDetailContainer = ({ modalActive }) => {
     if (Object.keys(selectedFeed).length > 0) setLoading(true);
   }, [selectedFeed]);
 
-  return (
-    <style.FeedDetailContainer active={modalActive}>
-      {loading ? (
+  if (loading) {
+    return (
+      <style.FeedDetailContainer active={modalActive}>
         <style.FeedImageContainer>
           <style.FeedImage src={feedImg[selectedIndex]} />
           <ImgNav imgIndex={selectedIndex} imgs={feedImg} />
@@ -85,9 +85,12 @@ const FeedDetailContainer = ({ modalActive }) => {
             )}
           </style.ArrowContainer>
         </style.FeedImageContainer>
-      ) : (
-        <>loading...</>
-      )}
+      </style.FeedDetailContainer>
+    );
+  }
+  return (
+    <style.FeedDetailContainer active={modalActive}>
+      loading...
     </style.FeedDetailContainer>
   );
 };
