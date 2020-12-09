@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
+import SocketContext from '@context/socket';
 import ModalContext from '@context/modal';
 import styled from 'styled-components';
+import socketIOClient from 'socket.io-client';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
 import HomeContainer from '@home/container/HomeContainer';
@@ -87,6 +89,16 @@ const handleRefresh = (login, setLogin) => {
   });
 };
 
+const socket = socketIOClient(`${pathURI.IP}/like`, {
+  transports: ['websocket'],
+});
+const handleNoticeFeedLike = (user, targetAuthor) => {
+  socket.emit('like', { user, targetAuthor });
+};
+socket.on('noticeFeedLike', (msg) => {
+  console.log(msg);
+});
+
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
   const [login, setLogin] = useState(initLogin);
@@ -119,7 +131,9 @@ const App = () => {
               </>
             ) : (
               <ModalContext.Provider value={{ modalActive }}>
-                <PrivateRouter />
+                <SocketContext.Provider value={{ handleNoticeFeedLike }}>
+                  <PrivateRouter />
+                </SocketContext.Provider>
               </ModalContext.Provider>
             )}
           </style.RouteWrapper>
