@@ -10,14 +10,9 @@ import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
+import initLogin from '@constants/value';
 import LoginContainer from './login/container/LoginContainer';
 
-const initLogin = {
-  jwt: '',
-  name: '',
-  userName: '',
-  profileImg: '',
-};
 const NOT_LOGINED = 'NOT_LOGINED';
 const RESPONSE_USER_DATA_NUMS = 4;
 const style = {};
