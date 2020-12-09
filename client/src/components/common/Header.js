@@ -5,7 +5,7 @@ import icon from '@constants/icon';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserContext from '@context/user';
-import SearchBar from '../search/container/SearchBar';
+import SearchBar from '@search/container/SearchBar';
 
 const style = {};
 
