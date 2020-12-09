@@ -1,11 +1,16 @@
 import FeedModel, { IFeed, Iauthor } from '../models/feed.model';
-import { IUser } from '../models/user.model';
+import UserModel, { IUser } from '../models/user.model';
 
 const create = async (params: IFeed): Promise<boolean | undefined> => {
-  const feed = new FeedModel(params);
   try {
-    const result = await feed.createFeed();
-    return result;
+    const feed = new FeedModel(params);
+    const createResult = await feed.createFeed();
+
+    const { userId } = params.author;
+    const user = new UserModel({ userId });
+    await user.addFeedCount();
+
+    return createResult;
   } catch (err) {
     return undefined;
   }
