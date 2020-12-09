@@ -12,11 +12,11 @@ style.Contents = styled.div`
 `;
 
 const Contents = (input) => {
-  const { data } = input;
+  const { data, setGetMore } = input;
   return (
     <style.Contents>
       <Story datas={data} />
-      <Feed data={data} />
+      <Feed data={data} setGetMore={setGetMore} />
     </style.Contents>
   );
 };

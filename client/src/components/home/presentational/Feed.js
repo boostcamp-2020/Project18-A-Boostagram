@@ -7,10 +7,22 @@ const style = {};
 style.Feed = styled.div``;
 
 const Feed = (input) => {
-  const { data: datas } = input;
+  const { data: datas, setGetMore } = input;
+
   return (
     <style.Feed>
-      {datas.map((data) => {
+      {datas.map((data, index) => {
+        const isLastItem = datas.length === index + 1;
+        if (isLastItem) {
+          return (
+            <FeedItem
+              key={data._id}
+              data={data}
+              isLastItem
+              setGetMore={setGetMore}
+            />
+          );
+        }
         return <FeedItem key={data._id} data={data} />;
       })}
     </style.Feed>

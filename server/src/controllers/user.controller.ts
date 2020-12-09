@@ -9,7 +9,8 @@ interface callback {
 const UserController: callback = {};
 
 UserController.getProfile = async (req, res) => {
-  const result = await getProfile(req.params.userName);
+  const { lastFeedId } = JSON.parse(JSON.stringify(req.query));
+  const result = await getProfile(req.params.userName, lastFeedId);
   res.json(result);
 };
 
