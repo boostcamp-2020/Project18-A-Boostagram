@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ModalContext from '@context/modal';
 import ImgNav from '@newFeed/presentational/ImgNav';
+import AuthorProfile from '@feedDetail/presentational/AuthorProfile';
+import LikeMenu from '@feedDetail/presentational/LikeMenu';
+import CommentInput from '@feedDetail/presentational/CommentInput';
 
 const style = {};
 
@@ -49,9 +52,83 @@ style.RightArrow = styled.button`
   right: 0;
 `;
 
+style.FeedInfoContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+style.Content = styled.div`
+  flex: 1;
+`;
+
+style.FeedContentContainer = styled.div`
+  display: flex;
+  font-size: 14px;
+  padding: 20px;
+`;
+
+style.ProfileImg = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-right: 14px;
+`;
+
+style.FeedContent = styled.div`
+  flex: 1;
+`;
+
+style.LikeCount = styled.div`
+  padding: 0 16px 10px 16px;
+  font-size: 14px;
+  font-weight: bold;
+`;
+
+style.CreatedAt = styled.div`
+  padding: 0 16px 10px 16px;
+  font-size: 10px;
+`;
+
+const excuteTime = (now) => {
+  const sec = 1000;
+  const min = sec * 60;
+  const hour = min * 60;
+  const day = hour * 24;
+  const week = day * 7;
+
+  const time = new Date() - new Date(now);
+
+  if (time < min) {
+    return `${Math.round(time / sec)}초 전`;
+  }
+
+  if (time < hour) {
+    return `${Math.round(time / min)}분 전`;
+  }
+
+  if (time < day) {
+    return `${Math.round(time / hour)}시간 전`;
+  }
+
+  if (time < week) {
+    return `${Math.round(time / day)}일 전`;
+  }
+  return `${Math.round(time / week)}주 전`;
+};
+
 const FeedDetailContainer = ({ modalActive }) => {
   const { selectedFeed } = useContext(ModalContext);
-  const { _id, author, feedImg, content, like, comments } = selectedFeed;
+  const {
+    _id,
+    author,
+    feedImg,
+    content,
+    like,
+    comments,
+    createdAt,
+  } = selectedFeed;
 
   const [loading, setLoading] = useState(false);
   const [selectedIndex, setImageIndex] = useState(0);
@@ -59,7 +136,7 @@ const FeedDetailContainer = ({ modalActive }) => {
   const nextImage = () => setImageIndex(selectedIndex + 1);
   const beforeImage = () => setImageIndex(selectedIndex - 1);
 
-  // if (loading) console.log(selectedIndex, feedImg[selectedIndex]);
+  const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
     setImageIndex(0);
@@ -85,6 +162,23 @@ const FeedDetailContainer = ({ modalActive }) => {
             )}
           </style.ArrowContainer>
         </style.FeedImageContainer>
+        <style.FeedInfoContainer>
+          <AuthorProfile author={author} />
+          <style.Content>
+            <style.FeedContentContainer>
+              <style.ProfileImg src={author.profileImg} />
+              <style.FeedContent>
+                <b>{author.userName}</b>
+                &nbsp;
+                {content}
+              </style.FeedContent>
+            </style.FeedContentContainer>
+          </style.Content>
+          <LikeMenu />
+          <style.LikeCount>{`좋아요 ${like.length}개`}</style.LikeCount>
+          <style.CreatedAt>{excuteTime(createdAt)}</style.CreatedAt>
+          <CommentInput comment={newComment} setNewComment={setNewComment} />
+        </style.FeedInfoContainer>
       </style.FeedDetailContainer>
     );
   }
