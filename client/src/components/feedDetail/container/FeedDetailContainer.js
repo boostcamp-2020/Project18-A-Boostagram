@@ -5,6 +5,7 @@ import ImgNav from '@newFeed/presentational/ImgNav';
 import AuthorProfile from '@feedDetail/presentational/AuthorProfile';
 import LikeMenu from '@feedDetail/presentational/LikeMenu';
 import CommentInput from '@feedDetail/presentational/CommentInput';
+import CommentItem from '@feedDetail/presentational/CommentItem';
 
 const style = {};
 
@@ -173,6 +174,9 @@ const FeedDetailContainer = ({ modalActive }) => {
                 {content}
               </style.FeedContent>
             </style.FeedContentContainer>
+            {/* {comments.map((comment) => {
+              return <CommentItem key={comment._id} comment={comment} />;
+            })} */}
           </style.Content>
           <LikeMenu />
           <style.LikeCount>{`좋아요 ${like.length}개`}</style.LikeCount>
