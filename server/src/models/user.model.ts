@@ -6,13 +6,15 @@ const notiOptions = new mongoose.Schema({
   commentLike: String,
 });
 
-const notiContents = new mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
-  profileImg: String,
-  userName: String,
-  notiType: String,
-  date: String,
-});
+const notiContents = new mongoose.Schema(
+  {
+    profileImg: String,
+    userName: String,
+    notiType: String,
+    isChecked: Boolean,
+  },
+  { timestamps: true },
+);
 
 const followSchema = new mongoose.Schema(
   {
@@ -35,7 +37,7 @@ const userSchema = new mongoose.Schema({
   follow: [followSchema],
   follower: [followSchema],
   notiOptions,
-  notiContents,
+  notiContents: [notiContents],
 });
 
 userSchema.methods.createUser = async function createUser() {
@@ -86,11 +88,10 @@ export interface InotiOptions {
 }
 
 export interface InotiContents {
-  userId: mongoose.Schema.Types.ObjectId;
   profileImg: string;
   userName: string;
   notiType: string;
-  date: string;
+  isChecked: boolean;
 }
 
 export interface ISearch {
@@ -177,7 +178,7 @@ export interface IUser extends mongoose.Document {
   follow?: Array<IFollow>;
   follower?: Array<IFollow>;
   notiOptions?: InotiOptions;
-  notiContents?: InotiContents;
+  notiContents?: Array<InotiContents>;
   createUser: () => boolean;
   addFeedCount: () => boolean;
   findUserName: () => IUser;
