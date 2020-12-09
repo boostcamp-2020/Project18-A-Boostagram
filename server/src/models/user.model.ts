@@ -28,10 +28,12 @@ const followSchema = new mongoose.Schema(
 
 const userSchema = new mongoose.Schema({
   name: String,
+  userId: mongoose.Schema.Types.ObjectId,
   userName: String,
   email: String,
   password: String,
   profileImg: String,
+  feedCount: { type: Number, default: 0 },
   follow: [followSchema],
   follower: [followSchema],
   notiOptions,
@@ -61,6 +63,14 @@ userSchema.methods.findUserSuggest = async function findUserSuggest() {
       { userName: { $regex: regex } },
       { __v: false, follow: false, follower: false },
     );
+  return result;
+};
+
+userSchema.methods.addFeedCount = async function addFeedCount() {
+  const { userId } = this;
+  const result = await mongoose
+    .model('User')
+    .updateOne({ _id: userId }, { $inc: { feedCount: 1 } });
   return result;
 };
 
@@ -160,15 +170,18 @@ userSchema.methods.deleteFollow = async function deletefollow(
 export interface IUser extends mongoose.Document {
   name?: string;
   userName: string;
+  userId?: string;
   email?: string;
   password?: string;
   profileImg?: string;
+  feedCount?: number;
   follow?: Array<IFollow>;
   follower?: Array<IFollow>;
   notiOptions?: InotiOptions;
   notiContents?: Array<InotiContents>;
-  createUser: () => any;
-  findUserName: () => any;
+  createUser: () => boolean;
+  addFeedCount: () => boolean;
+  findUserName: () => IUser;
   findUserSuggest: () => ISearch;
   createFollow: (user: IFollow, target: IFollow) => boolean;
   deleteFollow: (user: IFollow, target: IFollow) => boolean;

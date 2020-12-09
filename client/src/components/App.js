@@ -25,7 +25,6 @@ style.RouteWrapper = styled.div`
 style.Contents = styled.div`
   display: flex;
   margin-top: 54px;
-  background-color: ${(props) => props.theme.color.background};
 `;
 
 style.ModalBackground = styled.div`
@@ -39,22 +38,22 @@ style.ModalBackground = styled.div`
   opacity: 50%;
 `;
 
-const removeCookie = (key) => {
+const clearCookie = (key) => {
   document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 };
 
 const extractCookie = (login, setLogin, cookies) => {
-  const obj = {};
+  const userInfo = {};
 
   cookies.forEach((cookie) => {
     const [key, val] = cookie.split('=');
-    obj[key] = val === 'undefined' ? '' : val;
+    userInfo[key] = val === 'undefined' ? '' : val;
     localStorage.setItem(key, val);
-    removeCookie(key);
+    clearCookie(key);
   });
   setLogin({
     ...login,
-    ...obj,
+    ...userInfo,
   });
 };
 
@@ -65,7 +64,7 @@ const handleCookies = (login, setLogin) => {
   }
 };
 
-const compareObject = (objA, objB) => {
+const isEqualObj = (objA, objB) => {
   return JSON.stringify(objA) === JSON.stringify(objB);
 };
 
@@ -93,7 +92,7 @@ const App = () => {
   const [login, setLogin] = useState(initLogin);
   const handleModal = () => setModalActive(!modalActive);
 
-  if (compareObject(login, initLogin)) {
+  if (isEqualObj(login, initLogin)) {
     // check localStorage.
     const logined = handleRefresh(login, setLogin);
     // no object in localStorage. check cookies.
@@ -111,7 +110,7 @@ const App = () => {
         <Header handleModal={handleModal} />
         <style.Contents>
           <style.RouteWrapper>
-            {compareObject(login, initLogin) ? (
+            {isEqualObj(login, initLogin) ? (
               <>
                 <Route exact path={pathURI.LOGIN} component={LoginContainer} />
                 <Route path="*">

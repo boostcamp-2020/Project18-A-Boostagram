@@ -102,7 +102,7 @@ style.UnfollowBtn = styled.div`
 `;
 
 const ProfileInfo = (input) => {
-  const { userInfo, feeds, login } = input;
+  const { userInfo, login } = input;
 
   const checkFollowing = () => {
     let result = false;
@@ -162,7 +162,7 @@ const ProfileInfo = (input) => {
         </style.NameAndSettings>
         <style.FeedAndFollow>
           <style.FeedCountTitle>게시물</style.FeedCountTitle>
-          <style.FeedCountDetail>{feeds.length}</style.FeedCountDetail>
+          <style.FeedCountDetail>{userInfo.feedCount}</style.FeedCountDetail>
           <style.FollowerTitle>팔로워</style.FollowerTitle>
           <style.FollowerDetail>{followerNum}</style.FollowerDetail>
           <style.FollowingTitle>팔로우</style.FollowingTitle>
