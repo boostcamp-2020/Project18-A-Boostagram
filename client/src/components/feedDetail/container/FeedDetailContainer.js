@@ -61,6 +61,7 @@ style.FeedInfoContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  max-width: 300px;
 `;
 
 style.Content = styled.div`

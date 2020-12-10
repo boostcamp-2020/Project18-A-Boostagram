@@ -18,7 +18,8 @@ style.AuthorProfileImg = styled.img`
 `;
 
 style.CommentContent = styled.div`
-  flex: 1;
+  width: 200px;
+  word-break: break-all;
 `;
 
 const CommentItem = ({ comment }) => {
