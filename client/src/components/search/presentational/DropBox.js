@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const style = {};
 style.DropBox = styled.div`
@@ -53,6 +52,7 @@ style.Name = styled.section`
 `;
 const DropBox = ({ suggestUsers }) => {
   const history = useHistory();
+  console.log(suggestUsers);
 
   return (
     <style.DropBox active={suggestUsers.length}>
@@ -76,10 +76,6 @@ const DropBox = ({ suggestUsers }) => {
       </style.UserList>
     </style.DropBox>
   );
-};
-
-DropBox.propTypes = {
-  suggestUsers: PropTypes.arrayOf().isRequired,
 };
 
 export default DropBox;
