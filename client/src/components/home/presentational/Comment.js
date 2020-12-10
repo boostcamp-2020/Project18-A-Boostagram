@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import UserName from '@home/presentational/UserName';
+import { Link } from 'react-router-dom';
 
 const style = {};
 
@@ -16,11 +17,20 @@ style.Content = styled.div`
   text-overflow: ellipsis;
 `;
 
+style.Link = styled(Link)`
+  text-decoration: none;
+`;
+
 const Comment = (input) => {
   const { author, content } = input;
+  const { userName } = author;
+  const href = `/profile?userName=${userName}`;
+
   return (
     <style.Comment>
-      <UserName>{author.userName}</UserName>
+      <style.Link to={href}>
+        <UserName>{userName}</UserName>
+      </style.Link>
       <style.Content>{content}</style.Content>
     </style.Comment>
   );
