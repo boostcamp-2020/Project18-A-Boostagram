@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import icon from '@constants/icon';
+import ModalContext from '@context/modal';
+import IntersectionHook from '@hooks/Intersection';
 
 const style = {};
 
@@ -55,39 +57,63 @@ style.test = styled.div`
 `;
 
 const FeedCard = (input) => {
-  const { feedImg, like, comments } = input.data;
+  const { data, isLastItem, setGetMore } = input;
+  const { feedImg, like, comments } = data;
   const [hover, setHover] = useState(false);
+  const [target, setTarget] = useState(null);
   const likeNum = like.length;
   const commentNum = comments.length;
+
+  const { handleDetailModal, selectFeed } = useContext(ModalContext);
 
   const hoverHandler = () => {
     setHover(!hover);
   };
 
   const clickHandler = () => {
-    // todo: 상세 화면 출력
+    selectFeed(input.data);
+    handleDetailModal();
   };
+
+  IntersectionHook(isLastItem, target, data._id, setGetMore);
+
+  const jsx = (
+    <>
+      <style.ImgBox src={feedImg[0]} hover={hover} />
+      <style.Icon hover={hover}>
+        <style.test>
+          <style.Hovercontent>
+            <icon.Noti />
+            <style.Number>{likeNum}</style.Number>
+          </style.Hovercontent>
+          <style.Hovercontent>
+            <icon.Comment />
+            <style.Number>{commentNum}</style.Number>
+          </style.Hovercontent>
+        </style.test>
+      </style.Icon>
+    </>
+  );
   return (
     <>
-      <style.FeedCard
-        onMouseEnter={hoverHandler}
-        onMouseLeave={hoverHandler}
-        onClick={clickHandler}
-      >
-        <style.ImgBox src={feedImg[0]} hover={hover} />
-        <style.Icon hover={hover}>
-          <style.test>
-            <style.Hovercontent>
-              <icon.Noti />
-              <style.Number>{likeNum}</style.Number>
-            </style.Hovercontent>
-            <style.Hovercontent>
-              <icon.Comment />
-              <style.Number>{commentNum}</style.Number>
-            </style.Hovercontent>
-          </style.test>
-        </style.Icon>
-      </style.FeedCard>
+      {isLastItem ? (
+        <style.FeedCard
+          onMouseEnter={hoverHandler}
+          onMouseLeave={hoverHandler}
+          onClick={clickHandler}
+          ref={setTarget}
+        >
+          {jsx}
+        </style.FeedCard>
+      ) : (
+        <style.FeedCard
+          onMouseEnter={hoverHandler}
+          onMouseLeave={hoverHandler}
+          onClick={clickHandler}
+        >
+          {jsx}
+        </style.FeedCard>
+      )}
     </>
   );
 };
