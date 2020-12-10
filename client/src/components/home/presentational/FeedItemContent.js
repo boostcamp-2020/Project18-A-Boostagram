@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Comment from '@home/presentational/Comment';
 import FeedItemComment from '@home/presentational/FeedItemComment';
-import excuteTime from '@utils/excuteTIme';
+import excuteTime from '@utils/excuteTime';
 import ModalContext from '@context/modal';
 
 const style = {};
