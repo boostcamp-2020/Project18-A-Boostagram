@@ -53,6 +53,7 @@ style.Name = styled.section`
 `;
 const DropBox = ({ suggestUsers }) => {
   const history = useHistory();
+
   return (
     <style.DropBox active={suggestUsers.length}>
       <style.UserList>
@@ -78,8 +79,7 @@ const DropBox = ({ suggestUsers }) => {
 };
 
 DropBox.propTypes = {
-  suggestUsers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string))
-    .isRequired,
+  suggestUsers: PropTypes.arrayOf().isRequired,
 };
 
 export default DropBox;
