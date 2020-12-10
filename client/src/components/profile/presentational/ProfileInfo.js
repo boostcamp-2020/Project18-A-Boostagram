@@ -134,9 +134,11 @@ const ProfileInfo = (input) => {
         Authorization: `Bearer ${login.jwt}`,
       },
       body: JSON.stringify(followData),
-    }).then(() => {
-      setFollowerNumState(followStatus ? followerNum - 1 : followerNum + 1);
-      setFollowState(!followStatus);
+    }).then((res) => {
+      if (res.status === 200) {
+        setFollowerNumState(followStatus ? followerNum - 1 : followerNum + 1);
+        setFollowState(!followStatus);
+      }
     });
   };
   const FollowOrUnfollow = followStatus ? (
