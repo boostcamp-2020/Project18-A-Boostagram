@@ -5,6 +5,7 @@ import imageRouter from './image.router';
 import loginRouter from './login.router';
 import userRouter from './user.router';
 import commentRouter from './comment.router';
+import searchRouter from './search.router';
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use('/image', imageRouter);
 router.use('/login', loginRouter);
 router.use('/user', userRouter);
 router.use('/comment', commentRouter);
+router.use('/search', searchRouter);
 
 export default router;
