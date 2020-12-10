@@ -18,13 +18,12 @@ UserController.follow = async (req, res) => {
   const { author, status } = req.body;
   const { userName } = req.params;
   const { user } = req;
-
   author.userId = getUserId(user);
   if (!(author && userName && (status === 0 || status === 1))) {
     return res.status(400).end();
   }
   const success = await follow(author, userName, status);
-  if (success) return res.status(201).json({ messege: 'success' });
+  if (success) return res.status(200).json({ messege: 'success' });
 
   return res.status(500).end();
 };
