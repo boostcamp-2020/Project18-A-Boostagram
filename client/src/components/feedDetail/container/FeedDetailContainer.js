@@ -95,6 +95,7 @@ style.LikeCount = styled.div`
 style.CreatedAt = styled.div`
   padding: 0 16px 10px 16px;
   font-size: 10px;
+  opacity: 0.5;
 `;
 
 const excuteTime = (now) => {
