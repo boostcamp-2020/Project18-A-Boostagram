@@ -39,7 +39,7 @@ const ProfileContainer = () => {
   if (loading && data.feeds) {
     return (
       <style.ProfileContainer>
-        <ProfileInfo login={login} userInfo={data.userInfo} />
+        <ProfileInfo login={login} data={data} userInfo={data.userInfo} />
         <FeedList datas={feeds} setGetMore={setGetMore} />
       </style.ProfileContainer>
     );
