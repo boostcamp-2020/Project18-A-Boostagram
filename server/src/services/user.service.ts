@@ -1,5 +1,6 @@
 import FeedModel from '../models/feed.model';
 import UserModel, { IFollow } from '../models/user.model';
+import isExists from '../lib/isExists';
 
 const getProfile = async (
   userName: string,
@@ -19,19 +20,28 @@ const follow = async (
   targetName: string,
   status: number,
 ): Promise<boolean> => {
-  const user = new UserModel({ userName: targetName });
-  const userInfo = await user.findUserName();
-  const target = {
-    userId: userInfo._id,
-    userName: userInfo.userName,
-    name: userInfo.name ? userInfo.name : '',
-    profileImg: userInfo.profileImg,
-  };
   const liked = 1;
+  const user = new UserModel({ userName: params.userName });
+  const userInfo = await user.findUserName();
+
+  if (userInfo.follow !== undefined && userInfo.follow.length > 0) {
+    const exist = isExists(userInfo.follow, targetName);
+    if (liked === status && exist) {
+      return false;
+    }
+  }
+  const target = new UserModel({ userName: targetName });
+  const targetInfo = await target.findUserName();
+  const targetFollow = {
+    userId: targetInfo._id,
+    userName: targetInfo.userName,
+    name: targetInfo.name ? targetInfo.name : '',
+    profileImg: targetInfo.profileImg,
+  };
   const result =
     status === liked
-      ? await user.createFollow(params, target)
-      : await user.deleteFollow(params, target);
+      ? await user.createFollow(params, targetFollow)
+      : await user.deleteFollow(params, targetFollow);
   return result;
 };
 
