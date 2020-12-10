@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Comment from '@home/presentational/Comment';
 import FeedItemComment from '@home/presentational/FeedItemComment';
 import excuteTime from '@utils/excuteTIme';
+import ModalContext from '@context/modal';
 
 const style = {};
 
@@ -26,12 +27,23 @@ const getCommentLength = (comments) => {
   return comments.length;
 };
 const FeedItemContent = (input) => {
-  const { author, content, createdAt, comments } = input;
+  const { author, content, createdAt, comments } = input.data;
   const moreCommentMessage = `댓글 ${getCommentLength(comments)}개 모두 보기`;
+
+  const { handleDetailModal, selectFeed } = useContext(ModalContext);
+
+  const clickHandler = () => {
+    selectFeed(input.data);
+    handleDetailModal();
+  };
+
   return (
     <>
       <Comment author={author} content={content} />
-      <style.MoreComent commentLength={getCommentLength(comments)}>
+      <style.MoreComent
+        commentLength={getCommentLength(comments)}
+        onClick={clickHandler}
+      >
         {moreCommentMessage}
       </style.MoreComent>
       <FeedItemComment comments={comments} />
