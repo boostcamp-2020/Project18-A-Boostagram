@@ -7,7 +7,7 @@ import StoryItems from '@home/presentational/StoryItems';
 const style = {};
 
 style.Story = styled.div`
-  display: ${(props) => (props.datas.length > 0 ? 'flex' : 'none')};
+  display: flex;
   margin-bottom: 24px;
   border: 1px solid #dbdbdb;
   border-radius: 3px;
@@ -28,7 +28,7 @@ const Story = (input) => {
   const { datas } = input;
   const user = [];
   return (
-    <style.Story datas={datas}>
+    <style.Story>
       {datas.map((data) => {
         if (!user.includes(data.author.userId)) {
           user.push(data.author.userId);

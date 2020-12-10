@@ -2,9 +2,6 @@ import mongoose from 'mongoose';
 
 mongoose.set('useFindAndModify', false);
 
-const firstLoad = 9;
-const afterLoad = 6;
-
 const author = new mongoose.Schema(
   {
     userId: {
@@ -65,43 +62,17 @@ Feed.methods.createFeed = async function createFeed() {
   return result;
 };
 
-Feed.methods.exploreFeed = async function exploreFeed(lastFeedId?: string) {
-  if (lastFeedId !== 'noId') {
-    const result = await mongoose
-      .model('Feed')
-      .find()
-      .where('_id')
-      .lt(lastFeedId)
-      .limit(afterLoad)
-      .sort('-createdAt');
-    return result;
-  }
-  const result = await mongoose
-    .model('Feed')
-    .find()
-    .limit(firstLoad)
-    .sort('-createdAt');
+Feed.methods.exploreFeed = async function exploreFeed() {
+  const result = await mongoose.model('Feed').find().sort('-createdAt');
   return result;
 };
 
 Feed.methods.followingFeed = async function followingFeed(
   params: Array<string>,
-  lastFeedId?: string,
 ) {
-  if (lastFeedId !== 'noId') {
-    const result = await mongoose
-      .model('Feed')
-      .find({ 'author.userId': { $in: params } })
-      .where('_id')
-      .lt(lastFeedId)
-      .limit(afterLoad)
-      .sort('-createdAt');
-    return result;
-  }
   const result = await mongoose
     .model('Feed')
     .find({ 'author.userId': { $in: params } })
-    .limit(firstLoad)
     .sort('-createdAt');
   return result;
 };
@@ -125,6 +96,7 @@ Feed.methods.addLike = async function addLike(
   user: Iauthor,
   feedId: mongoose.Schema.Types.ObjectId,
 ) {
+  console.log('add');
   const result = await mongoose.model('Feed').updateOne(
     { _id: feedId },
     {
@@ -144,6 +116,7 @@ Feed.methods.deleteLike = async function deleteLike(
   user: Iauthor,
   feedId: mongoose.Schema.Types.ObjectId,
 ) {
+  console.log('delete');
   const result = await mongoose.model('Feed').updateOne(
     { _id: feedId },
     {
@@ -165,8 +138,8 @@ export interface IFeed extends mongoose.Document {
   comments?: Array<Icomment>;
 
   createFeed: () => boolean;
-  exploreFeed: (lastFeedId?: string) => Array<IFeed>;
-  followingFeed: (params: Array<string>, lastFeedId?: string) => Array<IFeed>;
+  exploreFeed: () => Array<IFeed>;
+  followingFeed: (params: Array<string>) => Array<IFeed>;
   createComment: (params: Icomment) => boolean;
   addLike: (user: Iauthor, feedId: string) => boolean;
   deleteLike: (user: Iauthor, feedId: string) => boolean;

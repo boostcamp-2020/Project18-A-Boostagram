@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import UserContext from '@context/user';
 import { Link } from 'react-router-dom';
 import pathURI from '@constants/path';
-import Logout from './Logout';
 
 const style = {};
 
@@ -46,7 +45,6 @@ style.Name = styled.div`
 `;
 
 style.ProfileLink = styled(Link)`
-  display: flex;
   text-decoration: none;
 `;
 
@@ -56,12 +54,13 @@ const Side = () => {
     <style.Side>
       <style.ProfileLink to={pathURI.PROFILE}>
         <style.ProfileImg draggable="false" src={login.profileImg} />
-        <style.User>
-          <style.UserName>{login.userName}</style.UserName>
-          <style.Name>{login.name}</style.Name>
-        </style.User>
       </style.ProfileLink>
-      <Logout />
+      <style.User>
+        <style.ProfileLink to={pathURI.PROFILE}>
+          <style.UserName>{login.userName}</style.UserName>
+        </style.ProfileLink>
+        <style.Name>{login.name}</style.Name>
+      </style.User>
     </style.Side>
   );
 };
