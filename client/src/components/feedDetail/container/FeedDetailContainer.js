@@ -30,6 +30,7 @@ style.FeedImageContainer = styled.div`
 style.FeedImage = styled.img`
   width: 600px;
   height: 600px;
+  object-fit: contain;
 `;
 
 style.ArrowContainer = styled.div`
