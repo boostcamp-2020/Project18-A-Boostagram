@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import theme from '@style/Theme';
 import icon from '@constants/icon';
@@ -102,7 +102,7 @@ style.UnfollowBtn = styled.div`
 `;
 
 const ProfileInfo = (input) => {
-  const { userInfo, login } = input;
+  const { data, userInfo, login } = input;
 
   const checkFollowing = () => {
     let result = false;
@@ -114,8 +114,13 @@ const ProfileInfo = (input) => {
     return result;
   };
   const [followStatus, setFollowState] = useState(checkFollowing());
-  const [followNum, setFollowNumState] = useState(userInfo.follow.length);
-  const [followerNum, setFollowerNumState] = useState(userInfo.follower.length);
+
+  const followNum = data.userInfo.follow.length;
+  const [followerNum, setFollowerNumState] = useState();
+  useEffect(() => {
+    setFollowerNumState(data.userInfo.follower.length);
+  }, [data]);
+
   const clickHandler = () => {
     const { name, userName, profileImg } = login;
     const followData = {
