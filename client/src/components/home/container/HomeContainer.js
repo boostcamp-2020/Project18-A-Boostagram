@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Side from '@home/presentational/Side';
 import Contents from '@home/presentational/Contents';
-import pathURL from '@constants/path';
 import UserContext from '@context/user';
+import HomeFeedAPI from '@api/HomeFeedAPI';
 
 const style = {};
 
@@ -14,32 +14,19 @@ style.HomeContainer = styled.div`
   margin: 0 auto;
   margin-top: 30px;
 `;
+
 const HomeContainer = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [getMore, setGetMore] = useState('noId');
   const { login } = useContext(UserContext);
 
-  const getData = () => {
-    const url = pathURL.IP + pathURL.API_HOME_FEED + login.userName;
-    const option = {
-      mode: 'cors',
-      method: 'GET',
-    };
-    async function fetchUrl() {
-      const response = await fetch(url, option);
-      const json = await response.json();
-      setData(json);
-      setLoading(true);
-    }
-    useEffect(() => {
-      fetchUrl();
-    }, []);
-  };
-  getData();
+  HomeFeedAPI(data, setData, loading, setLoading, login, getMore);
+
   if (loading) {
     return (
       <style.HomeContainer>
-        <Contents data={data} />
+        <Contents data={data} setGetMore={setGetMore} />
         <Side />
       </style.HomeContainer>
     );
