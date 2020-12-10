@@ -14,6 +14,7 @@ style.HomeContainer = styled.div`
   margin: 0 auto;
   margin-top: 30px;
 `;
+
 const HomeContainer = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
