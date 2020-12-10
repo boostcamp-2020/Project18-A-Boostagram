@@ -52,7 +52,6 @@ style.Name = styled.section`
 `;
 const DropBox = ({ suggestUsers }) => {
   const history = useHistory();
-  console.log(suggestUsers);
 
   return (
     <style.DropBox active={suggestUsers.length}>
