@@ -28,7 +28,7 @@ style.SubmitComment = styled.button`
   }
 `;
 
-const CommentInput = ({ comment, setNewComment }) => {
+const CommentInput = ({ comment, setNewComment, submitHandler }) => {
   const handleChange = (e) => {
     setNewComment(e.target.value);
   };
@@ -40,7 +40,9 @@ const CommentInput = ({ comment, setNewComment }) => {
         value={comment}
         onChange={handleChange}
       />
-      <style.SubmitComment disabled={comment === ''}>게시</style.SubmitComment>
+      <style.SubmitComment disabled={comment === ''} onClick={submitHandler}>
+        게시
+      </style.SubmitComment>
     </style.CommentInput>
   );
 };

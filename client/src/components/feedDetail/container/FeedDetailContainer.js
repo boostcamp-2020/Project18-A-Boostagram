@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import UserContext from '@context/user';
 import ModalContext from '@context/modal';
 import ImgNav from '@newFeed/presentational/ImgNav';
 import AuthorProfile from '@feedDetail/presentational/AuthorProfile';
 import LikeMenu from '@feedDetail/presentational/LikeMenu';
 import CommentInput from '@feedDetail/presentational/CommentInput';
 import CommentItem from '@feedDetail/presentational/CommentItem';
+import pathURI from '@constants/path';
 
 const style = {};
 
@@ -122,6 +124,7 @@ const excuteTime = (now) => {
 };
 
 const FeedDetailContainer = () => {
+  const { login } = useContext(UserContext);
   const { selectedFeed, detailActive } = useContext(ModalContext);
   const {
     _id,
@@ -139,7 +142,33 @@ const FeedDetailContainer = () => {
   const nextImage = () => setImageIndex(selectedIndex + 1);
   const beforeImage = () => setImageIndex(selectedIndex - 1);
 
-  const [newComment, setNewComment] = useState('');
+  const [commentInput, setCommentInput] = useState('');
+
+  const CommentSubmitHandler = (e) => {
+    e.preventDefault();
+    const newComment = {
+      author: {
+        name: login.name,
+        userName: login.userName,
+        profileImg: login.profileImg,
+      },
+      content: commentInput,
+      feedId: _id,
+    };
+    fetch(pathURI.IP + pathURI.API_COMMENT, {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${login.jwt}`,
+      },
+      body: JSON.stringify(newComment),
+    }).then(() => {
+      comments.push(newComment);
+      // setComments(comments);
+      setCommentInput('');
+    });
+  };
 
   useEffect(() => {
     setImageIndex(0);
@@ -183,7 +212,11 @@ const FeedDetailContainer = () => {
           <LikeMenu />
           <style.LikeCount>{`좋아요 ${like.length}개`}</style.LikeCount>
           <style.CreatedAt>{excuteTime(createdAt)}</style.CreatedAt>
-          <CommentInput comment={newComment} setNewComment={setNewComment} />
+          <CommentInput
+            comment={commentInput}
+            setNewComment={setCommentInput}
+            submitHandler={CommentSubmitHandler}
+          />
         </style.FeedInfoContainer>
       </style.FeedDetailContainer>
     );
