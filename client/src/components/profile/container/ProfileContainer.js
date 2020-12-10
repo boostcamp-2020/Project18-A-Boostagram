@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import ProfileInfo from '@profile/presentational/ProfileInfo';
 import FeedList from '@feedExplore/presentational/FeedList';
-import pathURL from '@constants/path';
 import UserContext from '@context/user';
 import ModalContext from '@context/modal';
+import ProfileFeedAPI from '@api/ProfileFeedAPI';
 
 const style = {};
 
@@ -18,30 +18,29 @@ const ProfileContainer = () => {
   if (!userName) userName = login.userName;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [feeds, setFeeds] = useState([]);
   const { modalActive } = useContext(ModalContext);
-  const getData = () => {
-    const url = pathURL.IP + pathURL.API_PROFILE + userName;
-    const option = {
-      mode: 'cors',
-      method: 'GET',
-    };
-    async function fetchUrl() {
-      const response = await fetch(url, option);
-      const json = await response.json();
-      json.login = login;
-      setData(json);
-      setLoading(true);
-    }
-    useEffect(() => {
-      fetchUrl();
-    }, [preUserName, modalActive]);
-  };
-  getData();
-  if (loading) {
+  const [getMore, setGetMore] = useState('noId');
+  const isMounted = useRef(false);
+
+  ProfileFeedAPI(
+    setData,
+    loading,
+    setLoading,
+    getMore,
+    userName,
+    preUserName,
+    feeds,
+    setFeeds,
+    isMounted,
+    modalActive,
+  );
+
+  if (loading && data.feeds) {
     return (
       <style.ProfileContainer>
-        <ProfileInfo data={data} />
-        <FeedList datas={data.feeds} />
+        <ProfileInfo login={login} userInfo={data.userInfo} />
+        <FeedList datas={feeds} setGetMore={setGetMore} />
       </style.ProfileContainer>
     );
   }

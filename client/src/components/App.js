@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
 import ModalContext from '@context/modal';
@@ -10,15 +10,10 @@ import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
+import initLogin from '@constants/value';
 import LoginContainer from './login/container/LoginContainer';
 import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
 
-const initLogin = {
-  jwt: '',
-  name: '',
-  userName: '',
-  profileImg: '',
-};
 const NOT_LOGINED = 'NOT_LOGINED';
 const RESPONSE_USER_DATA_NUMS = 4;
 const style = {};
@@ -31,7 +26,6 @@ style.RouteWrapper = styled.div`
 style.Contents = styled.div`
   display: flex;
   margin-top: 54px;
-  background-color: ${(props) => props.theme.color.background};
 `;
 
 style.ModalBackground = styled.div`
@@ -45,22 +39,22 @@ style.ModalBackground = styled.div`
   opacity: 50%;
 `;
 
-const removeCookie = (key) => {
+const clearCookie = (key) => {
   document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 };
 
 const extractCookie = (login, setLogin, cookies) => {
-  const obj = {};
+  const userInfo = {};
 
   cookies.forEach((cookie) => {
     const [key, val] = cookie.split('=');
-    obj[key] = val === 'undefined' ? '' : val;
+    userInfo[key] = val === 'undefined' ? '' : val;
     localStorage.setItem(key, val);
-    removeCookie(key);
+    clearCookie(key);
   });
   setLogin({
     ...login,
-    ...obj,
+    ...userInfo,
   });
 };
 
@@ -71,7 +65,7 @@ const handleCookies = (login, setLogin) => {
   }
 };
 
-const compareObject = (objA, objB) => {
+const isEqualObj = (objA, objB) => {
   return JSON.stringify(objA) === JSON.stringify(objB);
 };
 
@@ -103,7 +97,7 @@ const App = () => {
   const [detailActive, setDetailActive] = useState(false);
   const handleDetailModal = () => setDetailActive(!detailActive);
 
-  if (compareObject(login, initLogin)) {
+  if (isEqualObj(login, initLogin)) {
     // check localStorage.
     const logined = handleRefresh(login, setLogin);
     // no object in localStorage. check cookies.
@@ -125,7 +119,7 @@ const App = () => {
         <Header handleModal={handleModal} />
         <style.Contents>
           <style.RouteWrapper>
-            {compareObject(login, initLogin) ? (
+            {isEqualObj(login, initLogin) ? (
               <>
                 <Route exact path={pathURI.LOGIN} component={LoginContainer} />
                 <Route path="*">
