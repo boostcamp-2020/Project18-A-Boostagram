@@ -19,7 +19,7 @@ style.CommentText = styled.input`
 style.SubmitComment = styled.button`
   background: none;
   border: none;
-  color: blue;
+  color: ${({ theme }) => theme.color.blue};
   font-weight: bold;
   outline: none;
   :disabled {
