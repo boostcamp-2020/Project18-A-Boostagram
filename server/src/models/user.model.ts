@@ -56,7 +56,7 @@ userSchema.methods.findUserName = async function findUserName() {
 
 userSchema.methods.findUserSuggest = async function findUserSuggest() {
   const { userName } = this;
-  const regex = new RegExp(userName);
+  const regex = new RegExp(userName, 'gi');
   const result = await mongoose
     .model('User')
     .find(
