@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
 import ModalContext from '@context/modal';
@@ -11,6 +11,7 @@ import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
 import initLogin from '@constants/value';
+import ProfileFeedAPI from '@api/ProfileFeedAPI';
 import LoginContainer from './login/container/LoginContainer';
 import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
 
@@ -105,6 +106,22 @@ const App = () => {
       handleCookies(login, setLogin);
     }
   }
+
+  useEffect(async () => {
+    const url = `${
+      pathURI.IP + pathURI.API_PROFILE + login.userName
+    }?lastFeedId=noId`;
+    const option = {
+      mode: 'cors',
+      method: 'GET',
+    };
+    const response = await fetch(url, option);
+    const json = await response.json();
+    setLogin({
+      ...login,
+      follow: json.userInfo.follow,
+    });
+  }, []);
 
   return (
     <>
