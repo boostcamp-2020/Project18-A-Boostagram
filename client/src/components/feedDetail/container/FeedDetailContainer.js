@@ -27,6 +27,7 @@ style.FeedDetailContainer = styled.div`
 style.FeedImageContainer = styled.div`
   width: 600px;
   height: 600px;
+  background-color: black;
 `;
 
 style.FeedImage = styled.img`
@@ -60,6 +61,7 @@ style.FeedInfoContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  max-width: 300px;
 `;
 
 style.Content = styled.div`
@@ -94,6 +96,7 @@ style.LikeCount = styled.div`
 style.CreatedAt = styled.div`
   padding: 0 16px 10px 16px;
   font-size: 10px;
+  opacity: 0.5;
 `;
 
 const excuteTime = (now) => {

@@ -83,12 +83,7 @@ const FeedItem = (input) => {
       <FeedItemAuthor author={data.author} />
       <FeedItemImg feedImg={data.feedImg} />
       <FeedItemIcon data={data} login={login} />
-      <FeedItemContent
-        author={data.author}
-        content={data.content}
-        createdAt={data.createdAt}
-        comments={comments}
-      />
+      <FeedItemContent data={data} />
       <FeedItemInput
         feedComment={feedComment}
         setFeedComment={setFeedComment}

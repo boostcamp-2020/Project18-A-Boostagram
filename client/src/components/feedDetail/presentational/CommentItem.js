@@ -6,7 +6,7 @@ const style = {};
 style.CommentItem = styled.div`
   display: flex;
   font-size: 14px;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 `;
 
 style.AuthorProfileImg = styled.img`
@@ -18,7 +18,8 @@ style.AuthorProfileImg = styled.img`
 `;
 
 style.CommentContent = styled.div`
-  flex: 1;
+  width: 200px;
+  word-break: break-all;
 `;
 
 const CommentItem = ({ comment }) => {
