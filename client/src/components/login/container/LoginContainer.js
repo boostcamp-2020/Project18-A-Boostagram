@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginButton from '@login/presentational/LoginButton';
+import LoginHeader from '@login/presentational/LoginHeader';
 import pathURL from '@constants/path';
 import styled from 'styled-components';
 
@@ -31,6 +32,7 @@ const LoginContainer = () => {
   return (
     <style.LoginContainer>
       <style.LoginForm>
+        <LoginHeader />
         <LoginButton handleButton={handleButton} />
       </style.LoginForm>
     </style.LoginContainer>

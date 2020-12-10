@@ -24,23 +24,18 @@ feedController.create = async (req: Request, res: Response) => {
 };
 
 feedController.explore = async (req: Request, res: Response) => {
-  const { lastFeedId } = JSON.parse(JSON.stringify(req.query));
-
-  const result = await explore(lastFeedId);
+  const result = await explore();
   if (result) return res.status(200).json(result);
   return res.status(500).end();
 };
 
 feedController.following = async (req: Request, res: Response) => {
   const { userName } = req.params;
-  const { lastFeedId } = JSON.parse(JSON.stringify(req.query));
-
   const user = await User.findOne({ userName });
   if (!user) {
     return res.status(400).end();
   }
-
-  const result = await following(user, lastFeedId);
+  const result = await following(user);
   if (result) return res.status(200).json(result);
   return res.status(500).end();
 };

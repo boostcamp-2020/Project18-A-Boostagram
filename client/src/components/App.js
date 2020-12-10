@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
 import ModalContext from '@context/modal';
@@ -10,11 +10,14 @@ import NewFeedContainer from '@newFeed/container/NewFeedContainer';
 import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
-import initLogin from '@constants/value';
-import ProfileFeedAPI from '@api/ProfileFeedAPI';
 import LoginContainer from './login/container/LoginContainer';
-import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
 
+const initLogin = {
+  jwt: '',
+  name: '',
+  userName: '',
+  profileImg: '',
+};
 const NOT_LOGINED = 'NOT_LOGINED';
 const RESPONSE_USER_DATA_NUMS = 4;
 const style = {};
@@ -27,6 +30,7 @@ style.RouteWrapper = styled.div`
 style.Contents = styled.div`
   display: flex;
   margin-top: 54px;
+  background-color: ${(props) => props.theme.color.background};
 `;
 
 style.ModalBackground = styled.div`
@@ -40,22 +44,22 @@ style.ModalBackground = styled.div`
   opacity: 50%;
 `;
 
-const clearCookie = (key) => {
+const removeCookie = (key) => {
   document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 };
 
 const extractCookie = (login, setLogin, cookies) => {
-  const userInfo = {};
+  const obj = {};
 
   cookies.forEach((cookie) => {
     const [key, val] = cookie.split('=');
-    userInfo[key] = val === 'undefined' ? '' : val;
+    obj[key] = val === 'undefined' ? '' : val;
     localStorage.setItem(key, val);
-    clearCookie(key);
+    removeCookie(key);
   });
   setLogin({
     ...login,
-    ...userInfo,
+    ...obj,
   });
 };
 
@@ -66,7 +70,7 @@ const handleCookies = (login, setLogin) => {
   }
 };
 
-const isEqualObj = (objA, objB) => {
+const compareObject = (objA, objB) => {
   return JSON.stringify(objA) === JSON.stringify(objB);
 };
 
@@ -94,11 +98,7 @@ const App = () => {
   const [login, setLogin] = useState(initLogin);
   const handleModal = () => setModalActive(!modalActive);
 
-  const [selectedFeed, selectFeed] = useState({});
-  const [detailActive, setDetailActive] = useState(false);
-  const handleDetailModal = () => setDetailActive(!detailActive);
-
-  if (isEqualObj(login, initLogin)) {
+  if (compareObject(login, initLogin)) {
     // check localStorage.
     const logined = handleRefresh(login, setLogin);
     // no object in localStorage. check cookies.
@@ -107,36 +107,16 @@ const App = () => {
     }
   }
 
-  useEffect(async () => {
-    const url = `${
-      pathURI.IP + pathURI.API_PROFILE + login.userName
-    }?lastFeedId=noId`;
-    const option = {
-      mode: 'cors',
-      method: 'GET',
-    };
-    const response = await fetch(url, option);
-    const json = await response.json();
-    setLogin({
-      ...login,
-      follow: json.userInfo.follow,
-    });
-  }, []);
-
   return (
     <>
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
         <style.ModalBackground active={modalActive} onClick={handleModal} />
-        <style.ModalBackground
-          active={detailActive}
-          onClick={handleDetailModal}
-        />
         <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
         <Header handleModal={handleModal} />
         <style.Contents>
           <style.RouteWrapper>
-            {isEqualObj(login, initLogin) ? (
+            {compareObject(login, initLogin) ? (
               <>
                 <Route exact path={pathURI.LOGIN} component={LoginContainer} />
                 <Route path="*">
@@ -144,16 +124,7 @@ const App = () => {
                 </Route>
               </>
             ) : (
-              <ModalContext.Provider
-                value={{
-                  modalActive,
-                  detailActive,
-                  handleDetailModal,
-                  selectedFeed,
-                  selectFeed,
-                }}
-              >
-                <FeedDetailContainer />
+              <ModalContext.Provider value={{ modalActive }}>
                 <PrivateRouter />
               </ModalContext.Provider>
             )}

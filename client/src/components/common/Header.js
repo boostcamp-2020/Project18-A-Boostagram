@@ -5,7 +5,6 @@ import icon from '@constants/icon';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserContext from '@context/user';
-import SearchBar from '@search/container/SearchBar';
 
 const style = {};
 
@@ -30,6 +29,16 @@ style.Header = styled.div`
 style.LogoArea = styled.a`
   flex: 2;
   padding-top: 7px;
+`;
+
+style.SearchBar = styled.input`
+  height: 20px;
+  flex: 1;
+  background-color: ${(props) => props.theme.color.background};
+  border: 1px solid ${(props) => props.theme.color.border};
+  border-radius: 3px;
+  text-align: center;
+  padding: 3px;
 `;
 
 style.NavigationBar = styled.div`
@@ -59,7 +68,7 @@ const Header = ({ handleModal }) => {
         <style.LogoArea href={pathURI.HOME}>
           <icon.Logo />
         </style.LogoArea>
-        <SearchBar />
+        <style.SearchBar type="text" placeholder="검색" />
         <style.NavigationBar>
           <style.NavigationItem to={pathURI.HOME}>
             <icon.Home />

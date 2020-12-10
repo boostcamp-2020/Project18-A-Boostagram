@@ -11,23 +11,11 @@ style.FeedList = styled.div`
 `;
 
 const FeedList = (input) => {
-  const { datas, setGetMore } = input;
+  const { datas } = input;
   return (
     <style.FeedList>
-      {datas.map((data, index) => {
-        const isLastItem = datas.length === index + 1;
-        const key = `${index}-${data._id}`;
-        if (isLastItem) {
-          return (
-            <FeedCard
-              data={data}
-              key={key}
-              isLastItem
-              setGetMore={setGetMore}
-            />
-          );
-        }
-        return <FeedCard data={data} key={key} />;
+      {datas.map((data) => {
+        return <FeedCard data={data} key={data._id} />;
       })}
     </style.FeedList>
   );

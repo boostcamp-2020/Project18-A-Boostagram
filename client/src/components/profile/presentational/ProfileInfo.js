@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import theme from '@style/Theme';
 import icon from '@constants/icon';
-import pathURI from '@constants/path';
-import UserContext from '@context/user';
 
 const style = {};
 
@@ -83,121 +81,28 @@ style.UserName = styled.div`
   margin-top: 20px;
 `;
 
-style.FollowBtn = styled.div`
-  background-color: #0095f6;
-  border: none;
-  border-radius: 3px;
-  color: white;
-  font-weight: bold;
-  padding: 4px 20px;
-  cursor: pointer;
-`;
-
-style.UnfollowBtn = styled.div`
-  background-color: transparent;
-  border: 1px solid ${theme.color.border};
-  border-radius: 3px;
-  font-weight: bold;
-  padding: 4px 20px;
-  cursor: pointer;
-`;
-
-const ProfileInfo = (input) => {
-  const { data, userInfo } = input;
-  const { login, setLogin } = useContext(UserContext);
-  const followNum = data.userInfo.follow.length;
-  const [followerNum, setFollowerNumState] = useState();
-
-  const checkFollowing = () => {
-    const result = login.follow?.find((f) => f.userName === userInfo.userName);
-    return result !== undefined;
-  };
-
-  const [isFollowed, setIsFollowed] = useState(checkFollowing());
-  const [followStatus, setFollowState] = useState(checkFollowing());
-
-  useEffect(() => {
-    setFollowerNumState(data.userInfo.follower.length);
-  }, [data]);
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    if (isMounted.current) {
-      setFollowState(checkFollowing());
-      if (isFollowed && !checkFollowing()) {
-        setFollowerNumState(followerNum - 1);
-        setIsFollowed(checkFollowing());
-      } else if (!isFollowed && checkFollowing()) {
-        setFollowerNumState(followerNum + 1);
-        setIsFollowed(checkFollowing());
-      }
-    } else {
-      isMounted.current = true;
-    }
-  }, [login]);
-
-  const clickHandler = () => {
-    const { name, userName, profileImg } = login;
-    const followData = {
-      author: {
-        name,
-        userName,
-        profileImg,
-      },
-      status: followStatus ? 0 : 1,
-    };
-    fetch(pathURI.IP + pathURI.API_FOLLOW + userInfo.userName, {
-      mode: 'cors',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${login.jwt}`,
-      },
-      body: JSON.stringify(followData),
-    }).then((res) => {
-      if (res.status === 200) {
-        if (followStatus) {
-          const newFollow = login.follow.filter(
-            (ele) => ele.userName !== userInfo.userName,
-          );
-          setLogin({ ...login, follow: newFollow });
-        } else {
-          login.follow.push({ userName: userInfo.userName });
-          setLogin({ ...login });
-        }
-        setFollowerNumState(followStatus ? followerNum - 1 : followerNum + 1);
-        setFollowState(!followStatus);
-      }
-    });
-  };
-  const FollowOrUnfollow = followStatus ? (
-    <style.UnfollowBtn onClick={clickHandler}>언팔로우</style.UnfollowBtn>
-  ) : (
-    <style.FollowBtn onClick={clickHandler}>팔로우</style.FollowBtn>
-  );
-
+const ProfileInfo = (props) => {
+  const { userInfo, feeds } = props.data;
   return (
     <style.ProfileInfo>
       <style.ProfileImg src={userInfo.profileImg} />
       <style.ProfileDetail>
         <style.NameAndSettings>
           <style.Name>{userInfo.userName}</style.Name>
-          {login.userName === userInfo.userName ? (
-            <>
-              <style.ChangeProfile>프로필 편집</style.ChangeProfile>
-              <icon.Setting />
-            </>
-          ) : (
-            FollowOrUnfollow
-          )}
+          <style.ChangeProfile>프로필 편집</style.ChangeProfile>
+          <icon.Setting />
         </style.NameAndSettings>
         <style.FeedAndFollow>
           <style.FeedCountTitle>게시물</style.FeedCountTitle>
-          <style.FeedCountDetail>{userInfo.feedCount}</style.FeedCountDetail>
+          <style.FeedCountDetail>{feeds.length}</style.FeedCountDetail>
           <style.FollowerTitle>팔로워</style.FollowerTitle>
-          <style.FollowerDetail>{followerNum}</style.FollowerDetail>
+          <style.FollowerDetail>
+            {userInfo.follower.length}
+          </style.FollowerDetail>
           <style.FollowingTitle>팔로우</style.FollowingTitle>
-          <style.FollowingDetail>{followNum}</style.FollowingDetail>
+          <style.FollowingDetail>
+            {userInfo.follow.length}
+          </style.FollowingDetail>
         </style.FeedAndFollow>
         <style.UserName>{userInfo.name}</style.UserName>
       </style.ProfileDetail>

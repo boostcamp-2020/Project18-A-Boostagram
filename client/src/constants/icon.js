@@ -5,9 +5,7 @@ const icon = {};
 icon.Logo = () => (
   <img
     alt="Instagram"
-    width="120"
-    height="36"
-    src="https://user-images.githubusercontent.com/24909656/101751559-bdd1e900-3b13-11eb-99f0-a2ef6b92d70b.PNG"
+    src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
   />
 );
 
