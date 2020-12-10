@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import FeedItemContent from '@home/presentational/FeedItemContent';
 import FeedItemAuthor from '@home/presentational/FeedItemAuthor';
-import FeedItemIcon from '@home/presentational/FeedItemIcon';
+import FeedItemIcon from '@common/FeedItemIcon';
 import FeedItemImg from '@home/presentational/FeedItemImg';
 import FeedItemInput from '@home/presentational/FeedItemInput';
 import UserContext from '@context/user';
