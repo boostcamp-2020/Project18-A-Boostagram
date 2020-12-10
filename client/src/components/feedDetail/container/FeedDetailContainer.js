@@ -4,10 +4,10 @@ import UserContext from '@context/user';
 import ModalContext from '@context/modal';
 import ImgNav from '@newFeed/presentational/ImgNav';
 import AuthorProfile from '@feedDetail/presentational/AuthorProfile';
-import LikeMenu from '@feedDetail/presentational/LikeMenu';
 import CommentInput from '@feedDetail/presentational/CommentInput';
 import CommentItem from '@feedDetail/presentational/CommentItem';
 import pathURI from '@constants/path';
+import FeedItemIcon from '@common/FeedItemIcon';
 
 const style = {};
 
@@ -126,15 +126,7 @@ const excuteTime = (now) => {
 const FeedDetailContainer = () => {
   const { login } = useContext(UserContext);
   const { selectedFeed, detailActive } = useContext(ModalContext);
-  const {
-    _id,
-    author,
-    feedImg,
-    content,
-    like,
-    comments,
-    createdAt,
-  } = selectedFeed;
+  const { _id, author, feedImg, content, comments, createdAt } = selectedFeed;
 
   const [loading, setLoading] = useState(false);
   const [selectedIndex, setImageIndex] = useState(0);
@@ -209,8 +201,7 @@ const FeedDetailContainer = () => {
               return <CommentItem key={comment._id} comment={comment} />;
             })}
           </style.Content>
-          <LikeMenu />
-          <style.LikeCount>{`좋아요 ${like.length}개`}</style.LikeCount>
+          <FeedItemIcon data={selectedFeed} login={login} />
           <style.CreatedAt>{excuteTime(createdAt)}</style.CreatedAt>
           <CommentInput
             comment={commentInput}
