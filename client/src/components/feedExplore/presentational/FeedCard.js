@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import icon from '@constants/icon';
+import ModalContext from '@context/modal';
 import IntersectionHook from '@hooks/Intersection';
 
 const style = {};
@@ -63,12 +64,15 @@ const FeedCard = (input) => {
   const likeNum = like.length;
   const commentNum = comments.length;
 
+  const { handleDetailModal, selectFeed } = useContext(ModalContext);
+
   const hoverHandler = () => {
     setHover(!hover);
   };
 
   const clickHandler = () => {
-    // todo: 상세 화면 출력
+    selectFeed(input.data);
+    handleDetailModal();
   };
 
   IntersectionHook(isLastItem, target, data._id, setGetMore);

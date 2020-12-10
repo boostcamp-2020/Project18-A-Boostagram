@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
 import ModalContext from '@context/modal';
@@ -11,7 +11,9 @@ import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
 import initLogin from '@constants/value';
+import ProfileFeedAPI from '@api/ProfileFeedAPI';
 import LoginContainer from './login/container/LoginContainer';
+import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
 
 const NOT_LOGINED = 'NOT_LOGINED';
 const RESPONSE_USER_DATA_NUMS = 4;
@@ -92,6 +94,10 @@ const App = () => {
   const [login, setLogin] = useState(initLogin);
   const handleModal = () => setModalActive(!modalActive);
 
+  const [selectedFeed, selectFeed] = useState({});
+  const [detailActive, setDetailActive] = useState(false);
+  const handleDetailModal = () => setDetailActive(!detailActive);
+
   if (isEqualObj(login, initLogin)) {
     // check localStorage.
     const logined = handleRefresh(login, setLogin);
@@ -101,11 +107,31 @@ const App = () => {
     }
   }
 
+  useEffect(async () => {
+    const url = `${
+      pathURI.IP + pathURI.API_PROFILE + login.userName
+    }?lastFeedId=noId`;
+    const option = {
+      mode: 'cors',
+      method: 'GET',
+    };
+    const response = await fetch(url, option);
+    const json = await response.json();
+    setLogin({
+      ...login,
+      follow: json.userInfo.follow,
+    });
+  }, []);
+
   return (
     <>
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
         <style.ModalBackground active={modalActive} onClick={handleModal} />
+        <style.ModalBackground
+          active={detailActive}
+          onClick={handleDetailModal}
+        />
         <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
         <Header handleModal={handleModal} />
         <style.Contents>
@@ -118,7 +144,16 @@ const App = () => {
                 </Route>
               </>
             ) : (
-              <ModalContext.Provider value={{ modalActive }}>
+              <ModalContext.Provider
+                value={{
+                  modalActive,
+                  detailActive,
+                  handleDetailModal,
+                  selectedFeed,
+                  selectFeed,
+                }}
+              >
+                <FeedDetailContainer />
                 <PrivateRouter />
               </ModalContext.Provider>
             )}
