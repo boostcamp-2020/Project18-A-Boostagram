@@ -119,8 +119,8 @@ const excuteTime = (now) => {
   return `${Math.round(time / week)}주 전`;
 };
 
-const FeedDetailContainer = ({ modalActive }) => {
-  const { selectedFeed } = useContext(ModalContext);
+const FeedDetailContainer = () => {
+  const { selectedFeed, detailActive } = useContext(ModalContext);
   const {
     _id,
     author,
@@ -146,7 +146,7 @@ const FeedDetailContainer = ({ modalActive }) => {
 
   if (loading) {
     return (
-      <style.FeedDetailContainer active={modalActive}>
+      <style.FeedDetailContainer active={detailActive}>
         <style.FeedImageContainer>
           <style.FeedImage src={feedImg[selectedIndex]} />
           <ImgNav imgIndex={selectedIndex} imgs={feedImg} />
@@ -174,9 +174,9 @@ const FeedDetailContainer = ({ modalActive }) => {
                 {content}
               </style.FeedContent>
             </style.FeedContentContainer>
-            {/* {comments.map((comment) => {
+            {comments.map((comment) => {
               return <CommentItem key={comment._id} comment={comment} />;
-            })} */}
+            })}
           </style.Content>
           <LikeMenu />
           <style.LikeCount>{`좋아요 ${like.length}개`}</style.LikeCount>
@@ -187,7 +187,7 @@ const FeedDetailContainer = ({ modalActive }) => {
     );
   }
   return (
-    <style.FeedDetailContainer active={modalActive}>
+    <style.FeedDetailContainer active={detailActive}>
       loading...
     </style.FeedDetailContainer>
   );

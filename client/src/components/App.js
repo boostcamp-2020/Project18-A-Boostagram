@@ -136,12 +136,13 @@ const App = () => {
               <ModalContext.Provider
                 value={{
                   modalActive,
+                  detailActive,
                   handleDetailModal,
                   selectedFeed,
                   selectFeed,
                 }}
               >
-                <FeedDetailContainer modalActive={detailActive} />
+                <FeedDetailContainer />
                 <PrivateRouter />
               </ModalContext.Provider>
             )}

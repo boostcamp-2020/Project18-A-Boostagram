@@ -22,17 +22,15 @@ style.CommentContent = styled.div`
 `;
 
 const CommentItem = ({ comment }) => {
-  console.log(comment);
-
   return (
-    <CommentItem>
+    <style.CommentItem>
       <style.AuthorProfileImg src={comment.author.profileImg} />
       <style.CommentContent>
         <b>{comment.author.userName}</b>
         &nbsp;
         {comment.content}
       </style.CommentContent>
-    </CommentItem>
+    </style.CommentItem>
   );
 };
 
