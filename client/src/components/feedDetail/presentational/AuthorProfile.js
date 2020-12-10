@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import UserContext from '@context/user';
 import theme from '@style/Theme';
@@ -51,11 +51,14 @@ style.UnfollowBtn = styled.div`
 const AuthorProfile = ({ author }) => {
   const { userName, profileImg } = author;
 
-  const { login } = useContext(UserContext);
+  const { login, setLogin } = useContext(UserContext);
   const { follow } = login;
 
   const checkFollowing = () => {
     let result = false;
+    if (follow.length === 0) {
+      return false;
+    }
     follow.forEach((el) => {
       if (el.userName === userName) {
         result = true;
@@ -65,7 +68,9 @@ const AuthorProfile = ({ author }) => {
   };
 
   const [followStatus, setFollowState] = useState(checkFollowing());
-
+  useEffect(() => {
+    setFollowState(checkFollowing());
+  }, [login]);
   const clickHandler = () => {
     const followData = {
       author: {
@@ -84,6 +89,15 @@ const AuthorProfile = ({ author }) => {
       },
       body: JSON.stringify(followData),
     }).then(() => {
+      if (followStatus) {
+        const newFollow = login.follow.filter(
+          (ele) => ele.userName !== userName,
+        );
+        setLogin({ ...login, follow: newFollow });
+      } else {
+        login.follow.push({ userName });
+        setLogin({ ...login });
+      }
       setFollowState(!followStatus);
     });
   };

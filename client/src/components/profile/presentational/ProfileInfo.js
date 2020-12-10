@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import styled from 'styled-components';
 import theme from '@style/Theme';
 import icon from '@constants/icon';
 import pathURI from '@constants/path';
+import UserContext from '@context/user';
 
 const style = {};
 
@@ -102,24 +103,38 @@ style.UnfollowBtn = styled.div`
 `;
 
 const ProfileInfo = (input) => {
-  const { data, userInfo, login } = input;
-
-  const checkFollowing = () => {
-    let result = false;
-    userInfo.follower.forEach((el) => {
-      if (el.userName === login.userName) {
-        result = true;
-      }
-    });
-    return result;
-  };
-  const [followStatus, setFollowState] = useState(checkFollowing());
-
+  const { data, userInfo } = input;
+  const { login, setLogin } = useContext(UserContext);
   const followNum = data.userInfo.follow.length;
   const [followerNum, setFollowerNumState] = useState();
+
+  const checkFollowing = () => {
+    const result = login.follow?.find((f) => f.userName === userInfo.userName);
+    return result !== undefined;
+  };
+
+  const [isFollowed, setIsFollowed] = useState(checkFollowing());
+  const [followStatus, setFollowState] = useState(checkFollowing());
+
   useEffect(() => {
     setFollowerNumState(data.userInfo.follower.length);
   }, [data]);
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      setFollowState(checkFollowing());
+      if (isFollowed && !checkFollowing()) {
+        setFollowerNumState(followerNum - 1);
+        setIsFollowed(checkFollowing());
+      } else if (!isFollowed && checkFollowing()) {
+        setFollowerNumState(followerNum + 1);
+        setIsFollowed(checkFollowing());
+      }
+    } else {
+      isMounted.current = true;
+    }
+  }, [login]);
 
   const clickHandler = () => {
     const { name, userName, profileImg } = login;
@@ -141,6 +156,15 @@ const ProfileInfo = (input) => {
       body: JSON.stringify(followData),
     }).then((res) => {
       if (res.status === 200) {
+        if (followStatus) {
+          const newFollow = login.follow.filter(
+            (ele) => ele.userName !== userInfo.userName,
+          );
+          setLogin({ ...login, follow: newFollow });
+        } else {
+          login.follow.push({ userName: userInfo.userName });
+          setLogin({ ...login });
+        }
         setFollowerNumState(followStatus ? followerNum - 1 : followerNum + 1);
         setFollowState(!followStatus);
       }
