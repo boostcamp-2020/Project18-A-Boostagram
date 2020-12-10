@@ -27,6 +27,7 @@ style.FeedDetailContainer = styled.div`
 style.FeedImageContainer = styled.div`
   width: 600px;
   height: 600px;
+  background-color: black;
 `;
 
 style.FeedImage = styled.img`
