@@ -6,7 +6,7 @@ const style = {};
 style.CommentItem = styled.div`
   display: flex;
   font-size: 14px;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 `;
 
 style.AuthorProfileImg = styled.img`
