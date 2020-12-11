@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pathURI from '@constants/path';
 import icon from '@constants/icon';
@@ -59,6 +59,12 @@ const FeedItemIcon = (input) => {
       setLike(!like);
     });
   };
+
+  useEffect(() => {
+    setLikeNum(data.like.length);
+    setLike(getLikeStatus(data.like, login.userName));
+  }, [data]);
+
   return (
     <>
       <style.Icons>
