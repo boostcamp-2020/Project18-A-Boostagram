@@ -26,14 +26,15 @@ const ImgNav = (props) => {
   const { imgIndex, imgs } = props;
   return (
     <style.NavBar>
-      {imgs.map((img, index) => {
-        const key = img + index;
-        return imgIndex === index ? (
-          <style.NavItem key={key} active />
-        ) : (
-          <style.NavItem key={key} />
-        );
-      })}
+      {imgs.length > 1 &&
+        imgs.map((img, index) => {
+          const key = img + index;
+          return imgIndex === index ? (
+            <style.NavItem key={key} active />
+          ) : (
+            <style.NavItem key={key} />
+          );
+        })}
     </style.NavBar>
   );
 };
