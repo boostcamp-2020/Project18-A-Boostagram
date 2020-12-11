@@ -1,4 +1,4 @@
-# ![](https://i.imgur.com/l1PA300.png) Boostagram
+# ![](https://user-images.githubusercontent.com/24909656/101751559-bdd1e900-3b13-11eb-99f0-a2ef6b92d70b.PNG)
 
 Project18 A조의 Instagram 클론 프로젝트
 
