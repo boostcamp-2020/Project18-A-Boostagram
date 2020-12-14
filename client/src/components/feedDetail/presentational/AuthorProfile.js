@@ -52,19 +52,10 @@ const AuthorProfile = ({ author }) => {
   const { userName, profileImg } = author;
 
   const { login, setLogin } = useContext(UserContext);
-  const { follow } = login;
 
   const checkFollowing = () => {
-    let result = false;
-    if (follow.length === 0) {
-      return false;
-    }
-    follow.forEach((el) => {
-      if (el.userName === userName) {
-        result = true;
-      }
-    });
-    return result;
+    const result = login.follow?.find((f) => f.userName === userName);
+    return result !== undefined;
   };
 
   const [followStatus, setFollowState] = useState(checkFollowing());
@@ -95,9 +86,11 @@ const AuthorProfile = ({ author }) => {
         );
         setLogin({ ...login, follow: newFollow });
       } else {
-        login.follow.push({ userName });
-        setLogin({ ...login });
+        const newFollow = login.follow;
+        newFollow.push({ userName });
+        setLogin({ ...login, follow: newFollow });
       }
+
       setFollowState(!followStatus);
     });
   };
