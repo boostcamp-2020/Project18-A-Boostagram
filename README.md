@@ -1,18 +1,28 @@
 # ![](https://user-images.githubusercontent.com/24909656/101751559-bdd1e900-3b13-11eb-99f0-a2ef6b92d70b.PNG)
 
-![Javascript](https://img.shields.io/badge/javascript-ES6+-yellow?logo=javascript)
-![react](https://img.shields.io/badge/react-17.0.1-9cf?logo=react)
+![mongoDB](https://img.shields.io/badge/mongoDB-v4.4-green?logo=mongoDB)
+![express](https://img.shields.io/badge/express-v4.17.9-green?logo=express)
+![react](https://img.shields.io/badge/react-v17.0.1-9cf?logo=react)
 ![NodeJS](https://img.shields.io/badge/node.js-v12.18.2-green?logo=node.js)
 
+![Javascript](https://img.shields.io/badge/JavaScript-ES6+-9cf?logo=javascript)
+![TypeScript](https://img.shields.io/badge/TypeScript-v4.0.5-green?logo=TypeScript)
+![Webpack](https://img.shields.io/badge/Webpack-v5.5.1-9cf?logo=Webpack) 
+![Babel](https://img.shields.io/badge/@babel/core-v7.12.3-9cf?logo=babel) 
+
+📚 [Team Wiki](https://github.com/boostcamp-2020/Project18-A-Boostagram/wiki)
+
 18-A-WEB 팀의 Instagram 클론 프로젝트입니다
+
 일상 사진들을 업로드해서 다른 사람들과 공유해보세요!
+
 마음에 드는 사진에 좋아요나 댓글을 달 수 있습니다 😊
 
 <br>
 
-## 🚀 배포 서버
+## 🚀 Product
 
-👉 [클릭!](http://118.67.128.232) 👈
+👉 [Click!](http://118.67.128.232) 👈
 
 <br>
 
@@ -20,64 +30,73 @@
 
 ### 🏠 Home
 
-![image](https://user-images.githubusercontent.com/39620410/101975970-3bb50200-3c84-11eb-945e-e56bb8e88717.png)
+> 팔로우한 사용자들의 게시글을 볼 수 있고, 댓글/좋아요를 남길 수 있습니다.
 
-- 팔로우한 사람들의 게시물이 보입니다.
-- 게시물에 댓글 / 좋아요를 남길 수 있습니다.
+![홈 화면](https://user-images.githubusercontent.com/24909656/102031870-a6884980-3dfa-11eb-9661-bc67935650f0.gif)
 
 <br>
 
 ### 🧭 Explore
 
-모든 사람들의 게시물이 보입니다.
-![image](https://user-images.githubusercontent.com/39620410/101976111-6e132f00-3c85-11eb-8ea8-60156fa0893d.png)
+> 모든 사용자의 게시글을 볼 수 있습니다.
+> 마우스를 올리면 해당 게시글의 좋아요/댓글 수가 나타납니다.
+> 게시글을 클릭하면 게시글의 상세 정보를 볼 수 있습니다.
 
-- 마우스를 올리면 해당 게시물의 좋아요 / 댓글 수를 확인 할 수 있습니다.
-- 게시물을 클릭하면 상세보기를 할 수 있습니다.
+![탐색 화면](https://user-images.githubusercontent.com/24909656/102031866-a4be8600-3dfa-11eb-9937-46ec38d7cc1c.gif)
 
 <br>
 
 ### 🙍‍♂️ Profile
 
-![image](https://user-images.githubusercontent.com/39620410/101976060-f513d780-3c84-11eb-8f13-941b01e358c0.png)
+> 특정 사용자의 정보와 게시글을 볼 수 있습니다.
+> 마찬가지로 게시글을 눌러 상세정보를 확인할 수 있습니다.
 
-- 특정 유저의 게시물만 보입니다.
-- Explore와 동일한 기능을 이용할 수 있습니다.
+![프로필 화면](https://user-images.githubusercontent.com/24909656/102031868-a5efb300-3dfa-11eb-95de-54ca6da28098.gif)
 
 <br>
 
 ### ✍️ New Feed
 
-여러 장의 사진과 게시글을 작성 할 수 있습니다.
-![image](https://user-images.githubusercontent.com/39620410/101976089-27bdd000-3c85-11eb-9245-fb837b7e7833.png)
+> 여러 장의 사진을 업로드하고 글을 작성 할 수 있습니다.
+
+![글 작성 화면](https://user-images.githubusercontent.com/24909656/102031854-a0926880-3dfa-11eb-9f95-0d87cdc7e518.gif)
 
 <br>
 
 ### 🔍 Feed Detail
 
-![image](https://user-images.githubusercontent.com/39620410/101976011-977f8b00-3c84-11eb-8d9b-8d87ddf89fa4.png)
+> 게시글의 정보를 확인할 수 있습니다.
+> 게시글에 댓글/좋아요를 남길 수 있습니다.
 
-- 게시물 정보를 볼 수 있습니다.
-- 게시물에 댓글 / 좋아요를 남길 수 있습니다.
+![글 상세 화면](https://user-images.githubusercontent.com/24909656/102031871-a6884980-3dfa-11eb-885c-769f7e96d9de.gif)
 
 <br>
 
 ## 💡 Features
 
 ### 무한스크롤
-- 스크롤이 최하단에 닿으면 새로운 데이터를 불러옵니다.
+
+> 맨 아래까지 스크롤하면 더 많은 게시글을 불러옵니다.
+
+![무한스크롤](https://user-images.githubusercontent.com/24909656/102031858-a25c2c00-3dfa-11eb-9966-fbf2c8486414.gif)
 
 ### 게시글 좋아요 / 댓글 작성
-- 
 
-### 팔로우 / 팔로잉
-- 프로필 페이지, 상세보기 창에서 팔로우/언팔로우가 가능합니다.
+> 게시글에 좋아요와 댓글을 남길 수 있습니다.
+
+![좋아요 및 댓글](https://user-images.githubusercontent.com/24909656/102031864-a425ef80-3dfa-11eb-86a5-7e52ddfd674c.gif)
+
+### 팔로우/언팔로우
+
+> 다른 사용자를 팔로우하여 홈에서 원하는 사용자의 게시글을 받아 볼 수 있습니다.
+
+![팔로우](https://user-images.githubusercontent.com/24909656/102031867-a5571c80-3dfa-11eb-8c51-68c5de4fc2d9.gif)
 
 ### 사용자 검색
-- 
 
-### 알람
-- 
+> 상단바에서 사용자를 검색할 수 있습니다.
+
+![사용자 검색](https://user-images.githubusercontent.com/24909656/102031861-a38d5900-3dfa-11eb-869f-22dc256574af.gif)
 
 <br>
 
@@ -85,7 +104,7 @@
 
 ![image](https://user-images.githubusercontent.com/44664867/99925719-87117a00-2d82-11eb-97c5-8b96938af809.png)
 
-## 🗂 디렉토리 구조
+## 🗂 Directory Structure
 ```
 🗃 Project Folder  
 📁.github  
@@ -125,10 +144,8 @@
 
 <br>
 
-## 🧑‍🤝‍🧑 팀
+## 🧑‍🤝‍🧑 Team
 
 | J157 | J202 | J223 |
 | ---- | ---- | ---- |
 | 이주현[(JuHyeon-Lee)](https://github.com/JuHyeon-Lee) | 차효준[(chahtk)](https://github.com/chahtk) | 김병국[(rlaqudrnr810)](https://github.com/rlaqudrnr810) |
-
-📚 [Team Wiki](https://github.com/boostcamp-2020/Project18-A-Boostagram/wiki)
