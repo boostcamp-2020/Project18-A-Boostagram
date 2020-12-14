@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import icon from '@constants/icon';
 import ModalContext from '@context/modal';
 import IntersectionHook from '@hooks/Intersection';
+import GetOneFeedAPI from '@api/GetOneFeedAPI';
 
 const style = {};
 
@@ -70,8 +71,9 @@ const FeedCard = (input) => {
     setHover(!hover);
   };
 
-  const clickHandler = () => {
-    selectFeed(input.data);
+  const clickHandler = async () => {
+    const newImgData = GetOneFeedAPI(data._id);
+    selectFeed(newImgData);
     handleDetailModal();
   };
 
