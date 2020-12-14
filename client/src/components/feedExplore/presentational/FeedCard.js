@@ -72,7 +72,7 @@ const FeedCard = (input) => {
   };
 
   const clickHandler = async () => {
-    const newImgData = GetOneFeedAPI(data._id);
+    const newImgData = await GetOneFeedAPI(data._id);
     selectFeed(newImgData);
     handleDetailModal();
   };
