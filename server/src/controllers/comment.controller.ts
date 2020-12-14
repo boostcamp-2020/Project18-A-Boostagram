@@ -18,7 +18,7 @@ CommentController.create = async (req, res) => {
     return res.status(400).end();
   }
   const success = await create(req.body);
-  if (success) return res.status(201).json({ messege: 'success' });
+  if (success) return res.status(201).end();
 
   return res.status(500).end();
 };

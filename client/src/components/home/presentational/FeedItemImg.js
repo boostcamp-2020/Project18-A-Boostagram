@@ -22,6 +22,7 @@ style.PreButton = styled.button`
   height: 30px;
   cursor: pointer;
   outline: none;
+  margin-left: 15px;
 `;
 style.NextButton = styled.button`
   display: ${(props) => (props.length - 1 === props.index ? 'none' : 'block')};
@@ -37,6 +38,7 @@ style.NextButton = styled.button`
   margin-left: auto;
   z-index: 1;
   outline: none;
+  margin-right: 15px;
 `;
 
 style.feedImg = styled.img`

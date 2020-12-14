@@ -1,18 +1,19 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const style = {};
 style.DropBox = styled.div`
   display: ${({ active }) => (active !== 0 ? 'block' : 'none')};
   position: absolute;
   width: 241px;
+  max-height: 225px;
   background-color: white;
   border: 1px solid ${({ theme }) => theme.color.border};
   border-radius: 3px;
   top: 30px;
   left: -36px;
+  overflow: auto;
 `;
 style.UserList = styled.ul`
   padding: 0;
@@ -51,6 +52,7 @@ style.Name = styled.section`
 `;
 const DropBox = ({ suggestUsers }) => {
   const history = useHistory();
+
   return (
     <style.DropBox active={suggestUsers.length}>
       <style.UserList>
@@ -73,11 +75,6 @@ const DropBox = ({ suggestUsers }) => {
       </style.UserList>
     </style.DropBox>
   );
-};
-
-DropBox.propTypes = {
-  suggestUsers: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string))
-    .isRequired,
 };
 
 export default DropBox;

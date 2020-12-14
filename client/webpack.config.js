@@ -35,7 +35,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      favicon: './src/public/favicon.ico',
+      favicon: './src/public/favicon_B_nobg.ico',
     }),
     new CleanWebpackPlugin(),
   ],
@@ -51,6 +51,7 @@ module.exports = {
       '@constants': path.resolve(__dirname, 'src/constants/'),
       '@context': path.resolve(__dirname, 'src/context/'),
       '@login': path.resolve(__dirname, 'src/components/login/'),
+      '@feedDetail': path.resolve(__dirname, 'src/components/feedDetail/'),
       '@public': path.resolve(__dirname, 'src/public/'),
       '@hooks': path.resolve(__dirname, 'src/hooks/'),
       '@api': path.resolve(__dirname, 'src/api/'),
