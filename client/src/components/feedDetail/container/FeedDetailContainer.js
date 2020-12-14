@@ -160,7 +160,6 @@ const FeedDetailContainer = () => {
       body: JSON.stringify(newComment),
     }).then(() => {
       comments.push(newComment);
-      // setComments(comments);
       setCommentInput('');
     });
   };
