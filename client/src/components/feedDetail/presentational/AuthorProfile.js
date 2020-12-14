@@ -94,7 +94,7 @@ const AuthorProfile = ({ author }) => {
         setLogin({ ...login, follow: newFollow });
       } else {
         const newFollow = login.follow;
-        newFollow.push({ userName });
+        newFollow.push({ userName, profileImg });
         setLogin({ ...login, follow: newFollow });
       }
 

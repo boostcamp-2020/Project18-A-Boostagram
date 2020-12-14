@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Story from '@home/presentational/Story';
 import Feed from '@home/presentational/Feed';
 import icon from '@constants/icon';
+import UserContext from '@context/user';
 
 const style = {};
 
@@ -25,9 +26,15 @@ style.GuideMessage = styled.div`
 
 const Contents = (input) => {
   const { data, setGetMore } = input;
+  const { login } = useContext(UserContext);
+  if (login.follow === undefined) {
+    return <></>;
+  }
+  console.log(login);
+
   return (
     <style.Contents>
-      <Story datas={data} />
+      <Story datas={login.follow ? login.follow : []} />
       <Feed data={data} setGetMore={setGetMore} />
       {data.length === 0 ? (
         <>

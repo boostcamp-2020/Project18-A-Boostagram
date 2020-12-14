@@ -164,7 +164,10 @@ const ProfileInfo = (input) => {
           );
           setLogin({ ...login, follow: newFollow });
         } else {
-          login.follow.push({ userName: userInfo.userName });
+          login.follow.push({
+            userName: userInfo.userName,
+            profileImg: userInfo.profileImg,
+          });
           setLogin({ ...login });
         }
         setFollowerNumState(followStatus ? followerNum - 1 : followerNum + 1);

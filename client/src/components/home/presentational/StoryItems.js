@@ -28,15 +28,15 @@ style.UserName = styled.div`
 `;
 
 const StoryItems = (input) => {
-  const { author } = input.data;
+  const { profileImg, userName } = input.data;
   const onClick = () => {
     // todo: 모달창
   };
   return (
     <>
       <style.StoryItems>
-        <style.Item src={author.profileImg} onClick={onClick} />
-        <style.UserName>{author.userName}</style.UserName>
+        <style.Item src={profileImg} onClick={onClick} />
+        <style.UserName>{userName}</style.UserName>
       </style.StoryItems>
     </>
   );
