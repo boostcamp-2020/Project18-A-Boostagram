@@ -64,6 +64,12 @@ const FeedItemIcon = (input) => {
       setLike(!like);
     });
   };
+
+  useEffect(() => {
+    setLikeNum(data.like.length);
+    setLike(getLikeStatus(data.like, login.userName));
+  }, [data]);
+
   return (
     <>
       <style.Icons>

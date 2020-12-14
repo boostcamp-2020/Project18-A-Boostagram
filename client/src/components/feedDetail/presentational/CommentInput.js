@@ -22,6 +22,9 @@ style.SubmitComment = styled.button`
   color: ${({ theme }) => theme.color.blue};
   font-weight: bold;
   outline: none;
+  :hover {
+    cursor: pointer;
+  }
   :disabled {
     cursor: default;
     opacity: 0.3;
