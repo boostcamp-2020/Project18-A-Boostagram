@@ -8,6 +8,7 @@ import CommentInput from '@feedDetail/presentational/CommentInput';
 import CommentItem from '@feedDetail/presentational/CommentItem';
 import pathURI from '@constants/path';
 import FeedItemIcon from '@common/FeedItemIcon';
+import { Link } from 'react-router-dom';
 
 const style = {};
 
@@ -99,6 +100,11 @@ style.CreatedAt = styled.div`
   opacity: 0.5;
 `;
 
+style.Link = styled(Link)`
+  text-decoration: none;
+  color: #262626;
+`;
+
 const excuteTime = (now) => {
   const sec = 1000;
   const min = sec * 60;
@@ -160,7 +166,6 @@ const FeedDetailContainer = () => {
       body: JSON.stringify(newComment),
     }).then(() => {
       comments.push(newComment);
-      // setComments(comments);
       setCommentInput('');
     });
   };
@@ -171,6 +176,7 @@ const FeedDetailContainer = () => {
   }, [selectedFeed]);
 
   if (loading) {
+    const userProfileURL = `/profile?userName=${author.userName}`;
     return (
       <style.FeedDetailContainer active={detailActive}>
         <style.FeedImageContainer>
@@ -193,9 +199,13 @@ const FeedDetailContainer = () => {
           <AuthorProfile author={author} />
           <style.Content>
             <style.FeedContentContainer>
-              <style.ProfileImg src={author.profileImg} />
+              <Link to={userProfileURL}>
+                <style.ProfileImg src={author.profileImg} />
+              </Link>
               <style.FeedContent>
-                <b>{author.userName}</b>
+                <style.Link to={userProfileURL}>
+                  <b>{author.userName}</b>
+                </style.Link>
                 &nbsp;
                 {content}
               </style.FeedContent>

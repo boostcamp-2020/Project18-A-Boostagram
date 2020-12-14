@@ -107,7 +107,6 @@ const ProfileInfo = (input) => {
   const { login, setLogin } = useContext(UserContext);
   const followNum = data.userInfo.follow.length;
   const [followerNum, setFollowerNumState] = useState();
-
   const checkFollowing = () => {
     const result = login.follow?.find((f) => f.userName === userInfo.userName);
     return result !== undefined;
@@ -118,12 +117,12 @@ const ProfileInfo = (input) => {
 
   useEffect(() => {
     setFollowerNumState(data.userInfo.follower.length);
+    setFollowState(checkFollowing());
   }, [data]);
   const isMounted = useRef(false);
 
   useEffect(() => {
     if (isMounted.current) {
-      setFollowState(checkFollowing());
       if (isFollowed && !checkFollowing()) {
         setFollowerNumState(followerNum - 1);
         setIsFollowed(checkFollowing());
@@ -131,7 +130,8 @@ const ProfileInfo = (input) => {
         setFollowerNumState(followerNum + 1);
         setIsFollowed(checkFollowing());
       }
-    } else {
+      setFollowState(checkFollowing());
+    } else if (!login.follow) {
       isMounted.current = true;
     }
   }, [login]);
@@ -155,7 +155,7 @@ const ProfileInfo = (input) => {
       },
       body: JSON.stringify(followData),
     }).then((res) => {
-      if (res.status === 200) {
+      if (res.status === 204) {
         if (followStatus) {
           const newFollow = login.follow.filter(
             (ele) => ele.userName !== userInfo.userName,

@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import UserContext from '@context/user';
 import theme from '@style/Theme';
 import pathURI from '@constants/path';
+import { Link } from 'react-router-dom';
 
 const style = {};
 
 style.AuthorProfile = styled.div`
   display: flex;
-  border-bottom: 1px solid ${({ theme }) => theme.color.border};
+  border-bottom: 1px solid ${theme.color.border};
   align-items: center;
 `;
 
@@ -48,29 +49,25 @@ style.UnfollowBtn = styled.div`
   cursor: pointer;
 `;
 
+style.Link = styled(Link)`
+  text-decoration: none;
+  color: #262626;
+`;
+
 const AuthorProfile = ({ author }) => {
   const { userName, profileImg } = author;
 
   const { login, setLogin } = useContext(UserContext);
-  const { follow } = login;
 
   const checkFollowing = () => {
-    let result = false;
-    if (follow.length === 0) {
-      return false;
-    }
-    follow.forEach((el) => {
-      if (el.userName === userName) {
-        result = true;
-      }
-    });
-    return result;
+    const result = login.follow?.find((f) => f.userName === userName);
+    return result !== undefined;
   };
 
   const [followStatus, setFollowState] = useState(checkFollowing());
   useEffect(() => {
     setFollowState(checkFollowing());
-  }, [login]);
+  }, [userName]);
   const clickHandler = () => {
     const followData = {
       author: {
@@ -95,9 +92,11 @@ const AuthorProfile = ({ author }) => {
         );
         setLogin({ ...login, follow: newFollow });
       } else {
-        login.follow.push({ userName });
-        setLogin({ ...login });
+        const newFollow = login.follow;
+        newFollow.push({ userName });
+        setLogin({ ...login, follow: newFollow });
       }
+
       setFollowState(!followStatus);
     });
   };
@@ -107,11 +106,15 @@ const AuthorProfile = ({ author }) => {
   ) : (
     <style.FollowBtn onClick={clickHandler}>팔로우</style.FollowBtn>
   );
-
+  const userProfileURL = `/profile?userName=${userName}`;
   return (
     <style.AuthorProfile>
-      <style.ProfileImg src={profileImg} />
-      <style.AuthorName>{userName}</style.AuthorName>
+      <Link to={userProfileURL}>
+        <style.ProfileImg src={profileImg} />
+      </Link>
+      <style.Link to={userProfileURL}>
+        <style.AuthorName>{userName}</style.AuthorName>
+      </style.Link>
       {login.userName !== userName ? (
         <>
           <style.Divider>•</style.Divider>

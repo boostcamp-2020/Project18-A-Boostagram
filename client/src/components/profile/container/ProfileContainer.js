@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import ProfileInfo from '@profile/presentational/ProfileInfo';
 import FeedList from '@feedExplore/presentational/FeedList';
@@ -19,9 +19,15 @@ const ProfileContainer = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [feeds, setFeeds] = useState([]);
-  const { modalActive } = useContext(ModalContext);
+  const { modalActive, detailActive, handleDetailModal } = useContext(
+    ModalContext,
+  );
   const [getMore, setGetMore] = useState('noId');
   const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (detailActive) handleDetailModal();
+  }, [userName]);
 
   ProfileFeedAPI(
     setData,

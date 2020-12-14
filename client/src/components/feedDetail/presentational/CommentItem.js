@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const style = {};
 
@@ -22,12 +23,22 @@ style.CommentContent = styled.div`
   word-break: break-all;
 `;
 
+style.Link = styled(Link)`
+  text-decoration: none;
+  color: #262626;
+`;
+
 const CommentItem = ({ comment }) => {
+  const userProfileURL = `/profile?userName=${comment.author.userName}`;
   return (
     <style.CommentItem>
-      <style.AuthorProfileImg src={comment.author.profileImg} />
+      <Link to={userProfileURL}>
+        <style.AuthorProfileImg src={comment.author.profileImg} />
+      </Link>
       <style.CommentContent>
-        <b>{comment.author.userName}</b>
+        <style.Link to={userProfileURL}>
+          <b>{comment.author.userName}</b>
+        </style.Link>
         &nbsp;
         {comment.content}
       </style.CommentContent>

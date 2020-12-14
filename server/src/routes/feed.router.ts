@@ -8,5 +8,6 @@ router.post('/', validation, feedController.create);
 router.post('/like', validation, feedController.like);
 router.get('/explore', feedController.explore);
 router.get('/following/:userName', feedController.following);
+router.get('/detail/:feedId', feedController.detail);
 
 export default router;
