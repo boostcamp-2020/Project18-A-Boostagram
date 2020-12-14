@@ -55,11 +55,11 @@ const like = async (
   status: number,
 ): Promise<boolean | undefined> => {
   const feed = new FeedModel();
-  const r = await feed.feedInfo(feedId);
-  if (!isExists(r.like, author.userName) && status === 0) {
+  const feedInfo = await feed.feedInfo(feedId);
+  if (!isExists(feedInfo.like, author.userName) && status === 0) {
     return false;
   }
-  if (isExists(r.like, author.userName) && status === 1) {
+  if (isExists(feedInfo.like, author.userName) && status === 1) {
     return false;
   }
   try {
