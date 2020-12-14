@@ -13,35 +13,39 @@ router.post('/', (req, res) => {
     region = '',
     bucketName = '',
   } = process.env;
-  const endpoint = new AWS.Endpoint(ncloud);
-  const localFilePath = path.join(__dirname, '../../uploads/');
+  try {
+    const endpoint = new AWS.Endpoint(ncloud);
+    const localFilePath = path.join(__dirname, '../../uploads/');
 
-  const S3 = new AWS.S3({
-    endpoint,
-    region,
-    credentials: {
-      accessKeyId: accessKey,
-      secretAccessKey: secretKey,
-    },
-  });
-  fs.readdir(localFilePath, (err, fileList) => {
-    const promiseArr = fileList.map(async (file) => {
-      return S3.putObject({
-        Bucket: bucketName,
-        Key: file,
-        ACL: 'public-read',
-        Body: fs.createReadStream(localFilePath + file),
-      })
-        .promise()
-        .then(() => fs.unlink(localFilePath + file, () => undefined));
+    const S3 = new AWS.S3({
+      endpoint,
+      region,
+      credentials: {
+        accessKeyId: accessKey,
+        secretAccessKey: secretKey,
+      },
     });
-    Promise.all(promiseArr).then(async () => {
-      const resArr = fileList.map((file) => {
-        return `${process.env.ncloud}/${bucketName}/${file}`;
+    fs.readdir(localFilePath, (err, fileList) => {
+      const promiseArr = fileList.map(async (file) => {
+        return S3.putObject({
+          Bucket: bucketName,
+          Key: file,
+          ACL: 'public-read',
+          Body: fs.createReadStream(localFilePath + file),
+        })
+          .promise()
+          .then(() => fs.unlink(localFilePath + file, () => undefined));
       });
-      res.status(200).json(resArr);
+      Promise.all(promiseArr).then(async () => {
+        const resArr = fileList.map((file) => {
+          return `${process.env.ncloud}/${bucketName}/${file}`;
+        });
+        res.status(200).json(resArr);
+      });
     });
-  });
+  } catch (err) {
+    return res.status(500).end();
+  }
 });
 
 export default router;
