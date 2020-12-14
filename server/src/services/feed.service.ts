@@ -1,5 +1,6 @@
 import FeedModel, { IFeed, Iauthor } from '../models/feed.model';
 import UserModel, { IUser } from '../models/user.model';
+import isExists from '../lib/isExists';
 
 const create = async (params: IFeed): Promise<boolean | undefined> => {
   try {
@@ -54,6 +55,13 @@ const like = async (
   status: number,
 ): Promise<boolean | undefined> => {
   const feed = new FeedModel();
+  const r = await feed.feedInfo(feedId);
+  if (!isExists(r.like, author.userName) && status === 0) {
+    return false;
+  }
+  if (isExists(r.like, author.userName) && status === 1) {
+    return false;
+  }
   try {
     const result =
       status === 1
