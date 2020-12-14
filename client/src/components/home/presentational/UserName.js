@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const UserName = styled.div`
+const UserName = styled.b`
   width: auto;
   margin-left: 16px;
   font-weight: 600;
