@@ -3,12 +3,10 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import multer from 'multer';
-import http from 'http';
 import initDB from './models/init.model';
 import index from './routes/index';
 import initPassport from './passport/init';
-
-const socketIO = require('socket.io');
+import NotiEvent from './lib/notiEvent';
 
 dotenv.config();
 
@@ -41,55 +39,9 @@ app.use(initPassport());
 
 app.use('/', index);
 
-// server instance
-const server = http.createServer(app);
+const notiEvent = new NotiEvent(app);
 
-// socketio 생성후 서버 인스턴스 사용
-const io: any = socketIO(server);
-
-interface socketInfoItem {
-  [key: string]: string;
-}
-// socketio 문법
-let socketInfo: socketInfoItem = {};
-
-io.on('connection', (socket: any) => {
-  const socketId = socket.id;
-  const { userName }: { userName: string } = socket.handshake.auth;
-  socketInfo = { ...socketInfo, [userName]: socketId };
-  console.log(`${userName} connected`);
-  socket.on('disconnect', (reason: any) => {
-    delete socketInfo[userName];
-  });
-  socket.on(
-    'notiEvent',
-    ({
-      type,
-      from,
-      to,
-      content,
-    }: {
-      type: string;
-      from: { name: string; userName: string; profileImg: string };
-      to: {
-        name: string;
-        userName: string;
-        profileImg: string;
-        userId: string;
-      };
-      content: string;
-    }) => {
-      // find target socketID
-      const targetSocketID = socketInfo[to.userName];
-
-      // send notice to socketID
-      const message = `${from.userName} liked your feed ${content}`;
-      io.to(targetSocketID).emit('notiEvent', message);
-    },
-  );
-});
-
-server.listen(port, () => {
+notiEvent.server.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log('listening on port 3000...');
 });
