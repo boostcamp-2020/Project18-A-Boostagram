@@ -47,15 +47,19 @@ const server = http.createServer(app);
 // socketio 생성후 서버 인스턴스 사용
 const io: any = socketIO(server);
 
+interface socketInfoItem {
+  [key: string]: string;
+}
 // socketio 문법
-let socketInfo = {};
+let socketInfo: socketInfoItem = {};
+
 io.on('connection', (socket: any) => {
   const socketId = socket.id;
-  const { userName } = socket.handshake.auth;
+  const { userName }: { userName: string } = socket.handshake.auth;
   socketInfo = { ...socketInfo, [userName]: socketId };
-  console.log(socketInfo);
+  console.log(`${userName} connected`);
   socket.on('disconnect', (reason: any) => {
-    // todo: remove user's socket
+    delete socketInfo[userName];
   });
   socket.on(
     'like',
@@ -71,12 +75,12 @@ io.on('connection', (socket: any) => {
         userId: string;
       };
     }) => {
-      console.log({ user, targetAuthor });
-
       // find target socketID
+      const targetSocketID = socketInfo[targetAuthor.userName];
 
       // send notice to socketID
-      socket.emit('noticeFeedLike', 'self');
+      const message = `${user.userName} liked your feed`;
+      io.to(targetSocketID).emit('noticeFeedLike', message);
     },
   );
 });
