@@ -156,6 +156,12 @@ Feed.methods.deleteLike = async function deleteLike(
   );
   return result;
 };
+Feed.methods.feedInfo = async function feedInfo(
+  feedId: mongoose.Schema.Types.ObjectId,
+) {
+  const result = await mongoose.model('Feed').findOne().where({ _id: feedId });
+  return result;
+};
 export interface IFeed extends mongoose.Document {
   author: Iauthor;
   content?: string;
@@ -170,6 +176,7 @@ export interface IFeed extends mongoose.Document {
   createComment: (params: Icomment) => boolean;
   addLike: (user: Iauthor, feedId: string) => boolean;
   deleteLike: (user: Iauthor, feedId: string) => boolean;
+  feedInfo: (feedId: string) => IFeed;
 }
 
 export default mongoose.model<IFeed>('Feed', Feed);

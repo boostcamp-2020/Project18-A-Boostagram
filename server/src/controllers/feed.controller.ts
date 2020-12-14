@@ -1,5 +1,11 @@
 import { Request, Response } from 'express';
-import { create, explore, following, like } from '../services/feed.service';
+import {
+  create,
+  explore,
+  following,
+  like,
+  detail,
+} from '../services/feed.service';
 import User from '../models/user.model';
 import getUserId from '../lib/getUserId';
 
@@ -56,6 +62,18 @@ feedController.like = async (req: Request, res: Response) => {
   }
   const success = await like(author, feedId, status);
   if (success) return res.status(204).end();
+
+  return res.status(500).end();
+};
+
+feedController.detail = async (req: Request, res: Response) => {
+  const { feedId } = req.params;
+
+  if (!feedId) {
+    return res.status(400).end();
+  }
+  const result = await detail(feedId);
+  if (result) return res.status(200).json(result);
 
   return res.status(500).end();
 };
