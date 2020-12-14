@@ -54,13 +54,13 @@ loginController.gitCallback = async (req, res) => {
     res.cookie('profileImg', profileImg, { maxAge: MAX_AGE, encode: String });
     res.cookie('userName', userName, { maxAge: MAX_AGE });
     res.cookie('jwt', jwt, { maxAge: MAX_AGE });
+    if (NODE_ENV === 'develop') {
+      return res.redirect(FRONT_URL);
+    }
+    return res.redirect(DEPLOY_FRONT_URL);
   } catch (err) {
-    console.error(err);
+    return res.status(500).end();
   }
-  if (NODE_ENV === 'develop') {
-    return res.redirect(FRONT_URL);
-  }
-  return res.redirect(DEPLOY_FRONT_URL);
 };
 
 export default loginController;
