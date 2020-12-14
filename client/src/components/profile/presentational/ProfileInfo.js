@@ -118,6 +118,7 @@ const ProfileInfo = (input) => {
   useEffect(() => {
     setFollowerNumState(data.userInfo.follower.length);
     setFollowState(checkFollowing());
+    console.log('trans data');
   }, [data]);
   const isMounted = useRef(false);
 
@@ -131,10 +132,10 @@ const ProfileInfo = (input) => {
         setIsFollowed(checkFollowing());
       }
       setFollowState(checkFollowing());
-    } else if (!login.follow) {
+    } else if (login.follow) {
       isMounted.current = true;
     }
-  }, [login]);
+  }, [login, isMounted.current]);
 
   const clickHandler = () => {
     const { name, userName, profileImg } = login;
