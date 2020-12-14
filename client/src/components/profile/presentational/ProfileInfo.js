@@ -112,30 +112,31 @@ const ProfileInfo = (input) => {
     return result !== undefined;
   };
 
-  const [isFollowed, setIsFollowed] = useState(checkFollowing());
-  const [followStatus, setFollowState] = useState(checkFollowing());
+  const [isFollowed, setIsFollowed] = useState();
+  const [followStatus, setFollowState] = useState();
 
   useEffect(() => {
+    const check = checkFollowing();
     setFollowerNumState(data.userInfo.follower.length);
-    setFollowState(checkFollowing());
-    console.log('trans data');
-  }, [data]);
-  const isMounted = useRef(false);
+    setFollowState(check);
+    setIsFollowed(check);
+  }, [data, login]);
 
+  const isMounted = useRef(false);
   useEffect(() => {
     if (isMounted.current) {
       if (isFollowed && !checkFollowing()) {
         setFollowerNumState(followerNum - 1);
-        setIsFollowed(checkFollowing());
+        setIsFollowed(!isFollowed);
       } else if (!isFollowed && checkFollowing()) {
         setFollowerNumState(followerNum + 1);
-        setIsFollowed(checkFollowing());
+        setIsFollowed(!isFollowed);
       }
       setFollowState(checkFollowing());
     } else if (login.follow) {
       isMounted.current = true;
     }
-  }, [login, isMounted.current]);
+  }, [login]);
 
   const clickHandler = () => {
     const { name, userName, profileImg } = login;
