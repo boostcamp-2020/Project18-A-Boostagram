@@ -89,15 +89,16 @@ const handleRefresh = (login, setLogin) => {
   });
 };
 
-const socket = socketIOClient(`${pathURI.IP}/like`, {
+const socket = socketIOClient(`${pathURI.IP}`, {
   transports: ['websocket'],
+  auth: { userName: 'hello' },
+});
+socket.on('noticeFeedLike', (msg) => {
+  console.log(msg);
 });
 const handleNoticeFeedLike = (user, targetAuthor) => {
   socket.emit('like', { user, targetAuthor });
 };
-socket.on('noticeFeedLike', (msg) => {
-  console.log(msg);
-});
 
 const App = () => {
   const [modalActive, setModalActive] = useState(false);

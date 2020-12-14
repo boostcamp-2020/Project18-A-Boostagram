@@ -48,8 +48,11 @@ const server = http.createServer(app);
 const io: any = socketIO(server);
 
 // socketio 문법
-io.of('/like').on('connection', (socket: any) => {
-  // save socketId
+io.on('connection', (socket: any) => {
+  const socketId = socket.id;
+  const { userName } = socket.handshake.auth;
+  const socketInfo = { [userName]: socketId };
+  console.log(socketInfo);
   socket.on(
     'like',
     ({
