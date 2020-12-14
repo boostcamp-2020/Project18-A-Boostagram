@@ -91,17 +91,6 @@ const handleRefresh = (login, setLogin) => {
   });
 };
 
-const socket = socketIOClient(`${pathURI.IP}`, {
-  transports: ['websocket'],
-  auth: { userName: 'hello' },
-});
-socket.on('noticeFeedLike', (msg) => {
-  console.log(msg);
-});
-const handleNoticeFeedLike = (user, targetAuthor) => {
-  socket.emit('like', { user, targetAuthor });
-};
-
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
   const [login, setLogin] = useState(initLogin);
@@ -110,6 +99,8 @@ const App = () => {
   const [selectedFeed, selectFeed] = useState({});
   const [detailActive, setDetailActive] = useState(false);
   const handleDetailModal = () => setDetailActive(!detailActive);
+
+  const [socket, setSocket] = useState();
 
   if (isEqualObj(login, initLogin)) {
     // check localStorage.
@@ -134,46 +125,66 @@ const App = () => {
       ...login,
       follow: json.userInfo.follow,
     });
+    setSocket(
+      socketIOClient(`${pathURI.IP}`, {
+        transports: ['websocket'],
+        auth: { userName: login.userName },
+      }),
+    );
   }, []);
+
+  socket.on('noticeFeedLike', (msg) => {
+    console.log(msg);
+  });
+  const handleNoticeFeedLike = (user, targetAuthor) => {
+    socket.emit('like', { user, targetAuthor });
+  };
 
   return (
     <>
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
-        <style.ModalBackground active={modalActive} onClick={handleModal} />
-        <style.ModalBackground
-          active={detailActive}
-          onClick={handleDetailModal}
-        />
-        <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
-        <Header handleModal={handleModal} />
-        <style.Contents>
-          <style.RouteWrapper>
-            {isEqualObj(login, initLogin) ? (
-              <>
-                <Route exact path={pathURI.LOGIN} component={LoginContainer} />
-                <Route path="*">
-                  <Redirect to={pathURI.LOGIN} />
-                </Route>
-              </>
-            ) : (
-              <ModalContext.Provider
-                value={{
-                  modalActive,
-                  detailActive,
-                  handleDetailModal,
-                  selectedFeed,
-                  selectFeed,
-                }}
-              >
-                <FeedDetailContainer />
-                <SocketContext.Provider value={{ handleNoticeFeedLike }}>
+        <SocketContext.Provider value={{ handleNoticeFeedLike }}>
+          <style.ModalBackground active={modalActive} onClick={handleModal} />
+          <style.ModalBackground
+            active={detailActive}
+            onClick={handleDetailModal}
+          />
+          <NewFeedContainer
+            modalActive={modalActive}
+            handleModal={handleModal}
+          />
+          <Header handleModal={handleModal} />
+          <style.Contents>
+            <style.RouteWrapper>
+              {isEqualObj(login, initLogin) ? (
+                <>
+                  <Route
+                    exact
+                    path={pathURI.LOGIN}
+                    component={LoginContainer}
+                  />
+                  <Route path="*">
+                    <Redirect to={pathURI.LOGIN} />
+                  </Route>
+                </>
+              ) : (
+                <ModalContext.Provider
+                  value={{
+                    modalActive,
+                    detailActive,
+                    handleDetailModal,
+                    selectedFeed,
+                    selectFeed,
+                  }}
+                >
+                  <FeedDetailContainer />
                   <PrivateRouter />
-                </SocketContext.Provider>
-              </ModalContext.Provider>
-            )}
-          </style.RouteWrapper>
-        </style.Contents>
+                </ModalContext.Provider>
+              )}
+            </style.RouteWrapper>
+          </style.Contents>
+        </SocketContext.Provider>
       </UserContext.Provider>
     </>
   );

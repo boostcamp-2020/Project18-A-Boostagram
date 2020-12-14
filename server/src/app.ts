@@ -48,11 +48,15 @@ const server = http.createServer(app);
 const io: any = socketIO(server);
 
 // socketio 문법
+let socketInfo = {};
 io.on('connection', (socket: any) => {
   const socketId = socket.id;
   const { userName } = socket.handshake.auth;
-  const socketInfo = { [userName]: socketId };
+  socketInfo = { ...socketInfo, [userName]: socketId };
   console.log(socketInfo);
+  socket.on('disconnect', (reason: any) => {
+    // todo: remove user's socket
+  });
   socket.on(
     'like',
     ({
@@ -67,8 +71,11 @@ io.on('connection', (socket: any) => {
         userId: string;
       };
     }) => {
-      console.log(socket.rooms); // {socketid, room}
-      // socket.join(user.userName, () => ); // todo: target.userName
+      console.log({ user, targetAuthor });
+
+      // find target socketID
+
+      // send notice to socketID
       socket.emit('noticeFeedLike', 'self');
     },
   );
