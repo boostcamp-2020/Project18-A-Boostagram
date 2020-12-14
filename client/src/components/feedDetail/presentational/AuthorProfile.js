@@ -67,7 +67,8 @@ const AuthorProfile = ({ author }) => {
   const [followStatus, setFollowState] = useState(checkFollowing());
   useEffect(() => {
     setFollowState(checkFollowing());
-  }, [userName]);
+  }, [userName, login]);
+
   const clickHandler = () => {
     const followData = {
       author: {
