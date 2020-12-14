@@ -62,25 +62,29 @@ io.on('connection', (socket: any) => {
     delete socketInfo[userName];
   });
   socket.on(
-    'like',
+    'notiEvent',
     ({
-      user,
-      targetAuthor,
+      type,
+      from,
+      to,
+      content,
     }: {
-      user: { name: string; userName: string; profileImg: string };
-      targetAuthor: {
+      type: string;
+      from: { name: string; userName: string; profileImg: string };
+      to: {
         name: string;
         userName: string;
         profileImg: string;
         userId: string;
       };
+      content: string;
     }) => {
       // find target socketID
-      const targetSocketID = socketInfo[targetAuthor.userName];
+      const targetSocketID = socketInfo[to.userName];
 
       // send notice to socketID
-      const message = `${user.userName} liked your feed`;
-      io.to(targetSocketID).emit('noticeFeedLike', message);
+      const message = `${from.userName} liked your feed ${content}`;
+      io.to(targetSocketID).emit('notiEvent', message);
     },
   );
 });

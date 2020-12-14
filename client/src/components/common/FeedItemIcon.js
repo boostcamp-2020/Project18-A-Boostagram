@@ -36,7 +36,7 @@ const FeedItemIcon = (input) => {
   const [likeNum, setLikeNum] = useState();
   const [like, setLike] = useState();
   const likeMessage = `좋아요 ${likeNum}개`;
-  const { handleNoticeFeedLike } = useContext(SocketContext);
+  const { notiEvent } = useContext(SocketContext);
 
   useEffect(() => {
     setLikeNum(data.like.length);
@@ -65,14 +65,12 @@ const FeedItemIcon = (input) => {
       setLikeNum(like ? likeNum - 1 : likeNum + 1);
       setLike(!like);
       if (!like) {
-        handleNoticeFeedLike(
-          {
-            name: login.name,
-            userName: login.userName,
-            profileImg: login.profileImg,
-          },
-          data.author,
-        );
+        const sender = {
+          name: login.name,
+          userName: login.userName,
+          profileImg: login.profileImg,
+        };
+        notiEvent.emitEvent('like', sender, data.author, data._id);
       }
     });
   };

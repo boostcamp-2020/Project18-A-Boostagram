@@ -16,6 +16,7 @@ import initLogin from '@constants/value';
 import ProfileFeedAPI from '@api/ProfileFeedAPI';
 import LoginContainer from './login/container/LoginContainer';
 import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
+import NotiEvent from '../utils/notiEvent';
 
 const NOT_LOGINED = 'NOT_LOGINED';
 const RESPONSE_USER_DATA_NUMS = 4;
@@ -100,7 +101,7 @@ const App = () => {
   const [detailActive, setDetailActive] = useState(false);
   const handleDetailModal = () => setDetailActive(!detailActive);
 
-  const [socket, setSocket] = useState();
+  const [notiEvent, setNotiEvent] = useState();
 
   if (isEqualObj(login, initLogin)) {
     // check localStorage.
@@ -125,31 +126,14 @@ const App = () => {
       ...login,
       follow: json.userInfo.follow,
     });
-    setSocket(
-      socketIOClient(`${pathURI.IP}`, {
-        transports: ['websocket'],
-        auth: { userName: login.userName },
-      }),
-    );
+    setNotiEvent(new NotiEvent(login.userName));
   }, []);
-
-  useEffect(() => {
-    if (socket) {
-      socket.on('noticeFeedLike', (msg) => {
-        console.log(msg);
-      });
-    }
-  }, [socket]);
-
-  const handleNoticeFeedLike = (user, targetAuthor) => {
-    socket.emit('like', { user, targetAuthor });
-  };
 
   return (
     <>
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
-        <SocketContext.Provider value={{ handleNoticeFeedLike }}>
+        <SocketContext.Provider value={{ notiEvent }}>
           <style.ModalBackground active={modalActive} onClick={handleModal} />
           <style.ModalBackground
             active={detailActive}
