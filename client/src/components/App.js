@@ -133,9 +133,14 @@ const App = () => {
     );
   }, []);
 
-  socket.on('noticeFeedLike', (msg) => {
-    console.log(msg);
-  });
+  useEffect(() => {
+    if (socket) {
+      socket.on('noticeFeedLike', (msg) => {
+        console.log(msg);
+      });
+    }
+  }, [socket]);
+
   const handleNoticeFeedLike = (user, targetAuthor) => {
     socket.emit('like', { user, targetAuthor });
   };
