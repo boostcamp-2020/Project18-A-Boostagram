@@ -10,8 +10,15 @@ const UserController: callback = {};
 
 UserController.getProfile = async (req, res) => {
   const { lastFeedId } = JSON.parse(JSON.stringify(req.query));
-  const result = await getProfile(req.params.userName, lastFeedId);
-  res.json(result);
+  const { userName } = req.params;
+  if (!userName) {
+    return res.status(400).end();
+  }
+  const result = await getProfile(userName, lastFeedId);
+  if (result) {
+    return res.status(200).json(result);
+  }
+  return res.status(500).end();
 };
 
 UserController.follow = async (req, res) => {
@@ -23,7 +30,7 @@ UserController.follow = async (req, res) => {
     return res.status(400).end();
   }
   const success = await follow(author, userName, status);
-  if (success) return res.status(200).json({ messege: 'success' });
+  if (success) return res.status(204).end();
 
   return res.status(500).end();
 };
