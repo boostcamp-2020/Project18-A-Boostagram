@@ -8,17 +8,29 @@ const style = {};
 style.Comment = styled.div`
   display: flex;
   margin-top: 5px;
+  word-break: break-all;
 `;
 
-style.Content = styled.div`
-  margin-left: 5px;
+style.Content = styled.span`
   font-size: 14px;
   color: #262626;
-  text-overflow: ellipsis;
 `;
 
 style.Link = styled(Link)`
   text-decoration: none;
+`;
+
+style.CommentContent = styled.div`
+  width: auto;
+  word-break: break-all;
+  margin-left: 16px;
+`;
+
+style.UserName = styled.b`
+  width: auto;
+  font-weight: 600;
+  font-size: 14px;
+  color: #262626;
 `;
 
 const Comment = (input) => {
@@ -27,12 +39,13 @@ const Comment = (input) => {
   const href = `/profile?userName=${userName}`;
 
   return (
-    <style.Comment>
+    <style.CommentContent>
       <style.Link to={href}>
-        <UserName>{userName}</UserName>
+        <style.UserName>{author.userName}</style.UserName>
       </style.Link>
+      &nbsp;
       <style.Content>{content}</style.Content>
-    </style.Comment>
+    </style.CommentContent>
   );
 };
 
