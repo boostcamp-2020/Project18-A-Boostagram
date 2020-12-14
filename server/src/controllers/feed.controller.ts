@@ -18,7 +18,7 @@ feedController.create = async (req: Request, res: Response) => {
     return res.status(400).end();
   }
   const success = await create(req.body);
-  if (success) return res.status(201).json({ messege: 'success' });
+  if (success) return res.status(201).end();
 
   return res.status(500).end();
 };
@@ -55,7 +55,7 @@ feedController.like = async (req: Request, res: Response) => {
     return res.status(400).end();
   }
   const success = await like(author, feedId, status);
-  if (success) return res.status(201).json({ messege: 'success' });
+  if (success) return res.status(204).end();
 
   return res.status(500).end();
 };
