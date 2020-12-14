@@ -30,11 +30,10 @@ const Contents = (input) => {
   if (login.follow === undefined) {
     return <></>;
   }
-  console.log(login);
 
   return (
     <style.Contents>
-      <Story datas={login.follow ? login.follow : []} />
+      <Story datas={login.follow} />
       <Feed data={data} setGetMore={setGetMore} />
       {data.length === 0 ? (
         <>

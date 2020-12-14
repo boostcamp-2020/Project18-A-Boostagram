@@ -29,16 +29,12 @@ const Story = (input) => {
   const user = [];
   return (
     <style.Story datas={datas}>
-      {datas.length > 0 ? (
-        datas.map((data) => {
-          if (!user.includes(data.userId)) {
-            user.push(data.userId);
-            return <StoryItems key={data.userId} data={data} />;
-          }
-        })
-      ) : (
-        <></>
-      )}
+      {datas.map((data) => {
+        if (!user.includes(data.userId)) {
+          user.push(data.userId);
+          return <StoryItems key={data.userId} data={data} />;
+        }
+      })}
     </style.Story>
   );
 };
