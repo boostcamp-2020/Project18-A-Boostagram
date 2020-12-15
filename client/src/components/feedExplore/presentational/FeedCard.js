@@ -6,7 +6,7 @@ import IntersectionHook from '@hooks/Intersection';
 import GetOneFeedAPI from '@api/GetOneFeedAPI';
 import ReactLoading from 'react-loading';
 
-const MINIMUN_LOAD_DELAY = 500;
+const MINIMUN_LOAD_DELAY = 1000;
 
 const LazyImage = lazy(() => {
   return Promise.all([
@@ -96,7 +96,12 @@ const FeedCard = (input) => {
 
   const loading = (
     <style.LoadingBox>
-      <ReactLoading type="spokes" color="#586069" height="70px" width="70px" />
+      <ReactLoading
+        type="spinningBubbles"
+        color="#586069"
+        height="70px"
+        width="70px"
+      />
     </style.LoadingBox>
   );
   const jsx = (
