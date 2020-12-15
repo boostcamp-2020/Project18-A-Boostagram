@@ -57,16 +57,29 @@ style.NotiBox = styled.div`
 style.NewNotiAcitve = styled.div`
   position: absolute;
   bottom: -5px;
-  right: 8px;
-  width: 6px;
-  height: 6px;
-  border-radius: 6px;
+  right: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
   background: red;
+`;
+style.NewNotiNumber = styled.div`
+  position: absolute;
+  top: 55px;
+  right: -20px;
+  display: ${({ active }) => (active ? 'block' : 'none')};
+  width: 70px;
+  height: 50px;
+  background-color: ${({ theme }) => theme.color.weakRed};
+  border-radius: 7px;
+`;
+style.WhiteColor = styled.div`
+  color: white;
 `;
 
 const Header = ({ handleModal }) => {
   const { login } = useContext(UserContext);
-  const { newNoti } = useContext(SocketContext);
+  const { newNoti, activeNewNotiNumber } = useContext(SocketContext);
 
   return (
     <style.HeaderContainer>
@@ -90,6 +103,12 @@ const Header = ({ handleModal }) => {
           <style.NotiBox>
             <icon.Noti />
             {newNoti && <style.NewNotiAcitve />}
+            <style.NewNotiNumber active={activeNewNotiNumber !== 0}>
+              <style.WhiteColor>
+                <icon.Noti color="#fff" />
+                {activeNewNotiNumber !== 0 && activeNewNotiNumber}
+              </style.WhiteColor>
+            </style.NewNotiNumber>
           </style.NotiBox>
           <style.NavigationItem to={pathURI.PROFILE}>
             <icon.Profile />
