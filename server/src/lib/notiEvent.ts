@@ -48,7 +48,7 @@ class NotiEvent {
         const result = await upsertNoti(data);
         if (result) {
           const targetSocketID = this.clientSocketIds[data.to.userName];
-          uncheckedNotiCount = await getUncheckedNotiCount(userName);
+          uncheckedNotiCount = await getUncheckedNotiCount(data.to.userName);
           this.io.to(targetSocketID).emit('notiCount', uncheckedNotiCount);
         }
       });
