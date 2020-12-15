@@ -24,10 +24,6 @@ class NotiEvent {
         setTimeout(() => this.setActiveNewNotiNumber(0), this.displaySeconds);
       }
     });
-
-    this.socket.on('notiEvent', (msg) => {
-      console.log(msg);
-    });
   }
 
   emitEvent(type, from, to, content) {
