@@ -16,6 +16,10 @@ class NotiEvent {
       auth: { userName },
     });
 
+    this.socket.on('notiCount', (msg) => {
+      console.log(`unchecked noti: ${msg}`);
+    });
+
     this.socket.on('notiEvent', (msg) => {
       console.log(msg); // msg: 새 노티 개수 포함
       this.setNewNoti(true);
