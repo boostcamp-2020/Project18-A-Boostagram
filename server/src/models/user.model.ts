@@ -12,6 +12,7 @@ const notiContents = new mongoose.Schema(
     userName: String,
     notiType: String,
     isChecked: Boolean,
+    content: String,
   },
   { timestamps: true },
 );
@@ -54,6 +55,11 @@ userSchema.methods.findUserName = async function findUserName() {
   return result;
 };
 
+userSchema.methods.findUserId = async function findUserId() {
+  const result = await mongoose.model('User').findOne({ _id: this.userId });
+  return result;
+};
+
 userSchema.methods.findUserSuggest = async function findUserSuggest() {
   const { userName } = this;
   const regex = new RegExp(userName, 'gi');
@@ -92,6 +98,7 @@ export interface InotiContents {
   userName: string;
   notiType: string;
   isChecked: boolean;
+  content: string;
 }
 
 export interface ISearch {
@@ -167,6 +174,73 @@ userSchema.methods.deleteFollow = async function deletefollow(
   return result;
 };
 
+userSchema.methods.updateNoti = async function updateNoti(newNotiContent: any) {
+  const result = await mongoose.model('User').updateMany(
+    {
+      _id: this.userId,
+    },
+    {
+      $set: {
+        notiContents: newNotiContent,
+      },
+    },
+  );
+  return result;
+  // const result = await mongoose.model('User').updateMany(
+  //   {
+  //     _id: this.userId,
+  //   },
+  //   {
+  //     $set: {
+  //       'notiContents.$[].isChecked': true,
+  //     },
+  //   },
+  // );
+  // await mongoose
+  //   .model('User')
+  //   .findOne({ _id: this.userId })
+  //   .forEach((doc: any) => {
+  //     doc.notiContents.forEach((item: any) => {
+  //       if (!item.isChecked) {
+  //         item.isChecked = true;
+  //       }
+  //     });
+  //     await mongoose.model('User').save(doc);
+  //   });
+  // return true;
+};
+
+userSchema.methods.upsertNoti = async function upsertNoti(data: any) {
+  const exist = await mongoose.model('User').findOne({
+    userName: data.to,
+    notiContents: {
+      $elemMatch: {
+        userName: data.notiContent.userName,
+        notiType: data.notiContent.notiType,
+        content: data.notiContent.content,
+      },
+    },
+  });
+
+  if (exist === null) {
+    const result = await mongoose.model('User').updateOne(
+      {
+        userName: data.to,
+      },
+      {
+        $push: {
+          notiContents: data.notiContent,
+        },
+      },
+    );
+
+    if (result) return true;
+    return false;
+  }
+
+  return false;
+};
+
 export interface IUser extends mongoose.Document {
   name?: string;
   userName: string;
@@ -182,9 +256,12 @@ export interface IUser extends mongoose.Document {
   createUser: () => boolean;
   addFeedCount: () => boolean;
   findUserName: () => IUser;
+  findUserId: () => IUser;
+  updateNoti: (newNotiContent: any) => boolean;
   findUserSuggest: () => ISearch;
   createFollow: (user: IFollow, target: IFollow) => boolean;
   deleteFollow: (user: IFollow, target: IFollow) => boolean;
+  upsertNoti: (data: any) => any;
 }
 
 export default mongoose.model<IUser>('User', userSchema);

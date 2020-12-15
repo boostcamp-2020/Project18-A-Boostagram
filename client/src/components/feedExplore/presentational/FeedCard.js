@@ -1,10 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import icon from '@constants/icon';
 import ModalContext from '@context/modal';
 import IntersectionHook from '@hooks/Intersection';
 import GetOneFeedAPI from '@api/GetOneFeedAPI';
+import ReactLoading from 'react-loading';
 
+const MINIMUN_LOAD_DELAY = 700;
+
+const LazyImage = lazy(() => {
+  return Promise.all([
+    import('./LazyImage'),
+    new Promise((resolve) => setTimeout(resolve, MINIMUN_LOAD_DELAY)),
+  ]).then(([moduleExports]) => moduleExports);
+});
 const style = {};
 
 style.FeedCard = styled.article`
@@ -52,9 +61,15 @@ style.Hovercontent = styled.div`
   margin-left: 20px;
 `;
 
-style.test = styled.div`
+style.IconContent = styled.div`
   display: flex;
   margin: 0 auto;
+`;
+
+style.LoadingBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 100px 0;
 `;
 
 const FeedCard = (input) => {
@@ -79,11 +94,18 @@ const FeedCard = (input) => {
 
   IntersectionHook(isLastItem, target, data._id, setGetMore);
 
+  const loading = (
+    <style.LoadingBox>
+      <ReactLoading type="bubbles" color="#586069" height="40px" width="40px" />
+    </style.LoadingBox>
+  );
   const jsx = (
     <>
-      <style.ImgBox src={feedImg[0]} hover={hover} />
+      <Suspense fallback={loading}>
+        <LazyImage src={feedImg[0]} hover={hover} />
+      </Suspense>
       <style.Icon hover={hover}>
-        <style.test>
+        <style.IconContent>
           <style.Hovercontent>
             <icon.Noti />
             <style.Number>{likeNum}</style.Number>
@@ -92,7 +114,7 @@ const FeedCard = (input) => {
             <icon.Comment />
             <style.Number>{commentNum}</style.Number>
           </style.Hovercontent>
-        </style.test>
+        </style.IconContent>
       </style.Icon>
     </>
   );

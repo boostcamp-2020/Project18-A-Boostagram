@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const style = {};
 
-style.StoryItems = styled.div`
+style.StoryItems = styled(Link)`
   width: 66px;
   height: auto;
   margin-left: 10px;
   padding: 0px 4px;
   cursor: pointer;
+  text-decoration: none;
 `;
 
 style.Item = styled.img`
@@ -28,15 +30,16 @@ style.UserName = styled.div`
 `;
 
 const StoryItems = (input) => {
-  const { author } = input.data;
+  const { profileImg, userName } = input.data;
+  const userProfileURL = `/profile?userName=${userName}`;
   const onClick = () => {
     // todo: 모달창
   };
   return (
     <>
-      <style.StoryItems>
-        <style.Item src={author.profileImg} onClick={onClick} />
-        <style.UserName>{author.userName}</style.UserName>
+      <style.StoryItems to={userProfileURL}>
+        <style.Item src={profileImg} onClick={onClick} />
+        <style.UserName>{userName}</style.UserName>
       </style.StoryItems>
     </>
   );

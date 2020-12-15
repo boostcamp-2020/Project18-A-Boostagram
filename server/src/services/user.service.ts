@@ -45,4 +45,69 @@ const follow = async (
   return result;
 };
 
-export { getProfile, follow };
+const getUncheckedNotiCount = async (
+  userName: string,
+): Promise<number | undefined> => {
+  const user = new UserModel({ userName });
+  const userInfo = await user.findUserName();
+  const uncheckedNotiList = userInfo.notiContents?.filter(
+    (item) => !item.isChecked,
+  );
+  return uncheckedNotiList?.length;
+};
+
+interface InotiEvent {
+  type: string;
+  from: { name: string; userName: string; profileImg: string };
+  to: {
+    name: string;
+    userName: string;
+    profileImg: string;
+    userId: string;
+  };
+  content: string;
+}
+
+const upsertNoti = async ({
+  type,
+  to,
+  from,
+  content,
+}: InotiEvent): Promise<boolean> => {
+  const data = {
+    to: to.userName,
+    notiContent: {
+      profileImg: from.profileImg,
+      userName: from.userName,
+      notiType: type,
+      isChecked: false,
+      content,
+    },
+  };
+  const user = new UserModel();
+  const result = await user.upsertNoti(data);
+  return result;
+};
+
+const getNotiContent = async (userId: string): Promise<any> => {
+  const user = new UserModel({ userId });
+  const result = await user.findUserId();
+  const newNotiContent = result.notiContents?.map((e) => {
+    e.isChecked = true;
+    return e;
+  });
+  // console.log(newNotiContent);
+  const updateResult = await user.updateNoti(newNotiContent);
+  if (updateResult) {
+    return result;
+  }
+  return false;
+};
+
+export {
+  getProfile,
+  follow,
+  getUncheckedNotiCount,
+  upsertNoti,
+  getNotiContent,
+};

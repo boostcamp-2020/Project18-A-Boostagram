@@ -1,7 +1,7 @@
 # ![](https://user-images.githubusercontent.com/24909656/101751559-bdd1e900-3b13-11eb-99f0-a2ef6b92d70b.PNG)
 
-![mongoDB](https://img.shields.io/badge/mongoDB-v4.4-green?logo=mongoDB)
-![express](https://img.shields.io/badge/express-v4.17.9-green?logo=express)
+![mongoDB](https://img.shields.io/badge/mongoDB-v2.6.10-green?logo=mongoDB)
+![express](https://img.shields.io/badge/express-v4.17.1-green?logo=express)
 ![react](https://img.shields.io/badge/react-v17.0.1-9cf?logo=react)
 ![NodeJS](https://img.shields.io/badge/node.js-v12.18.2-green?logo=node.js)
 

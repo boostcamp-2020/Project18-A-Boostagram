@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import UserContext from '@context/user';
+import SocketContext from '@context/socket';
 import ModalContext from '@context/modal';
 import styled from 'styled-components';
 import Header from '@common/Header';
@@ -11,9 +12,9 @@ import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
 import initLogin from '@constants/value';
-import ProfileFeedAPI from '@api/ProfileFeedAPI';
 import LoginContainer from './login/container/LoginContainer';
 import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
+import NotiEvent from '../utils/notiEvent';
 
 const NOT_LOGINED = 'NOT_LOGINED';
 const RESPONSE_USER_DATA_NUMS = 4;
@@ -98,6 +99,10 @@ const App = () => {
   const [detailActive, setDetailActive] = useState(false);
   const handleDetailModal = () => setDetailActive(!detailActive);
 
+  const [notiEvent, setNotiEvent] = useState();
+  const [newNoti, setNewNoti] = useState(false); // 하트 아래 빨간 점
+  const [activeNewNotiNumber, setActiveNewNotiNumber] = useState(0);
+
   if (isEqualObj(login, initLogin)) {
     // check localStorage.
     const logined = handleRefresh(login, setLogin);
@@ -121,44 +126,66 @@ const App = () => {
       ...login,
       follow: json.userInfo.follow,
     });
+    setNotiEvent(
+      new NotiEvent(login.userName, setNewNoti, setActiveNewNotiNumber),
+    );
   }, []);
 
   return (
     <>
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
-        <style.ModalBackground active={modalActive} onClick={handleModal} />
-        <style.ModalBackground
-          active={detailActive}
-          onClick={handleDetailModal}
-        />
-        <NewFeedContainer modalActive={modalActive} handleModal={handleModal} />
-        <Header handleModal={handleModal} />
-        <style.Contents>
-          <style.RouteWrapper>
-            {isEqualObj(login, initLogin) ? (
-              <>
-                <Route exact path={pathURI.LOGIN} component={LoginContainer} />
-                <Route path="*">
-                  <Redirect to={pathURI.LOGIN} />
-                </Route>
-              </>
-            ) : (
-              <ModalContext.Provider
-                value={{
-                  modalActive,
-                  detailActive,
-                  handleDetailModal,
-                  selectedFeed,
-                  selectFeed,
-                }}
-              >
-                <FeedDetailContainer />
-                <PrivateRouter />
-              </ModalContext.Provider>
-            )}
-          </style.RouteWrapper>
-        </style.Contents>
+        <ModalContext.Provider
+          value={{
+            modalActive,
+            detailActive,
+            handleDetailModal,
+            selectedFeed,
+            selectFeed,
+          }}
+        >
+          <SocketContext.Provider
+            value={{
+              notiEvent,
+              newNoti,
+              activeNewNotiNumber,
+              setNewNoti,
+              setActiveNewNotiNumber,
+            }}
+          >
+            <style.ModalBackground active={modalActive} onClick={handleModal} />
+            <style.ModalBackground
+              active={detailActive}
+              onClick={handleDetailModal}
+            />
+            <NewFeedContainer
+              modalActive={modalActive}
+              handleModal={handleModal}
+            />
+            <Header handleModal={handleModal} />
+            <style.Contents>
+              <style.RouteWrapper>
+                {isEqualObj(login, initLogin) ? (
+                  <>
+                    <Route
+                      exact
+                      path={pathURI.LOGIN}
+                      component={LoginContainer}
+                    />
+                    <Route path="*">
+                      <Redirect to={pathURI.LOGIN} />
+                    </Route>
+                  </>
+                ) : (
+                  <>
+                    <FeedDetailContainer />
+                    <PrivateRouter />
+                  </>
+                )}
+              </style.RouteWrapper>
+            </style.Contents>
+          </SocketContext.Provider>
+        </ModalContext.Provider>
       </UserContext.Provider>
     </>
   );

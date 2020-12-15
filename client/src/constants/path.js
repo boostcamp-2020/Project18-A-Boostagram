@@ -14,6 +14,7 @@ const common = {
   API_LIKE: '/feed/like/',
   API_SEARCH_USERS: '/search/users/',
   API_FOLLOW: '/user/follow/',
+  API_NOTI_HISTORY: '/user/notiContent/',
 };
 
 let IP = 'http://localhost:3000';

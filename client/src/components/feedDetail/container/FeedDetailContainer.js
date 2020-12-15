@@ -86,6 +86,7 @@ style.ProfileImg = styled.img`
 
 style.FeedContent = styled.div`
   flex: 1;
+  word-break: break-all;
 `;
 
 style.LikeCount = styled.div`
