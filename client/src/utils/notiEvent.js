@@ -18,13 +18,15 @@ class NotiEvent {
 
     this.socket.on('notiCount', (msg) => {
       console.log(`unchecked noti: ${msg}`);
+      if (msg !== 0) {
+        this.setNewNoti(true);
+        this.setActiveNewNotiNumber(msg);
+        setTimeout(() => this.setActiveNewNotiNumber(0), this.displaySeconds);
+      }
     });
 
     this.socket.on('notiEvent', (msg) => {
-      console.log(msg); // msg: 새 노티 개수 포함
-      this.setNewNoti(true);
-      this.setActiveNewNotiNumber(msg.notiCount);
-      setTimeout(() => this.setActiveNewNotiNumber(0), this.displaySeconds);
+      console.log(msg);
     });
   }
 
