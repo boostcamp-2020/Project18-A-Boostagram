@@ -114,16 +114,6 @@ const App = () => {
     }
   }
 
-  const testHandler = () => setNewNoti(!newNoti);
-
-  useEffect(() => {
-    if (activeNewNotiNumber === 0) {
-      // todo: display none
-    } else {
-      // todo: display noti count number
-    }
-  }, [activeNewNotiNumber]);
-
   useEffect(async () => {
     const url = `${
       pathURI.IP + pathURI.API_PROFILE + login.userName
@@ -148,7 +138,7 @@ const App = () => {
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
         <SocketContext.Provider
-          value={{ notiEvent, newNoti, activeNewNotiNumber, testHandler }}
+          value={{ notiEvent, newNoti, activeNewNotiNumber }}
         >
           <style.ModalBackground active={modalActive} onClick={handleModal} />
           <style.ModalBackground
