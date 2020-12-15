@@ -2,8 +2,11 @@ import socketIOClient from 'socket.io-client';
 import pathURI from '@constants/path';
 
 class NotiEvent {
-  constructor(userName) {
+  constructor(userName, setNewNoti, setActiveNewNotiNumber) {
     this.socket = undefined;
+    this.setNewNoti = setNewNoti;
+    this.setActiveNewNotiNumber = setActiveNewNotiNumber;
+    this.displaySeconds = 10000;
     this.init(userName);
   }
 
@@ -15,10 +18,11 @@ class NotiEvent {
 
     this.socket.on('notiCount', (msg) => {
       console.log(`unchecked noti: ${msg}`);
-    });
-
-    this.socket.on('notiEvent', (msg) => {
-      console.log(msg);
+      if (msg !== 0) {
+        this.setNewNoti(true);
+        this.setActiveNewNotiNumber(msg);
+        setTimeout(() => this.setActiveNewNotiNumber(0), this.displaySeconds);
+      }
     });
   }
 
