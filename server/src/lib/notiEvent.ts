@@ -1,5 +1,5 @@
 import http from 'http';
-import { getUncheckedNotiCount } from '../services/user.service';
+import { getUncheckedNotiCount, upsertNoti } from '../services/user.service';
 
 const socketIO = require('socket.io');
 
@@ -44,15 +44,14 @@ class NotiEvent {
         delete this.clientSocketIds[userName];
       });
 
-      socket.on(
-        'notiEvent',
-        async ({ type, from, to, content }: InotiEvent) => {
-          // find target socketID
-          const targetSocketID = this.clientSocketIds[to.userName];
+      socket.on('notiEvent', async (data: InotiEvent) => {
+        const result = await upsertNoti(data);
+        if (result) {
+          const targetSocketID = this.clientSocketIds[data.to.userName];
           uncheckedNotiCount = await getUncheckedNotiCount(userName);
           this.io.to(targetSocketID).emit('notiCount', uncheckedNotiCount);
-        },
-      );
+        }
+      });
     });
   }
 }
