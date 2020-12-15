@@ -17,7 +17,6 @@ class NotiEvent {
     });
 
     this.socket.on('notiCount', (msg) => {
-      console.log(`unchecked noti: ${msg}`);
       if (msg !== 0) {
         this.setNewNoti(true);
         this.setActiveNewNotiNumber(msg);
