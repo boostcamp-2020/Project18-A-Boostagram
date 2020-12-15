@@ -6,7 +6,7 @@ import IntersectionHook from '@hooks/Intersection';
 import GetOneFeedAPI from '@api/GetOneFeedAPI';
 import ReactLoading from 'react-loading';
 
-const MINIMUN_LOAD_DELAY = 1000;
+const MINIMUN_LOAD_DELAY = 700;
 
 const LazyImage = lazy(() => {
   return Promise.all([
@@ -61,7 +61,7 @@ style.Hovercontent = styled.div`
   margin-left: 20px;
 `;
 
-style.test = styled.div`
+style.IconContent = styled.div`
   display: flex;
   margin: 0 auto;
 `;
@@ -96,12 +96,7 @@ const FeedCard = (input) => {
 
   const loading = (
     <style.LoadingBox>
-      <ReactLoading
-        type="spinningBubbles"
-        color="#586069"
-        height="70px"
-        width="70px"
-      />
+      <ReactLoading type="bubbles" color="#586069" height="40px" width="40px" />
     </style.LoadingBox>
   );
   const jsx = (
@@ -110,7 +105,7 @@ const FeedCard = (input) => {
         <LazyImage src={feedImg[0]} hover={hover} />
       </Suspense>
       <style.Icon hover={hover}>
-        <style.test>
+        <style.IconContent>
           <style.Hovercontent>
             <icon.Noti />
             <style.Number>{likeNum}</style.Number>
@@ -119,7 +114,7 @@ const FeedCard = (input) => {
             <icon.Comment />
             <style.Number>{commentNum}</style.Number>
           </style.Hovercontent>
-        </style.test>
+        </style.IconContent>
       </style.Icon>
     </>
   );
