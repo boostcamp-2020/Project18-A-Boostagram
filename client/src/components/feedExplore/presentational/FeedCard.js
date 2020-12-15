@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import icon from '@constants/icon';
 import ModalContext from '@context/modal';
 import IntersectionHook from '@hooks/Intersection';
 import GetOneFeedAPI from '@api/GetOneFeedAPI';
 
+const LazyImage = lazy(() => import('./LazyImage'));
 const style = {};
 
 style.FeedCard = styled.article`
@@ -81,7 +82,9 @@ const FeedCard = (input) => {
 
   const jsx = (
     <>
-      <style.ImgBox src={feedImg[0]} hover={hover} />
+      <Suspense fallback={<div>...loading</div>}>
+        <LazyImage src={feedImg[0]} hover={hover} />
+      </Suspense>
       <style.Icon hover={hover}>
         <style.test>
           <style.Hovercontent>
