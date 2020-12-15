@@ -45,4 +45,15 @@ const follow = async (
   return result;
 };
 
-export { getProfile, follow };
+const getUncheckedNotiCount = async (
+  userName: string,
+): Promise<number | undefined> => {
+  const user = new UserModel({ userName });
+  const userInfo = await user.findUserName();
+  const uncheckedNotiList = userInfo.notiContents?.filter(
+    (item) => !item.isChecked,
+  );
+  return uncheckedNotiList?.length;
+};
+
+export { getProfile, follow, getUncheckedNotiCount };
