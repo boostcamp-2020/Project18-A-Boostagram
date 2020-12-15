@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getProfile, follow } from '../services/user.service';
+import { getProfile, follow, getNotiContent } from '../services/user.service';
 import getUserId from '../lib/getUserId';
 
 interface callback {
@@ -31,6 +31,18 @@ UserController.follow = async (req, res) => {
   }
   const success = await follow(author, userName, status);
   if (success) return res.status(204).end();
+
+  return res.status(500).end();
+};
+
+UserController.notiContent = async (req, res) => {
+  const { user } = req;
+
+  const result = await getNotiContent(getUserId(user));
+
+  if (result) {
+    return res.status(200).json(result);
+  }
 
   return res.status(500).end();
 };

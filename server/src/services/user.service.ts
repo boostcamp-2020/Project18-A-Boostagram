@@ -89,4 +89,25 @@ const upsertNoti = async ({
   return result;
 };
 
-export { getProfile, follow, getUncheckedNotiCount, upsertNoti };
+const getNotiContent = async (userId: string): Promise<any> => {
+  const user = new UserModel({ userId });
+  const result = await user.findUserId();
+  const newNotiContent = result.notiContents?.map((e) => {
+    e.isChecked = true;
+    return e;
+  });
+  // console.log(newNotiContent);
+  const updateResult = await user.updateNoti(newNotiContent);
+  if (updateResult) {
+    return result;
+  }
+  return false;
+};
+
+export {
+  getProfile,
+  follow,
+  getUncheckedNotiCount,
+  upsertNoti,
+  getNotiContent,
+};
