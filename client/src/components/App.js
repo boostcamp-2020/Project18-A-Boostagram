@@ -4,7 +4,6 @@ import UserContext from '@context/user';
 import SocketContext from '@context/socket';
 import ModalContext from '@context/modal';
 import styled from 'styled-components';
-import socketIOClient from 'socket.io-client';
 import Header from '@common/Header';
 import GlobalStyle from '@style/GlobalStyle';
 import HomeContainer from '@home/container/HomeContainer';
@@ -13,7 +12,6 @@ import FeedExploreContainer from '@feedExplore/container/FeedExploreContainer';
 import ProfileContainer from '@profile/container/ProfileContainer';
 import pathURI from '@constants/path';
 import initLogin from '@constants/value';
-import ProfileFeedAPI from '@api/ProfileFeedAPI';
 import LoginContainer from './login/container/LoginContainer';
 import FeedDetailContainer from './feedDetail/container/FeedDetailContainer';
 import NotiEvent from '../utils/notiEvent';
@@ -138,7 +136,13 @@ const App = () => {
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
         <SocketContext.Provider
-          value={{ notiEvent, newNoti, activeNewNotiNumber }}
+          value={{
+            notiEvent,
+            newNoti,
+            activeNewNotiNumber,
+            setNewNoti,
+            setActiveNewNotiNumber,
+          }}
         >
           <style.ModalBackground active={modalActive} onClick={handleModal} />
           <style.ModalBackground
