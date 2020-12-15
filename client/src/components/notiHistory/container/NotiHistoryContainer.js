@@ -19,15 +19,15 @@ style.NotiIcon = styled.div`
 
 const NotiHistoryContainer = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const onClickHandler = () => {
-    setIsClicked(!isClicked);
-  };
+
+  const onClickHandler = () => setIsClicked(!isClicked);
+
   return (
     <style.NotiHistoryContainer>
       <style.NotiIcon onClick={onClickHandler}>
         <icon.Noti />
       </style.NotiIcon>
-      <DropBox isClicked={isClicked} />
+      <DropBox isClicked={isClicked} setIsClicked={setIsClicked} />
     </style.NotiHistoryContainer>
   );
 };
