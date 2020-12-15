@@ -12,6 +12,7 @@ const notiContents = new mongoose.Schema(
     userName: String,
     notiType: String,
     isChecked: Boolean,
+    content: String,
   },
   { timestamps: true },
 );
@@ -92,6 +93,7 @@ export interface InotiContents {
   userName: string;
   notiType: string;
   isChecked: boolean;
+  content: string;
 }
 
 export interface ISearch {
@@ -167,6 +169,37 @@ userSchema.methods.deleteFollow = async function deletefollow(
   return result;
 };
 
+userSchema.methods.upsertNoti = async function upsertNoti(data: any) {
+  const exist = await mongoose.model('User').findOne({
+    userName: data.to,
+    notiContents: {
+      $elemMatch: {
+        userName: data.notiContent.userName,
+        notiType: data.notiContent.notiType,
+        content: data.notiContent.content,
+      },
+    },
+  });
+
+  if (exist === null) {
+    const result = await mongoose.model('User').updateOne(
+      {
+        userName: data.to,
+      },
+      {
+        $push: {
+          notiContents: data.notiContent,
+        },
+      },
+    );
+
+    if (result) return true;
+    return false;
+  }
+
+  return false;
+};
+
 export interface IUser extends mongoose.Document {
   name?: string;
   userName: string;
@@ -185,6 +218,7 @@ export interface IUser extends mongoose.Document {
   findUserSuggest: () => ISearch;
   createFollow: (user: IFollow, target: IFollow) => boolean;
   deleteFollow: (user: IFollow, target: IFollow) => boolean;
+  upsertNoti: (data: any) => any;
 }
 
 export default mongoose.model<IUser>('User', userSchema);

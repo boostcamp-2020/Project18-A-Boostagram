@@ -56,4 +56,37 @@ const getUncheckedNotiCount = async (
   return uncheckedNotiList?.length;
 };
 
-export { getProfile, follow, getUncheckedNotiCount };
+interface InotiEvent {
+  type: string;
+  from: { name: string; userName: string; profileImg: string };
+  to: {
+    name: string;
+    userName: string;
+    profileImg: string;
+    userId: string;
+  };
+  content: string;
+}
+
+const upsertNoti = async ({
+  type,
+  to,
+  from,
+  content,
+}: InotiEvent): Promise<boolean> => {
+  const data = {
+    to: to.userName,
+    notiContent: {
+      profileImg: from.profileImg,
+      userName: from.userName,
+      notiType: type,
+      isChecked: false,
+      content,
+    },
+  };
+  const user = new UserModel();
+  const result = await user.upsertNoti(data);
+  return result;
+};
+
+export { getProfile, follow, getUncheckedNotiCount, upsertNoti };
