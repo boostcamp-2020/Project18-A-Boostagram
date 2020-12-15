@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import pathURI from '@constants/path';
 import icon from '@constants/icon';
 import UserName from '@home/presentational/UserName';
+import SocketContext from '@context/socket';
 
 const style = {};
 style.Icons = styled.div`
@@ -35,6 +36,7 @@ const FeedItemIcon = (input) => {
   const [likeNum, setLikeNum] = useState();
   const [like, setLike] = useState();
   const likeMessage = `좋아요 ${likeNum}개`;
+  const { notiEvent } = useContext(SocketContext);
 
   useEffect(() => {
     setLikeNum(data.like.length);
@@ -62,6 +64,14 @@ const FeedItemIcon = (input) => {
     }).then(() => {
       setLikeNum(like ? likeNum - 1 : likeNum + 1);
       setLike(!like);
+      if (!like) {
+        const sender = {
+          name: login.name,
+          userName: login.userName,
+          profileImg: login.profileImg,
+        };
+        notiEvent.emitEvent('like', sender, data.author, data._id);
+      }
     });
   };
 

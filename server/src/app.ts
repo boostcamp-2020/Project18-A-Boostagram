@@ -6,6 +6,7 @@ import multer from 'multer';
 import initDB from './models/init.model';
 import index from './routes/index';
 import initPassport from './passport/init';
+import NotiEvent from './lib/notiEvent';
 
 dotenv.config();
 
@@ -38,7 +39,9 @@ app.use(initPassport());
 
 app.use('/', index);
 
-app.listen(port, () => {
+const notiEvent = new NotiEvent(app);
+
+notiEvent.server.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log('listening on port 3000...');
 });
