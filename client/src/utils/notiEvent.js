@@ -6,7 +6,7 @@ class NotiEvent {
     this.socket = undefined;
     this.setNewNoti = setNewNoti;
     this.setActiveNewNotiNumber = setActiveNewNotiNumber;
-    this.displaySeconds = 5000;
+    this.displaySeconds = 10000;
     this.init(userName);
   }
 
