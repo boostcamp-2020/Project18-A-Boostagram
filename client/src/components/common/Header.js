@@ -69,9 +69,6 @@ const Header = ({ handleModal }) => {
               <icon.NewFeed />
             </style.newFeedButton>
           )}
-          <style.NavigationItem to={pathURI.HOME}>
-            <icon.Direct />
-          </style.NavigationItem>
           <style.NavigationItem to={pathURI.EXPLORE}>
             <icon.Explore />
           </style.NavigationItem>
