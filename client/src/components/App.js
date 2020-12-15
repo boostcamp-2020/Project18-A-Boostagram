@@ -135,55 +135,57 @@ const App = () => {
     <>
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
-        <SocketContext.Provider
+        <ModalContext.Provider
           value={{
-            notiEvent,
-            newNoti,
-            activeNewNotiNumber,
-            setNewNoti,
-            setActiveNewNotiNumber,
+            modalActive,
+            detailActive,
+            handleDetailModal,
+            selectedFeed,
+            selectFeed,
           }}
         >
-          <style.ModalBackground active={modalActive} onClick={handleModal} />
-          <style.ModalBackground
-            active={detailActive}
-            onClick={handleDetailModal}
-          />
-          <NewFeedContainer
-            modalActive={modalActive}
-            handleModal={handleModal}
-          />
-          <Header handleModal={handleModal} />
-          <style.Contents>
-            <style.RouteWrapper>
-              {isEqualObj(login, initLogin) ? (
-                <>
-                  <Route
-                    exact
-                    path={pathURI.LOGIN}
-                    component={LoginContainer}
-                  />
-                  <Route path="*">
-                    <Redirect to={pathURI.LOGIN} />
-                  </Route>
-                </>
-              ) : (
-                <ModalContext.Provider
-                  value={{
-                    modalActive,
-                    detailActive,
-                    handleDetailModal,
-                    selectedFeed,
-                    selectFeed,
-                  }}
-                >
-                  <FeedDetailContainer />
-                  <PrivateRouter />
-                </ModalContext.Provider>
-              )}
-            </style.RouteWrapper>
-          </style.Contents>
-        </SocketContext.Provider>
+          <SocketContext.Provider
+            value={{
+              notiEvent,
+              newNoti,
+              activeNewNotiNumber,
+              setNewNoti,
+              setActiveNewNotiNumber,
+            }}
+          >
+            <style.ModalBackground active={modalActive} onClick={handleModal} />
+            <style.ModalBackground
+              active={detailActive}
+              onClick={handleDetailModal}
+            />
+            <NewFeedContainer
+              modalActive={modalActive}
+              handleModal={handleModal}
+            />
+            <Header handleModal={handleModal} />
+            <style.Contents>
+              <style.RouteWrapper>
+                {isEqualObj(login, initLogin) ? (
+                  <>
+                    <Route
+                      exact
+                      path={pathURI.LOGIN}
+                      component={LoginContainer}
+                    />
+                    <Route path="*">
+                      <Redirect to={pathURI.LOGIN} />
+                    </Route>
+                  </>
+                ) : (
+                  <>
+                    <FeedDetailContainer />
+                    <PrivateRouter />
+                  </>
+                )}
+              </style.RouteWrapper>
+            </style.Contents>
+          </SocketContext.Provider>
+        </ModalContext.Provider>
       </UserContext.Provider>
     </>
   );

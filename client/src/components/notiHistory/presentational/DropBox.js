@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import UserContext from '@context/user';
 import { useHistory } from 'react-router-dom';
 import pathURI from '@constants/path';
+import ModalContext from '@context/modal';
+import GetOneFeedAPI from '@api/GetOneFeedAPI';
 
 const style = {};
 style.Backgrond = styled.div`
@@ -109,6 +111,13 @@ const DropBox = (input) => {
   }, [isClicked]);
 
   if (loading) {
+    const { handleDetailModal, selectFeed } = useContext(ModalContext);
+
+    const clickHandler = async (feedId) => {
+      const feedData = await GetOneFeedAPI(feedId);
+      selectFeed(feedData);
+      handleDetailModal();
+    };
     return (
       <>
         <style.Backgrond
@@ -117,22 +126,14 @@ const DropBox = (input) => {
         />
         <style.DropBox isClicked={isClicked}>
           {notiContents.map((item, index) => {
-            const {
-              userName,
-              profileImg,
-              notiType,
-              content,
-              isChecked,
-              createdAt,
-            } = item;
+            const { userName, profileImg, notiType, content } = item;
             const key = notiType + content + index;
-            const redirectPath = `/profile?username=${userName}`;
             return (
               <style.UserItem
                 key={key}
                 onMouseDown={() => {
-                  history.replace(redirectPath);
                   setIsClicked(!isClicked);
+                  clickHandler(content);
                 }}
               >
                 <style.ProfileImg src={profileImg} />
