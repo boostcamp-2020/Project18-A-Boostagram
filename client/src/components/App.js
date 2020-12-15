@@ -102,6 +102,8 @@ const App = () => {
   const handleDetailModal = () => setDetailActive(!detailActive);
 
   const [notiEvent, setNotiEvent] = useState();
+  const [newNoti, setNewNoti] = useState(false); // 하트 아래 빨간 점
+  const [activeNewNotiNumber, setActiveNewNotiNumber] = useState(0);
 
   if (isEqualObj(login, initLogin)) {
     // check localStorage.
@@ -126,14 +128,18 @@ const App = () => {
       ...login,
       follow: json.userInfo.follow,
     });
-    setNotiEvent(new NotiEvent(login.userName));
+    setNotiEvent(
+      new NotiEvent(login.userName, setNewNoti, setActiveNewNotiNumber),
+    );
   }, []);
 
   return (
     <>
       <GlobalStyle />
       <UserContext.Provider value={{ login, setLogin }}>
-        <SocketContext.Provider value={{ notiEvent }}>
+        <SocketContext.Provider
+          value={{ notiEvent, newNoti, activeNewNotiNumber }}
+        >
           <style.ModalBackground active={modalActive} onClick={handleModal} />
           <style.ModalBackground
             active={detailActive}
