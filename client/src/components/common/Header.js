@@ -52,12 +52,21 @@ style.newFeedButton = styled.button`
   }
 `;
 style.NotiBox = styled.div`
-  display: block;
+  position: relative;
+`;
+style.NewNotiAcitve = styled.div`
+  position: absolute;
+  bottom: -5px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+  background: red;
 `;
 
 const Header = ({ handleModal }) => {
   const { login } = useContext(UserContext);
-  const { newNoti, testHandler } = useContext(SocketContext);
+  const { newNoti } = useContext(SocketContext);
 
   return (
     <style.HeaderContainer>
@@ -67,10 +76,6 @@ const Header = ({ handleModal }) => {
         </style.LogoArea>
         <SearchBar />
         <style.NavigationBar>
-          <button type="button" onClick={testHandler}>
-            btn
-            {/* todo: remove this */}
-          </button>
           <style.NavigationItem to={pathURI.HOME}>
             <icon.Home />
           </style.NavigationItem>
@@ -82,9 +87,10 @@ const Header = ({ handleModal }) => {
           <style.NavigationItem to={pathURI.EXPLORE}>
             <icon.Explore />
           </style.NavigationItem>
-          <style.NavigationItem>
+          <style.NotiBox>
             <icon.Noti />
-          </style.NavigationItem>
+            {newNoti && <style.NewNotiAcitve />}
+          </style.NotiBox>
           <style.NavigationItem to={pathURI.PROFILE}>
             <icon.Profile />
           </style.NavigationItem>
