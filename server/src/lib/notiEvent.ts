@@ -37,20 +37,22 @@ class NotiEvent {
 
       console.log(`${userName} connected`);
 
-      const uncheckedNotiCount = await getUncheckedNotiCount(userName);
+      let uncheckedNotiCount = await getUncheckedNotiCount(userName);
       this.io.to(socketId).emit('notiCount', uncheckedNotiCount);
 
       socket.on('disconnect', (reason: any) => {
         delete this.clientSocketIds[userName];
       });
 
-      socket.on('notiEvent', ({ type, from, to, content }: InotiEvent) => {
-        // find target socketID
-        const targetSocketID = this.clientSocketIds[to.userName];
-        // send notice to socketID
-        const message = `${from.userName} ${type} your feed ${content}`;
-        this.io.to(targetSocketID).emit('notiEvent', message);
-      });
+      socket.on(
+        'notiEvent',
+        async ({ type, from, to, content }: InotiEvent) => {
+          // find target socketID
+          const targetSocketID = this.clientSocketIds[to.userName];
+          uncheckedNotiCount = await getUncheckedNotiCount(userName);
+          this.io.to(targetSocketID).emit('notiCount', uncheckedNotiCount);
+        },
+      );
     });
   }
 }
