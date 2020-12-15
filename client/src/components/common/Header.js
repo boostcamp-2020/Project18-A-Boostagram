@@ -65,18 +65,25 @@ style.NewNotiAcitve = styled.div`
 `;
 style.NewNotiNumber = styled.div`
   position: absolute;
-  top: 55px;
+  top: 35px;
   right: -20px;
-  display: ${({ active }) => (active ? 'block' : 'none')};
-  width: 70px;
-  height: 50px;
+  display: ${({ active }) => (active ? 'flex' : 'none')};
+  width: 60px;
+  height: 40px;
   background-color: ${({ theme }) => theme.color.weakRed};
   border-radius: 7px;
+  align-items: center;
 `;
 style.WhiteColor = styled.div`
   color: white;
+  display: flex;
+  margin: 0 auto;
 `;
-
+style.LeftMargin = styled.div`
+  margin-top: 1px;
+  margin-left: 8px !important;
+  font-size: 18px;
+`;
 const Header = ({ handleModal }) => {
   const { login } = useContext(UserContext);
   const { newNoti, activeNewNotiNumber } = useContext(SocketContext);
@@ -106,7 +113,9 @@ const Header = ({ handleModal }) => {
             <style.NewNotiNumber active={activeNewNotiNumber !== 0}>
               <style.WhiteColor>
                 <icon.Noti color="#fff" />
-                {activeNewNotiNumber !== 0 && activeNewNotiNumber}
+                {activeNewNotiNumber !== 0 && (
+                  <style.LeftMargin>{activeNewNotiNumber}</style.LeftMargin>
+                )}
               </style.WhiteColor>
             </style.NewNotiNumber>
           </style.NotiBox>

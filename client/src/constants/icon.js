@@ -80,10 +80,10 @@ icon.Explore = () => (
   </svg>
 );
 
-icon.Noti = () => (
+icon.Noti = ({ color = '#262626' }) => (
   <svg
     aria-label="Noti"
-    fill="#262626"
+    fill={color}
     height="22"
     viewBox="0 0 48 48"
     width="22"
