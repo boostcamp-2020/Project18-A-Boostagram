@@ -5,6 +5,7 @@ import icon from '@constants/icon';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserContext from '@context/user';
+import SocketContext from '@context/socket';
 import SearchBar from '@search/container/SearchBar';
 
 const style = {};
@@ -50,9 +51,14 @@ style.newFeedButton = styled.button`
     cursor: pointer;
   }
 `;
+style.NotiBox = styled.div`
+  display: block;
+`;
 
 const Header = ({ handleModal }) => {
   const { login } = useContext(UserContext);
+  const { newNoti, testHandler } = useContext(SocketContext);
+
   return (
     <style.HeaderContainer>
       <style.Header>
@@ -61,6 +67,10 @@ const Header = ({ handleModal }) => {
         </style.LogoArea>
         <SearchBar />
         <style.NavigationBar>
+          <button type="button" onClick={testHandler}>
+            btn
+            {/* todo: remove this */}
+          </button>
           <style.NavigationItem to={pathURI.HOME}>
             <icon.Home />
           </style.NavigationItem>
@@ -72,7 +82,7 @@ const Header = ({ handleModal }) => {
           <style.NavigationItem to={pathURI.EXPLORE}>
             <icon.Explore />
           </style.NavigationItem>
-          <style.NavigationItem to={pathURI.HOME}>
+          <style.NavigationItem>
             <icon.Noti />
           </style.NavigationItem>
           <style.NavigationItem to={pathURI.PROFILE}>
