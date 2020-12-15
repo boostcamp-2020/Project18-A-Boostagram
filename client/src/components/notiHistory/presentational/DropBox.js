@@ -79,11 +79,12 @@ const getMessage = (type) => {
 
 const DropBox = (input) => {
   const { isClicked, setIsClicked } = input;
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState();
-  const [notiContent, setNotiContent] = useState(0);
-  const { login } = useContext(UserContext);
   const history = useHistory();
+
+  const { login } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  const [notiContents, setNotiContents] = useState();
+
   const getHistory = async () => {
     const json = await fetch(pathURI.IP + pathURI.API_NOTI_HISTORY, {
       mode: 'cors',
@@ -94,20 +95,19 @@ const DropBox = (input) => {
       },
     }).then((res) => res.json());
     json.notiContents.reverse();
-    setData(json);
-    setNotiContent(json.notiContents.length);
+    setNotiContents(json.notiContents);
   };
+
   useEffect(() => {
-    if (notiContent) setLoading(true);
-  }, [notiContent]);
+    if (notiContents) setLoading(true);
+  }, [notiContents]);
+
   useEffect(() => {
-    if (!isClicked) {
+    if (isClicked) {
       getHistory();
-    } else {
-      setLoading(true);
     }
   }, [isClicked]);
-  console.log(data, isClicked);
+
   if (loading) {
     return (
       <>
@@ -116,7 +116,7 @@ const DropBox = (input) => {
           isClicked={isClicked}
         />
         <style.DropBox isClicked={isClicked}>
-          {data.notiContents.map((item, index) => {
+          {notiContents.map((item, index) => {
             const {
               userName,
               profileImg,
@@ -125,7 +125,6 @@ const DropBox = (input) => {
               isChecked,
               createdAt,
             } = item;
-            console.log(item);
             const key = notiType + content + index;
             const redirectPath = `/profile?username=${userName}`;
             return (
@@ -148,7 +147,7 @@ const DropBox = (input) => {
       </>
     );
   }
-  return <>loading...</>;
+  return <></>;
 };
 
 export default DropBox;
