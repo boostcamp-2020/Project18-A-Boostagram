@@ -6,6 +6,7 @@ const Theme = {
     deepGreen: '#268842',
     dark: '#53585d',
     blue: '#0295f6',
+    weakRed: '#ed4956',
   },
 };
 
