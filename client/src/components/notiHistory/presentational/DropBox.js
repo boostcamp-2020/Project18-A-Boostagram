@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UserContext from '@context/user';
 import { useHistory } from 'react-router-dom';
+import pathURI from '@constants/path';
 
 const style = {};
 style.Backgrond = styled.div`
@@ -76,54 +77,78 @@ const getMessage = (type) => {
     : `님이 회원님의 게시물에 댓글을 작성했습니다.`;
 };
 
-const getHistory = () => {
-  return [
-    {
-      userName: 'rlaqudrnr810',
-      profileImg: 'https://avatars2.githubusercontent.com/u/39620410?v',
-      type: 'like',
-      from: 'cha',
-      feedId: '5fd5b4e7e445726398f8782e',
-    },
-  ];
-};
-
 const DropBox = (input) => {
   const { isClicked, setIsClicked } = input;
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState();
+  const [notiContent, setNotiContent] = useState(0);
   const { login } = useContext(UserContext);
-  const items = getHistory(login.userName);
   const history = useHistory();
-
-  return (
-    <>
-      <style.Backgrond
-        onMouseDown={() => setIsClicked(!isClicked)}
-        isClicked={isClicked}
-      />
-      <style.DropBox isClicked={isClicked}>
-        {items.map((item, index) => {
-          const { userName, profileImg, type, from, feedId } = item;
-          const key = type + feedId + index;
-          const redirectPath = `/profile?username=${userName}`;
-          return (
-            <style.UserItem
-              key={key}
-              onMouseDown={() => {
-                history.replace(redirectPath);
-                setIsClicked(!isClicked);
-              }}
-            >
-              <style.ProfileImg src={profileImg} />
-              <style.Texts>
-                <style.UserName>{from}</style.UserName>
-                <style.content>{getMessage(type)}</style.content>
-              </style.Texts>
-            </style.UserItem>
-          );
-        })}
-      </style.DropBox>
-    </>
-  );
+  const getHistory = async () => {
+    const json = await fetch(pathURI.IP + pathURI.API_NOTI_HISTORY, {
+      mode: 'cors',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${login.jwt}`,
+      },
+    }).then((res) => res.json());
+    json.notiContents.reverse();
+    setData(json);
+    setNotiContent(json.notiContents.length);
+  };
+  useEffect(() => {
+    if (notiContent) setLoading(true);
+  }, [notiContent]);
+  useEffect(() => {
+    if (!isClicked) {
+      getHistory();
+    } else {
+      setLoading(true);
+    }
+  }, [isClicked]);
+  console.log(data, isClicked);
+  if (loading) {
+    return (
+      <>
+        <style.Backgrond
+          onMouseDown={() => setIsClicked(!isClicked)}
+          isClicked={isClicked}
+        />
+        <style.DropBox isClicked={isClicked}>
+          {data.notiContents.map((item, index) => {
+            const {
+              userName,
+              profileImg,
+              notiType,
+              content,
+              isChecked,
+              createdAt,
+            } = item;
+            console.log(item);
+            const key = notiType + content + index;
+            const redirectPath = `/profile?username=${userName}`;
+            return (
+              <style.UserItem
+                key={key}
+                onMouseDown={() => {
+                  history.replace(redirectPath);
+                  setIsClicked(!isClicked);
+                }}
+              >
+                <style.ProfileImg src={profileImg} />
+                <style.Texts>
+                  <style.UserName>{userName}</style.UserName>
+                  <style.content>{getMessage(notiType)}</style.content>
+                </style.Texts>
+              </style.UserItem>
+            );
+          })}
+        </style.DropBox>
+      </>
+    );
+  }
+  return <>loading...</>;
 };
 
 export default DropBox;
