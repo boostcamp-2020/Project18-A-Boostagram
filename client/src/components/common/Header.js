@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import UserContext from '@context/user';
 import SocketContext from '@context/socket';
 import SearchBar from '@search/container/SearchBar';
+import NotiHistoryContainer from '../notiHistory/container/NotiHistoryContainer';
 
 const style = {};
 
@@ -108,7 +109,7 @@ const Header = ({ handleModal }) => {
             <icon.Explore />
           </style.NavigationItem>
           <style.NotiBox>
-            <icon.Noti />
+            <NotiHistoryContainer />
             {newNoti && <style.NewNotiAcitve />}
             <style.NewNotiNumber active={activeNewNotiNumber !== 0}>
               <style.WhiteColor>
