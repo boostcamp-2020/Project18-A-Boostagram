@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import UserContext from '@context/user';
 import SearchBar from '@search/container/SearchBar';
+import NotiHistoryContainer from '../notiHistory/container/NotiHistoryContainer';
 
 const style = {};
 
@@ -72,9 +73,7 @@ const Header = ({ handleModal }) => {
           <style.NavigationItem to={pathURI.EXPLORE}>
             <icon.Explore />
           </style.NavigationItem>
-          <style.NavigationItem to={pathURI.HOME}>
-            <icon.Noti />
-          </style.NavigationItem>
+          <NotiHistoryContainer />
           <style.NavigationItem to={pathURI.PROFILE}>
             <icon.Profile />
           </style.NavigationItem>
