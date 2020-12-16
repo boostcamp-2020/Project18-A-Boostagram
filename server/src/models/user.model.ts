@@ -13,6 +13,7 @@ const notiContents = new mongoose.Schema(
     notiType: String,
     isChecked: Boolean,
     content: String,
+    created: { type: Date, default: Date.now },
   },
   { timestamps: true },
 );
