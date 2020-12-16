@@ -105,7 +105,11 @@ style.Link = styled(Link)`
   text-decoration: none;
   color: #262626;
 `;
-
+style.CreatedTime = styled.div`
+  font-size: 12px;
+  color: #8e8e8e;
+`;
+style.FeedDetail = styled.div``;
 const excuteTime = (now) => {
   const sec = 1000;
   const min = sec * 60;
@@ -203,13 +207,16 @@ const FeedDetailContainer = () => {
               <Link to={userProfileURL}>
                 <style.ProfileImg src={author.profileImg} />
               </Link>
-              <style.FeedContent>
-                <style.Link to={userProfileURL}>
-                  <b>{author.userName}</b>
-                </style.Link>
-                &nbsp;
-                {content}
-              </style.FeedContent>
+              <style.FeedDetail>
+                <style.FeedContent>
+                  <style.Link to={userProfileURL}>
+                    <b>{author.userName}</b>
+                  </style.Link>
+                  &nbsp;
+                  {content}
+                </style.FeedContent>
+                <style.CreatedTime>{excuteTime(createdAt)}</style.CreatedTime>
+              </style.FeedDetail>
             </style.FeedContentContainer>
             {comments.map((comment) => {
               return <CommentItem key={comment._id} comment={comment} />;
