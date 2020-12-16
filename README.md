@@ -22,7 +22,7 @@
 
 ## 🚀 Product
 
-👉 [Click!](http://118.67.128.232) 👈
+👉 [Click!](http://boostagram.kro.kr/) 👈
 
 <br>
 
