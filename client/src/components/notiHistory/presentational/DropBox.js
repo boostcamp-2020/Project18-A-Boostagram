@@ -5,6 +5,7 @@ import pathURI from '@constants/path';
 import ModalContext from '@context/modal';
 import GetOneFeedAPI from '@api/GetOneFeedAPI';
 import icon from '@constants/icon';
+import excuteTime from '@utils/excuteTime';
 
 const style = {};
 style.Backgrond = styled.div`
@@ -24,7 +25,6 @@ style.DropBox = styled.div`
   display: ${(props) => (!props.isClicked ? 'none' : 'block')};
   width: 410px;
   max-height: 300px;
-  background-color: #fff;
   border: 1px solid ${({ theme }) => theme.color.border};
   border-radius: 3px;
   left: -330px;
@@ -43,6 +43,7 @@ style.UserItem = styled.li`
   display: flex;
   padding: 15px;
   margin: 0;
+  background: ${({ isChecked }) => (isChecked ? '#fff' : 'black')};
   border-bottom: 1px solid ${({ theme }) => theme.color.border};
   &:last-child {
     border-bottom: none;
@@ -84,10 +85,12 @@ style.GuideMessage = styled.div`
   margin-bottom: 10px;
 `;
 
-const getMessage = (type) => {
+const getMessage = (type, createdAt) => {
+  const time = excuteTime(createdAt);
+  console.log(createdAt);
   return type === 'like'
-    ? `님이 회원님의 게시물을 좋아합니다.`
-    : `님이 회원님의 게시물에 댓글을 작성했습니다.`;
+    ? `님이 회원님의 게시물을 좋아합니다. ${time}`
+    : `님이 회원님의 게시물에 댓글을 작성했습니다. ${time}`;
 };
 
 const emptyNoti = () => {
@@ -127,12 +130,21 @@ const DropBox = (input) => {
       selectFeed(feedData);
       handleDetailModal();
     };
+    console.log(notiContents);
     return notiContents.map((item, index) => {
-      const { userName, profileImg, notiType, content } = item;
+      const {
+        userName,
+        profileImg,
+        notiType,
+        content,
+        created,
+        isChecked,
+      } = item;
       const key = notiType + content + index;
       return (
         <style.UserItem
           key={key}
+          isChecked={isChecked}
           onMouseDown={() => {
             setIsClicked(!isClicked);
             clickHandler(content);
@@ -141,7 +153,7 @@ const DropBox = (input) => {
           <style.ProfileImg src={profileImg} />
           <style.Texts>
             <style.UserName>{userName}</style.UserName>
-            <style.content>{getMessage(notiType)}</style.content>
+            <style.content>{getMessage(notiType, created)}</style.content>
           </style.Texts>
         </style.UserItem>
       );

@@ -96,7 +96,6 @@ const getNotiContent = async (userId: string): Promise<any> => {
     e.isChecked = true;
     return e;
   });
-  // console.log(newNotiContent);
   const updateResult = await user.updateNoti(newNotiContent);
   if (updateResult) {
     return result;
