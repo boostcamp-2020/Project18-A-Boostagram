@@ -19,7 +19,7 @@ const common = {
 
 let IP = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
-  IP = 'http://118.67.128.232:3000';
+  IP = 'http://boostagram.kro.kr:3000';
 }
 
 const pathURI = {
