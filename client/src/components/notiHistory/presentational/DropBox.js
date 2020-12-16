@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UserContext from '@context/user';
-import { useHistory } from 'react-router-dom';
 import pathURI from '@constants/path';
 import ModalContext from '@context/modal';
 import GetOneFeedAPI from '@api/GetOneFeedAPI';
+import icon from '@constants/icon';
 
 const style = {};
 style.Backgrond = styled.div`
@@ -22,7 +22,7 @@ style.DropBox = styled.div`
   opacity: 1 !important;
   z-index: 1;
   display: ${(props) => (!props.isClicked ? 'none' : 'block')};
-  width: 400px;
+  width: 410px;
   max-height: 300px;
   background-color: #fff;
   border: 1px solid ${({ theme }) => theme.color.border};
@@ -73,15 +73,34 @@ style.UserName = styled.section`
   overflow: hidden;
 `;
 
+style.GuideMessage = styled.div`
+  display: flex;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  background: #ffffff;
+  padding: 10px;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 10px;
+`;
+
 const getMessage = (type) => {
   return type === 'like'
     ? `님이 회원님의 게시물을 좋아합니다.`
     : `님이 회원님의 게시물에 댓글을 작성했습니다.`;
 };
 
+const emptyNoti = () => {
+  return (
+    <style.GuideMessage>
+      <icon.Noti />
+      &nbsp; 아직 알림이 없어요! 먼저 좋아요를 눌러보세요!
+    </style.GuideMessage>
+  );
+};
+
 const DropBox = (input) => {
   const { isClicked, setIsClicked } = input;
-  const history = useHistory();
 
   const { login } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -100,6 +119,35 @@ const DropBox = (input) => {
     setNotiContents(json.notiContents);
   };
 
+  const returnList = () => {
+    const { handleDetailModal, selectFeed } = useContext(ModalContext);
+
+    const clickHandler = async (feedId) => {
+      const feedData = await GetOneFeedAPI(feedId);
+      selectFeed(feedData);
+      handleDetailModal();
+    };
+    return notiContents.map((item, index) => {
+      const { userName, profileImg, notiType, content } = item;
+      const key = notiType + content + index;
+      return (
+        <style.UserItem
+          key={key}
+          onMouseDown={() => {
+            setIsClicked(!isClicked);
+            clickHandler(content);
+          }}
+        >
+          <style.ProfileImg src={profileImg} />
+          <style.Texts>
+            <style.UserName>{userName}</style.UserName>
+            <style.content>{getMessage(notiType)}</style.content>
+          </style.Texts>
+        </style.UserItem>
+      );
+    });
+  };
+
   useEffect(() => {
     if (notiContents) setLoading(true);
   }, [notiContents]);
@@ -111,13 +159,6 @@ const DropBox = (input) => {
   }, [isClicked]);
 
   if (loading) {
-    const { handleDetailModal, selectFeed } = useContext(ModalContext);
-
-    const clickHandler = async (feedId) => {
-      const feedData = await GetOneFeedAPI(feedId);
-      selectFeed(feedData);
-      handleDetailModal();
-    };
     return (
       <>
         <style.Backgrond
@@ -125,25 +166,7 @@ const DropBox = (input) => {
           isClicked={isClicked}
         />
         <style.DropBox isClicked={isClicked}>
-          {notiContents.map((item, index) => {
-            const { userName, profileImg, notiType, content } = item;
-            const key = notiType + content + index;
-            return (
-              <style.UserItem
-                key={key}
-                onMouseDown={() => {
-                  setIsClicked(!isClicked);
-                  clickHandler(content);
-                }}
-              >
-                <style.ProfileImg src={profileImg} />
-                <style.Texts>
-                  <style.UserName>{userName}</style.UserName>
-                  <style.content>{getMessage(notiType)}</style.content>
-                </style.Texts>
-              </style.UserItem>
-            );
-          })}
+          {notiContents.length > 0 ? returnList() : emptyNoti()}
         </style.DropBox>
       </>
     );
