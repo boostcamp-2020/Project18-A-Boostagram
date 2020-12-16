@@ -113,22 +113,24 @@ const App = () => {
   }
 
   useEffect(async () => {
-    const url = `${
-      pathURI.IP + pathURI.API_PROFILE + login.userName
-    }?lastFeedId=noId`;
-    const option = {
-      mode: 'cors',
-      method: 'GET',
-    };
-    const response = await fetch(url, option);
-    const json = await response.json();
-    setLogin({
-      ...login,
-      follow: json.userInfo.follow,
-    });
-    setNotiEvent(
-      new NotiEvent(login.userName, setNewNoti, setActiveNewNotiNumber),
-    );
+    if (!isEqualObj(login, initLogin)) {
+      const url = `${
+        pathURI.IP + pathURI.API_PROFILE + login.userName
+      }?lastFeedId=noId`;
+      const option = {
+        mode: 'cors',
+        method: 'GET',
+      };
+      const response = await fetch(url, option);
+      const json = await response.json();
+      setLogin({
+        ...login,
+        follow: json.userInfo.follow,
+      });
+      setNotiEvent(
+        new NotiEvent(login.userName, setNewNoti, setActiveNewNotiNumber),
+      );
+    }
   }, []);
 
   return (
