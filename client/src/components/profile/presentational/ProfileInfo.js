@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
 import styled from 'styled-components';
 import theme from '@style/Theme';
-import icon from '@constants/icon';
 import pathURI from '@constants/path';
 import UserContext from '@context/user';
 
@@ -30,20 +29,6 @@ style.NameAndSettings = styled.div`
 style.Name = styled.div`
   font-size: 30px;
   margin-right: 20px;
-`;
-
-style.ChangeProfile = styled.button`
-  background-color: transparent;
-  border-radius: 4px;
-  border: 1px solid ${theme.color.border};
-  font-weight: bold;
-  font-size: 14px;
-  text-align: center;
-  padding: 4px 8px;
-  margin-right: 12px;
-  :focus {
-    outline: none;
-  }
 `;
 
 style.FeedAndFollow = styled.div`
@@ -187,14 +172,7 @@ const ProfileInfo = (input) => {
       <style.ProfileDetail>
         <style.NameAndSettings>
           <style.Name>{userInfo.userName}</style.Name>
-          {login.userName === userInfo.userName ? (
-            <>
-              <style.ChangeProfile>프로필 편집</style.ChangeProfile>
-              <icon.Setting />
-            </>
-          ) : (
-            FollowOrUnfollow
-          )}
+          {login.userName === userInfo.userName ? <></> : FollowOrUnfollow}
         </style.NameAndSettings>
         <style.FeedAndFollow>
           <style.FeedCountTitle>게시물</style.FeedCountTitle>

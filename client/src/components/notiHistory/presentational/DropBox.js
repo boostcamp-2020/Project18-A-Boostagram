@@ -76,18 +76,16 @@ style.UserName = styled.section`
 
 style.GuideMessage = styled.div`
   display: flex;
-  border: 1px solid #dbdbdb;
   border-radius: 3px;
   background: #ffffff;
   padding: 10px;
   align-content: center;
   justify-content: center;
-  margin-bottom: 10px;
 `;
 
 const getMessage = (type, createdAt) => {
   const time = excuteTime(createdAt);
-  console.log(createdAt);
+
   return type === 'like'
     ? `님이 회원님의 게시물을 좋아합니다. ${time}`
     : `님이 회원님의 게시물에 댓글을 작성했습니다. ${time}`;
@@ -130,7 +128,7 @@ const DropBox = (input) => {
       selectFeed(feedData);
       handleDetailModal();
     };
-    console.log(notiContents);
+
     return notiContents.map((item, index) => {
       const {
         userName,
