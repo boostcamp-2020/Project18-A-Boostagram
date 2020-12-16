@@ -74,6 +74,9 @@ const upsertNoti = async ({
   from,
   content,
 }: InotiEvent): Promise<boolean> => {
+  if (to.userName === from.userName) {
+    return true;
+  }
   const data = {
     to: to.userName,
     notiContent: {
