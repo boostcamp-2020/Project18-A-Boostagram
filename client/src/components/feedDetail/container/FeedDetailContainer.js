@@ -170,7 +170,7 @@ const FeedDetailContainer = () => {
       },
       body: JSON.stringify(newComment),
     }).then(() => {
-      comments.push(newComment);
+      comments.push({ ...newComment, createdAt: new Date() });
       setCommentInput('');
     });
   };
