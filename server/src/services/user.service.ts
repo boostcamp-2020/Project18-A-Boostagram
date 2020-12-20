@@ -74,6 +74,9 @@ const upsertNoti = async ({
   from,
   content,
 }: InotiEvent): Promise<boolean> => {
+  if (to.userName === from.userName) {
+    return true;
+  }
   const data = {
     to: to.userName,
     notiContent: {
@@ -96,7 +99,6 @@ const getNotiContent = async (userId: string): Promise<any> => {
     e.isChecked = true;
     return e;
   });
-  // console.log(newNotiContent);
   const updateResult = await user.updateNoti(newNotiContent);
   if (updateResult) {
     return result;
