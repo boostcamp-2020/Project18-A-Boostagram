@@ -110,9 +110,17 @@
 
 <br>
 
+### ❗ 실시간 알림
+
+> 다른 사용자가 좋아요를 누르면 실시간 알림을 받을 수 있습니다.
+
+![실시간 알림](https://user-images.githubusercontent.com/24909656/102708933-87515680-42e9-11eb-8ebc-cb9f21a62beb.gif)
+
+<br>
+
 ## 🔧 기술 스택
 
-![image](https://user-images.githubusercontent.com/44664867/99925719-87117a00-2d82-11eb-97c5-8b96938af809.png)
+![기술 스택](https://user-images.githubusercontent.com/24909656/102708938-8caea100-42e9-11eb-86db-79d345fc6fe3.PNG)
 
 ## 🗂 Directory Structure
 ```
